@@ -1,0 +1,25 @@
+.sandBox_container {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.textInput_box, .button_box, .reactCheckbox_box,
+.editableSpan_box, .mySelect_box, .radio_box, .range {
+    margin: 20px;
+    width: 210px;
+}
+
+.textInput_box span, .button_box span,
+.reactCheckbox_box > span, .editableSpan_box > span,
+.mySelect_box span, .radio_box > span, .range span {
+    display: block;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.button_box, .editableSpan_box, .reactCheckbox_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

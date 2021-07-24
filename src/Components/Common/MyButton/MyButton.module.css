@@ -1,0 +1,87 @@
+.button_box {
+    margin-right: 10px;
+    display: inline-block;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+}
+
+.button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border: 0;
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 14px;
+    font-family: inherit;
+    min-width: 50px;
+    margin-bottom: 10px;
+    transition: .3s;
+}
+
+.button:hover {
+    cursor: pointer;
+    transition: .2s;
+}
+
+.button:focus {
+    outline: none;
+}
+
+/*standard variant*/
+.standard {
+    color: #fff;
+    background: #6596ee;
+}
+.button.standard:hover {
+    background: #1d49aa;
+}
+.button.standard:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #cbd6ee;
+}
+
+/*dark variant*/
+.dark {
+    color: #fff;
+    background: #333333;
+}
+.button.dark:hover {
+    background: #0c0c0c;
+}
+.button.dark:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #656974;
+}
+
+/*purple variant*/
+.purple {
+    color: #fff;
+    background: #9155d9;
+}
+.button.purple:hover {
+    background: #653097;
+}
+.button.purple:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #5544d5;
+}
+
+/*light variant*/
+.light {
+    color: #000000;
+    background: #dedede;
+}
+.button.light:hover {
+    background: #b1b1b1;
+}
+.button.light:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #636363;
+}
+
+.button:disabled {
+    color: #d2d5db;
+    background: #6c7589;
+    cursor: default;
+}

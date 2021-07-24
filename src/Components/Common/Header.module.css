@@ -1,0 +1,42 @@
+.menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    position: relative;
+}
+.menu_container {
+    display: flex;
+    position: absolute;
+    right: -50%;
+    transition: 1.2s;
+}
+
+.menu_container:hover {
+    right: 0;
+}
+
+.menu_container a {
+    text-decoration: none;
+}
+
+.button {
+    width: 100px;
+    padding: 10px 0;
+    background: linear-gradient(270deg, transparent, #2196f3);
+    color: white;
+    margin: 10px 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.bubble {
+    width: 50px;
+    height: 50px;
+    background-color: #2196f3;
+    border-radius: 25px;
+    margin: 5px 15px;
+}
+
+.active div {
+    background: linear-gradient(200deg, transparent, #fabb3e);
+}

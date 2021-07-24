@@ -1,0 +1,45 @@
+.select_box {
+    position: relative;
+    display: flex;
+    min-width: 200px;
+    height: 50px;
+    line-height: 3;
+    background: #5c6664;
+    overflow: hidden;
+    border-radius: 5px;
+    margin: 20px;
+}
+.select_box::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 15px;
+    background: #2b2e2e;
+    cursor: pointer;
+    pointer-events: none;
+    transition: .25s;
+}
+.select_box:hover::after {
+    color: #23b499;
+}
+
+.select {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+
+    outline:0;
+    box-shadow:none;
+    border:0!important;
+    background: #5c6664;
+    flex: 1;
+    padding: 0 10px;
+    color:#fff;
+    cursor:pointer;
+    font-size: 16px;
+    font-family: Comic Sans MS, Comic Sans, cursive;
+}
+.select::-ms-expand {
+    display: none;
+}

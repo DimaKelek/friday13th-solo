@@ -1,0 +1,22 @@
+.span_box {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.line {
+    position: relative;
+    left: -100%;
+    display: block;
+    height: 2px;
+    background-color: #0d82c6;
+    transition: .5s;
+}
+
+.span_box:hover .line {
+    left: 0;
+}
+
+.editSpan_box {
+    display: flex;
+    align-items: center;
+}

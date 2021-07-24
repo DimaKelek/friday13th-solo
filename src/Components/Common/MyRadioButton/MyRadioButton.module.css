@@ -1,0 +1,41 @@
+.radio_box {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.radio {
+    display: none;
+}
+
+.fakeRadio {
+    width: 15px;
+    height: 15px;
+    border: 2px solid black;
+    display: inline-block;
+    margin: 0 5px;
+    position: relative;
+    border-radius: 10px;
+}
+.fakeRadio::before {
+    content: "";
+    background: #2196f3 ;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: .2s;
+}
+.radio:checked + .fakeRadio::before {
+    opacity: 1;
+}
+
+.radio_container {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}

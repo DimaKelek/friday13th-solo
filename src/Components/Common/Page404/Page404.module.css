@@ -1,0 +1,22 @@
+.page404_box {
+    background: url("https://goo.su/6oqH") no-repeat;
+    background-size: 100%;
+    min-height: 89.4vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 120px;
+    padding-top: 80px;
+}
+
+.man {
+    position: fixed;
+}
+
+.man span {
+    font-family: Comic Sans MS, Comic Sans, cursive;
+    font-size: 50px;
+    font-weight: bold;
+    margin-left: 140px;
+}

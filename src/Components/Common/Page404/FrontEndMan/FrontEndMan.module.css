@@ -1,0 +1,189 @@
+.chakres_box {
+    width: 500px;
+    position: relative;
+}
+
+.chakres {
+    width: 100%;
+}
+
+.ts, .redux, .html5, .css3, .jest {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.ts img, .redux img, .html5 img, .css3 img, .jest img {
+    width: 100%;
+}
+
+.ts, .redux, .react img, .html5, .css3, .jest {
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.ts {
+    top: 180px;
+    left: 265px;
+    animation-name: heart;
+    animation-duration: 1s;
+    animation-delay: 1s;
+
+}
+.redux {
+    top: 20px;
+    left: 230px;
+}
+
+.redux, .react img {
+    animation-name: rotation;
+    animation-duration: 4s;
+}
+
+.react {
+    position: absolute;
+    width: 70px;
+    top: 110px;
+    left: 215px;
+}
+
+.css3 {
+    animation-delay: 1s;
+}
+
+.html5, .css3 {
+    left: 230px;
+    top: 280px;
+    animation-name: orbit;
+    animation-duration: 3s;
+}
+
+.jest {
+    top: 180px;
+    left: 200px;
+    animation-name: breath;
+    animation-duration: 5s;
+    animation-delay: 1s;
+}
+
+@keyframes rotation {
+    from{transform: rotate(0)}
+    to{transform: rotate(360deg)}
+}
+
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(30px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(30px) rotate(-360deg); }
+}
+@keyframes heart {
+    0%, 100% {transform: scale(1);}
+    25% { transform: scale(1.1);}
+    50% {transform: scale(1);}
+    75% {transform: scale(1.2);}
+}
+@keyframes breath {
+    0%, 100% {transform: scale(0.5);}
+    25% {transform: scale(1.1);}
+    50% {transform: scale(1);}
+}
+
+@media screen and (max-width: 1080px) {
+    .redux {
+        top: 10px;
+        left: 180px;
+    }
+
+    .react {
+        top: 75px;
+        left: 165px;
+    }
+
+    .ts {
+        top: 140px;
+        left: 205px;
+    }
+
+    .jest {
+        top: 140px;
+        left: 160px;
+    }
+
+    .html5, .css3 {
+        left: 180px;
+        top: 230px;
+    }
+    .chakres_box {
+        width: 400px;
+    }
+}
+
+@media screen and (max-width: 545px) {
+    .ts, .redux, .html5, .css3, .jest {
+        width: 30px;
+        height: 30px;
+    }
+    .redux {
+        top: 10px;
+        left: 135px;
+    }
+    .react {
+        width: 50px;
+        top: 55px;
+        left: 125px;
+    }
+    .ts {
+        top: 110px;
+        left: 155px;
+    }
+    .jest {
+        top: 110px;
+        left: 120px;
+    }
+    .html5, .css3 {
+        left: 140px;
+        top: 170px;
+    }
+    @keyframes orbit {
+        from { transform: rotate(0deg) translateX(20px) rotate(0deg); }
+        to   { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+    }
+    .chakres_box {
+        width: 300px;
+    }
+}
+
+@media screen and (max-width: 290px) {
+    .ts, .redux, .html5, .css3, .jest {
+        width: 25px;
+        height: 25px;
+    }
+    .redux {
+        top: 10px;
+        left: 122px;
+    }
+    .react {
+        width: 40px;
+        top: 55px;
+        left: 116px;
+    }
+    .ts {
+        top: 93px;
+        left: 140px;
+    }
+    .jest {
+        top: 93px;
+        left: 110px;
+    }
+    .html5, .css3 {
+        left: 120px;
+        top: 160px;
+    }
+    @keyframes orbit {
+        from { transform: rotate(0deg) translateX(20px) rotate(0deg); }
+        to   { transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+    }
+    .chakres_box {
+        width: 270px;
+    }
+}

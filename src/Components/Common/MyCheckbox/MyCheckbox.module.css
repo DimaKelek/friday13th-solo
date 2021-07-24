@@ -1,0 +1,58 @@
+.option {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.checkInput {
+    position: absolute;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none
+}
+
+.checkbox {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 0 0 1px black;
+    position: relative;
+    margin-right: 10px;
+    border-radius: 2px;
+}
+
+.checkbox::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    background-image: url("react.svg");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    opacity: 0;
+    transition: .2s;
+    border-radius: 2px;
+}
+
+.checkInput:checked + .checkbox::before {
+    opacity: 1;
+}
+
+.checkInput:focus + .checkbox {
+    box-shadow:
+            0 0 0 1px black,
+            0 0 0 2px greenyellow;
+}
+
+.checkInput:disabled + .checkbox {
+    background-color: gray;
+    box-shadow: 0 0 0 1px gray;
+}
+.checkInput:disabled + .checkbox::before {
+    background-color: gray;
+}
+
+.labelText {
+    font-family: Comic Sans MS, Comic Sans, cursive;
+}
