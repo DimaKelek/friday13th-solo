@@ -1,5 +1,10 @@
-.button {
+.button_box {
     height: 30px;
+    width: 200px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+.incubator {
+    font-size: 30px;
 }

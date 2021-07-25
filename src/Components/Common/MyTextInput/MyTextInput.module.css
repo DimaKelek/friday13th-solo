@@ -5,6 +5,7 @@
 .input {
     font-family: Comic Sans MS, Comic Sans, cursive;
     height: 28px;
+    min-width: 300px;
     padding: 5px 0 5px 15px;
     border-radius: 5px;
     transition: .3s;
@@ -34,7 +35,7 @@
 /*light variant*/
 .input.light {
     color: #000000;
-    background: #dedede;
+    background: #ffffff;
     border: 1px solid #7f7f7f;
 }
 .input.light:focus {

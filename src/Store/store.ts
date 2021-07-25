@@ -3,7 +3,6 @@ import thunkMiddleware, {ThunkAction} from "redux-thunk";
 import {ProfileActionsType, profileReducer} from "./profile-reducer";
 import {AuthActionsType, authReducer} from "./auth-reducer";
 import {RegistrationActionsType, registrationReducer} from "./registration-reducer";
-import {NewPassActionsType, newPassReducer} from "./new-pass-reducer";
 import {RecoveryPassActionsType, recoveryPassReducer} from "./recovery-pass-reducer";
 import {AppActionsType, appReducer} from "./app-reducer";
 
@@ -11,7 +10,6 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     auth: authReducer,
     registration: registrationReducer,
-    newPass: newPassReducer,
     recovery: recoveryPassReducer,
     app: appReducer
 })
@@ -24,7 +22,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStoreType, 
 export type AllAppActionsType =
     ProfileActionsType
     | AuthActionsType
-    | NewPassActionsType
     | RegistrationActionsType
     | RecoveryPassActionsType
     | AppActionsType

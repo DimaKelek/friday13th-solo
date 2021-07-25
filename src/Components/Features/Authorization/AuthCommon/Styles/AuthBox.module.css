@@ -1,20 +1,35 @@
 .authPageItem {
     min-height: 100vh;
-    background-color: #1f2a48;
+    background: linear-gradient(180deg, #E6D4DE 0%, #9890C7 100%);
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Poppins', sans-serif;
 }
 
 .authPageForm {
-    background-color: #141f3d;
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px #cd6bd4;
+    width: 375px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
 }
 
 .authPageForm h3 {
-    color: #ffffff;
-    margin-bottom: 20px;
     text-align: center;
+    margin: 10px;
+}
+
+.fields {
+    margin: 30px 0;
+    position: relative;
+}
+
+form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }

@@ -1,6 +1,6 @@
 import {AppThunk} from "./store";
 import {authAPI} from "../Api/api";
-import {setAppStatus, setError} from "./app-reducer";
+import {setAppStatus} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
 
 const initialState = {

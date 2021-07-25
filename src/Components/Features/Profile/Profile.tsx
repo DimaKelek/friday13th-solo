@@ -22,7 +22,6 @@ export const Profile: React.FC<ProfilePropsType> = props => {
     }, [dispatch])
 
     if(userData === null) {
-        debugger
         return <Redirect to="/login"/>
     }
 

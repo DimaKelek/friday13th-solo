@@ -1,3 +1,29 @@
-.recoveryPass {
-    min-height: 100vh;
+.recoveryPass a {
+    text-decoration: none;
+    margin-top: 15px;
+}
+.button_box {
+    margin-top: 50px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.incubator {
+    font-size: 30px;
+}
+
+.instruction {
+    width: 300px;
+    bottom: 80px;
+    right: 40px;
+    position: absolute;
+}
+.rememberPass {
+    margin-top: 25px;
+}
+.tryLogin {
+    font-size: 20px;
+    font-weight: bold;
+    color: #21268f;
 }

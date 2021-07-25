@@ -1,31 +1,38 @@
-.login {
-    min-height: 100vh;
-    background-color: #1f2a48;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.incubator {
+    font-size: 30px;
 }
 
-.login_form {
-    background-color: #141f3d;
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px #cd6bd4;
+.forgot {
+    position: absolute;
+    bottom: 35px;
+    right: 0;
+    transition: .3s;
 }
 
-.login_form h3 {
-    color: #ffffff;
-    margin-bottom: 20px;
-    text-align: center;
+.forgot:hover {
+    color: #6a6969;
 }
 
 .check {
-    margin-bottom: 20px;
-    color: #ffffff;
+    margin: 10px 0;
 }
 
-.button {
+.button_box {
     height: 30px;
     display: flex;
     justify-content: center;
+    margin-bottom: 25px;
+}
+
+.button {
+    width: 200px;
+}
+.login_form a {
+    text-decoration: none;
+    margin-top: 15px;
+}
+.signUp {
+    font-size: 20px;
+    font-weight: bold;
+    color: #21268f;
 }

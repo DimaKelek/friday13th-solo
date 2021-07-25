@@ -1,6 +1,7 @@
 import axios from "axios"
 import {AuthDataType, UserDataType} from "../Store/auth-reducer";
 import {RegisterDataType} from "../Store/registration-reducer";
+import {ForgotPasswordRequest} from "../Store/recovery-pass-reducer";
 
 const instanse = axios.create({
     baseURL: "https://neko-back.herokuapp.com/2.0/",
@@ -18,7 +19,10 @@ export const authAPI = {
         return instanse.post<LoginResponseType>(`/auth/me`, {})
     },
     logout() {
-        return instanse.delete<LogoutResponseType>(`/auth/me`, {})
+        return instanse.delete<ResponseType>(`/auth/me`, {})
+    },
+    forgot(data: ForgotPasswordRequest) {
+        return instanse.post<ResponseType>(`/auth/forgot`, data)
     }
 }
 
@@ -26,7 +30,7 @@ export const authAPI = {
 type LoginResponseType = UserDataType & {
     error?: string
 }
-type LogoutResponseType = {
+type ResponseType = {
     info?: string
     error?: string
 }

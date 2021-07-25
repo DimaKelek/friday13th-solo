@@ -12,6 +12,8 @@ import {RequestStatusType} from "../../../../Store/app-reducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {createField} from "../AuthCommon/Field/Field";
 import {ErrorSnackbar} from "../../../Common/ErrorSnackbar/ErrorSnackbar";
+import {Paper} from "@material-ui/core";
+import {NavLink} from "react-router-dom";
 
 type LoginPropsType = {}
 type FormikErrorType = {
@@ -44,27 +46,35 @@ export const Login: React.FC<LoginPropsType> = props => {
     })
 
     if(isLoggedIn) {
-        debugger
         return <Redirect to="/profile"/>
     }
     return (
         <div className={`${S.login} ${authS.authPageItem}`}>
-            <form onSubmit={formik.handleSubmit} className={`${S.login_form} ${authS.authPageForm}`}>
-                <h3>Login</h3>
-                {createField("email", formik.values.email, formik.handleChange, "light", "Email")}
-                {createField("password", formik.values.password, formik.handleChange, "light", "Password", "password")}
-                <div className={S.check}>
-                    <MyCheckbox
-                        {...formik.getFieldProps("rememberMe")}
-                    >Remember me</MyCheckbox>
-                </div>
-                <div className={S.button}>
-                    {status === "loading"
-                        ? <CircularProgress/>
-                        : <MyButton variant="purple" type="submit">Log in</MyButton>
-                    }
-                </div>
-            </form>
+            <Paper className={`${S.login_form} ${authS.authPageForm}`}>
+                <form onSubmit={formik.handleSubmit}>
+                    <h3 className={S.incubator}>It-incubator</h3>
+                    <h3>Sign In</h3>
+                    <div className={authS.fields}>
+                        {createField("email", formik.values.email, formik.handleChange, "light", "Email")}
+                        {createField("password", formik.values.password, formik.handleChange, "light", "Password", "password")}
+                        <div className={S.check}>
+                            <MyCheckbox
+                                {...formik.getFieldProps("rememberMe")}
+                            >Remember me</MyCheckbox>
+                        </div>
+                        <NavLink to="/recovery"><span className={S.forgot}>Forgot Password</span></NavLink>
+                    </div>
+                    <div className={S.button_box}>
+                        {status === "loading"
+                            ? <CircularProgress/>
+                            : <MyButton className={S.button} variant="purple" type="submit">Log in</MyButton>
+                        }
+                    </div>
+                </form>
+                <span>Don't have an account?</span>
+                <NavLink to="/registration"><span className={S.signUp}>Sign Up</span></NavLink>
+            </Paper>
+
             {formik.errors.password && formik.touched.password && <ErrorSnackbar error={formik.errors.password}/>}
             {formik.errors.email && formik.touched.email && <ErrorSnackbar error={formik.errors.email}/>}
         </div>
