@@ -32,15 +32,3 @@ type LoginResponseType = UserDataType & {
 //     email: string
 //     password: string
 // }
-// type ErrorResponseType = {
-//     error: string
-//     in: string
-//     isPassValid: boolean
-//     isEmailValid: boolean
-//     emailRegExp: {}
-//     passwordRegExp: string
-// }
-// type SuccessResponseType = {
-//     addedUser: {}
-// }
-// type RegistrationResponseType = SuccessResponseType | ErrorResponseType

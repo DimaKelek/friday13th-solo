@@ -1,28 +1,30 @@
 import {authAPI, AuthDataType} from "../Api/api";
 import {AppThunk} from "./store";
+import {setAppStatus, setError} from "./app-reducer";
 
 const initialState = {
     userData: null as UserDataType | null,
-    error: null as string | null
+    isLoggedIn: false
 }
 
 export const authReducer = (state: AuthStateType = initialState, action: AuthActionsType): AuthStateType => {
     switch (action.type) {
-        case actionVariables.SET_USERDATA:
+        case authActionVariables.SET_USERDATA:
             return {...state, userData: action.userData}
-        case actionVariables.SER_ERROR:
-            return {...state, error: action.error}
+        case authActionVariables.CHANGE_LOGIN_STATUS:
+            return {...state, isLoggedIn: true}
         default: return state
     }
 }
 
 // actions
-export const setUserData = (userData: UserDataType) => ({type: actionVariables.SET_USERDATA, userData} as const)
-export const setError = (error: string) => ({type: actionVariables.SER_ERROR, error} as const)
+export const setUserData = (userData: UserDataType) => ({type: authActionVariables.SET_USERDATA, userData} as const)
+export const changeLoginStatus = () => ({type: authActionVariables.CHANGE_LOGIN_STATUS} as const)
 
 // thunks
-export const login = (authData: AuthDataType): AppThunk => async (dispatch) => {
+export const login = (authData: AuthDataType): AppThunk => async dispatch => {
     try {
+        dispatch(setAppStatus("loading"))
         const response = await authAPI.login(authData)
         const storedData: UserDataType = {
             _id: response.data._id,
@@ -32,16 +34,21 @@ export const login = (authData: AuthDataType): AppThunk => async (dispatch) => {
             publicCardPacksCount: response.data.publicCardPacksCount
         }
         dispatch(setUserData(storedData))
+        dispatch(changeLoginStatus())
         dispatch(setError(""))
+        dispatch(setAppStatus("succeeded"))
     } catch (e) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setError(error))
+        dispatch(setAppStatus("failed"))
         console.log('Error: ', {...e})
     }
 }
 // types
 export type AuthStateType = typeof initialState
-export type AuthActionsType = ReturnType<typeof setUserData> | ReturnType<typeof setError>
+export type AuthActionsType =
+    ReturnType<typeof setUserData>
+    | ReturnType<typeof changeLoginStatus>
 export type UserDataType = {
     _id: string
     email: string
@@ -51,7 +58,7 @@ export type UserDataType = {
 }
 
 // variables
-export const actionVariables = {
+const authActionVariables = {
     SET_USERDATA: "LOGIN/SET-USER-DATA" as const,
-    SER_ERROR: "LOGIN/SER_ERROR" as const
+    CHANGE_LOGIN_STATUS: "LOGIN/CHANGE-LOGIN-STATUS" as const,
 }

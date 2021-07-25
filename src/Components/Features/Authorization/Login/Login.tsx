@@ -4,12 +4,18 @@ import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
 import {MyCheckbox} from "../../../Common/MyCheckbox/MyCheckbox";
 import {ElementColorVariants, MyButton} from "../../../Common/MyButton/MyButton";
 import {useFormik} from "formik";
-import {useDispatch} from "react-redux";
-import { login } from "../../../../Store/auth-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../../../../Store/auth-reducer";
+import {AppStoreType} from "../../../../Store/store";
+import {Redirect} from "react-router-dom";
+import {RequestStatusType} from "../../../../Store/app-reducer";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 type LoginPropsType = {}
 
 export const Login: React.FC<LoginPropsType> = props => {
+    const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.auth.isLoggedIn)
+    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const dispatch = useDispatch()
 
     const formik = useFormik({
@@ -23,15 +29,19 @@ export const Login: React.FC<LoginPropsType> = props => {
             formik.resetForm()
         }
     })
-    const createField = (nameField: string, variant?: ElementColorVariants, placeholder?: string, type?: string) => {
+    const createField = (name: string, variant?: ElementColorVariants, placeholder?: string, type?: string) => {
         return (
             <MyTextInput
                 variant={variant}
                 placeholder={placeholder}
                 type={type}
-                {...formik.getFieldProps(nameField)}
+                {...formik.getFieldProps(name)}
             />
         )
+    }
+
+    if(isLoggedIn) {
+        return <Redirect to="/profile"/>
     }
     return (
         <div className={S.login}>
@@ -44,7 +54,12 @@ export const Login: React.FC<LoginPropsType> = props => {
                         {...formik.getFieldProps("rememberMe")}
                     >Remember me</MyCheckbox>
                 </div>
-                <div className={S.button}><MyButton variant="purple" type="submit">Log in</MyButton></div>
+                <div className={S.button}>
+                    {status === "loading"
+                        ? <CircularProgress/>
+                        : <MyButton variant="purple" type="submit">Log in</MyButton>
+                    }
+                </div>
             </form>
         </div>
     )
