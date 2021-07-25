@@ -1,5 +1,6 @@
 import axios from "axios"
-import {UserDataType} from "../Store/auth-reducer";
+import {AuthDataType, UserDataType} from "../Store/auth-reducer";
+import {RegisterDataType} from "../Store/registration-reducer";
 
 const instanse = axios.create({
     baseURL: "https://neko-back.herokuapp.com/2.0/",
@@ -10,25 +11,25 @@ export const authAPI = {
     login(authData: AuthDataType) {
         return instanse.post<LoginResponseType>(`/auth/login`, authData)
     },
-    // registration(registerData: RegisterDataType) {
-    //     return instanse.post<RegistrationResponseType>(`/auth/register`, registerData)
-    // }
+    registration(registerData: RegisterDataType) {
+        return instanse.post<RegistrationResponseType>(`/auth/register`, registerData)
+    },
+    checkingAuth() {
+        return instanse.post<LoginResponseType>(`/auth/me`, {})
+    },
+    logout() {
+        return instanse.delete<LogoutResponseType>(`/auth/me`, {})
+    }
 }
 
 // types
-
-//login
-export type AuthDataType = {
-    email: string
-    password: string
-    rememberMe: boolean
-}
-
 type LoginResponseType = UserDataType & {
     error?: string
 }
-//register
-// type RegisterDataType = {
-//     email: string
-//     password: string
-// }
+type LogoutResponseType = {
+    info?: string
+    error?: string
+}
+type RegistrationResponseType = {
+    error?: string
+}

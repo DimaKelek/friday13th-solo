@@ -1,0 +1,20 @@
+.authPageItem {
+    min-height: 100vh;
+    background-color: #1f2a48;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.authPageForm {
+    background-color: #141f3d;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #cd6bd4;
+}
+
+.authPageForm h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+}

@@ -8,9 +8,11 @@ import {setAppStatus} from "../../../Store/app-reducer";
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />
 }
-
-export const ErrorSnackbar = () => {
-    const error = useSelector<AppStoreType, string | null>(state => state.app.error)
+type ErrorSnackbarPropsType = {
+    error?: string
+}
+export const ErrorSnackbar: React.FC<ErrorSnackbarPropsType> = props => {
+    const appError = useSelector<AppStoreType, string | null>(state => state.app.error)
     const dispatch = useDispatch()
 
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -21,9 +23,9 @@ export const ErrorSnackbar = () => {
     }
 
     return (
-        <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={appError !== null || props.error !== null} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error">
-                {error}
+                {appError || props.error}
             </Alert>
         </Snackbar>
     )
