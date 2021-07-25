@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/friday13th-kelek/static/css/main.ce933b73.chunk.css",
+    "main.js": "/friday13th-kelek/static/js/main.d9ea92a5.chunk.js",
+    "main.js.map": "/friday13th-kelek/static/js/main.d9ea92a5.chunk.js.map",
+    "runtime-main.js": "/friday13th-kelek/static/js/runtime-main.e8cb108e.js",
+    "runtime-main.js.map": "/friday13th-kelek/static/js/runtime-main.e8cb108e.js.map",
+    "static/js/2.6a1b30c6.chunk.js": "/friday13th-kelek/static/js/2.6a1b30c6.chunk.js",
+    "static/js/2.6a1b30c6.chunk.js.map": "/friday13th-kelek/static/js/2.6a1b30c6.chunk.js.map",
+    "static/js/3.2b0929d9.chunk.js": "/friday13th-kelek/static/js/3.2b0929d9.chunk.js",
+    "static/js/3.2b0929d9.chunk.js.map": "/friday13th-kelek/static/js/3.2b0929d9.chunk.js.map",
+    "index.html": "/friday13th-kelek/index.html",
+    "static/css/main.ce933b73.chunk.css.map": "/friday13th-kelek/static/css/main.ce933b73.chunk.css.map",
+    "static/js/2.6a1b30c6.chunk.js.LICENSE.txt": "/friday13th-kelek/static/js/2.6a1b30c6.chunk.js.LICENSE.txt",
+    "static/media/chakres.d0843979.png": "/friday13th-kelek/static/media/chakres.d0843979.png",
+    "static/media/css3.b0696b45.svg": "/friday13th-kelek/static/media/css3.b0696b45.svg",
+    "static/media/html5.10080bf9.svg": "/friday13th-kelek/static/media/html5.10080bf9.svg",
+    "static/media/jest.05a3e041.png": "/friday13th-kelek/static/media/jest.05a3e041.png",
+    "static/media/MyCheckbox.module.css": "/friday13th-kelek/static/media/react.6ce24c58.svg",
+    "static/media/redux.7704ea70.svg": "/friday13th-kelek/static/media/redux.7704ea70.svg",
+    "static/media/typescript.b6a67c48.svg": "/friday13th-kelek/static/media/typescript.b6a67c48.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e8cb108e.js",
+    "static/js/2.6a1b30c6.chunk.js",
+    "static/css/main.ce933b73.chunk.css",
+    "static/js/main.d9ea92a5.chunk.js"
+  ]
+}
