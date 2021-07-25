@@ -1,3 +1,30 @@
 .login {
     min-height: 100vh;
+    background-color: #1f2a48;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_form {
+    background-color: #141f3d;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #cd6bd4;
+}
+
+.login_form h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.check {
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
 }

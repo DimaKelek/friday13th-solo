@@ -9,7 +9,7 @@ type SuperRangePropsType = DefaultInputPropsType & {
 };
 
 export const MyRange: React.FC<SuperRangePropsType> = props => {
-    const {onChangeRange, value, ...restProps} = props
+    const {onChangeRange, value} = props
 
     const onChangeCallback = (e: ChangeEvent<{}>, value: number | number[]) => {
         onChangeRange && onChangeRange(value as number);

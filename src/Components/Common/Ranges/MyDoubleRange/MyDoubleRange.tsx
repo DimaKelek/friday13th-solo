@@ -12,7 +12,7 @@ type SuperDoubleRangePropsType = {
 }
 
 export const MyDoubleRange: React.FC<SuperDoubleRangePropsType> = props => {
-    const {onChangeRangeFirst, onChangeRangeSecond, value, disabled, min, max, ...restProps} = props
+    const {onChangeRangeFirst, onChangeRangeSecond, value, disabled, min, max} = props
 
     const onChangeDoubleRange = (value: [number, number]) => {
         onChangeRangeFirst && onChangeRangeFirst(value[0])
