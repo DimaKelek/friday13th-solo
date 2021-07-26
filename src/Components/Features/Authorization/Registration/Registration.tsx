@@ -1,6 +1,6 @@
 import React from "react";
 import S from "./Registration.module.css"
-import authS from "../AuthCommon/Styles/AuthBox.module.css"
+import Sc from "../AuthCommon/Styles/CommonStyles.module.css"
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {useDispatch, useSelector} from "react-redux";
@@ -56,33 +56,71 @@ export const Registration: React.FC<RegistrationPropsType> = props => {
         return <Redirect to="/login"/>
     }
     return (
-        <div className={`${S.registration} ${authS.authPageItem}`}>
-            <Paper className={`${S.registration_form} ${authS.authPageForm}`}>
-                <form onSubmit={formik.handleSubmit}>
-                    <h3 className={S.incubator}>It-incubator</h3>
-                    <h3>Sign Up</h3>
-                    <div className={authS.fields}>
-                        {createField("email", formik.values.email, formik.handleChange,
-                            "light", "Email", "text", formik.handleBlur)}
-                        {createField("password", formik.values.password, formik.handleChange,
-                            "light", "Password", "password", formik.handleBlur)}
-                        {createField("confirmPassword", formik.values.confirmPassword, formik.handleChange,
-                            "light", "Confirm Password", "password", formik.handleBlur)}
-                    </div>
-                    <div className={S.button_box}>
-                        {status === "loading"
-                            ? <CircularProgress/>
-                            : <>
-                                <NavLink to="/login"><MyButton variant="light" type="button">Cancel</MyButton></NavLink>
-                                <MyButton variant="purple" type="submit">Registration</MyButton>
-                            </>
-                        }
-                    </div>
+        <div className={Sc.page_container}>
+            <div className={Sc.form_container}>
+                <h3>It-incubator</h3>
+                <h4>Sign Up</h4>
+                <form>
+                    {/*<div className={Sc.fields}>*/}
+                    {/*    {createField("email", formik.values.email, formik.handleChange, "light", "Email", "text", formik.handleBlur)}*/}
+                    {/*    {createField("password", formik.values.password, formik.handleChange, "light", "Password", "password", formik.handleBlur)}*/}
+                    {/*    {createField("confirmPassword", formik.values.confirmPassword, formik.handleChange, "light", "Confirm Password", "password", formik.handleBlur)}*/}
+                    {/*</div>*/}
                 </form>
-            </Paper>
-            {formik.errors.email && formik.touched.email && <ErrorSnackbar error={formik.errors.email}/>}
-            {formik.errors.password && formik.touched.password && formik.touched.confirmPassword &&
-            <ErrorSnackbar error={formik.errors.password}/>}
+            </div>
         </div>
     )
+}
+
+{/*<Paper className={`${S.registration_form} ${authS.authPageForm}`}>*/
+}
+{/*    <form onSubmit={formik.handleSubmit}>*/
+}
+{/*        <h3 className={S.incubator}>It-incubator</h3>*/
+}
+{/*        <h3>Sign Up</h3>*/
+}
+{/*        <div className={authS.fields}>*/
+}
+{/*            {createField("email", formik.values.email, formik.handleChange,*/
+}
+{/*                "light", "Email", "text", formik.handleBlur)}*/
+}
+{/*            {createField("password", formik.values.password, formik.handleChange,*/
+}
+{/*                "light", "Password", "password", formik.handleBlur)}*/
+}
+{/*            {createField("confirmPassword", formik.values.confirmPassword, formik.handleChange,*/
+}
+{/*                "light", "Confirm Password", "password", formik.handleBlur)}*/
+}
+{/*        </div>*/
+}
+{/*        <div className={S.button_box}>*/
+}
+{/*            {status === "loading"*/
+}
+{/*                ? <CircularProgress/>*/
+}
+{/*                : <>*/
+}
+{/*                    <NavLink to="/login"><MyButton variant="light" type="button">Cancel</MyButton></NavLink>*/
+}
+{/*                    <MyButton variant="purple" type="submit">Registration</MyButton>*/
+}
+{/*                </>*/
+}
+{/*            }*/
+}
+{/*        </div>*/
+}
+{/*    </form>*/
+}
+{/*</Paper>*/
+}
+{/*{formik.errors.email && formik.touched.email && <ErrorSnackbar error={formik.errors.email}/>}*/
+}
+{/*{formik.errors.password && formik.touched.password && formik.touched.confirmPassword &&*/
+}
+{/*<ErrorSnackbar error={formik.errors.password}/>}*/
 }

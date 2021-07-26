@@ -29,6 +29,7 @@ export const App: React.FC<any> = props => {
         <div className="App">
             {status === "failed" && <ErrorSnackbar/>}
             <HashRouter>
+                <Header/>
                 <Routes />
             </HashRouter>
         </div>

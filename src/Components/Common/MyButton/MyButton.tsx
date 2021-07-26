@@ -13,13 +13,11 @@ export const MyButton: React.FC<MyButtonPropsType> = props => {
     const finalClassName = `${S.button} ${S[variant]} ${className}`
 
     return (
-        <div className={S.button_box}>
-            <button
-                className={finalClassName}
-                onClick={onClick}
-                disabled={disabled}
-                {...restProps}
-            >{children}</button>
-        </div>
+        <button
+            className={finalClassName}
+            onClick={onClick}
+            disabled={disabled}
+            {...restProps}
+        >{children}</button>
     );
 }

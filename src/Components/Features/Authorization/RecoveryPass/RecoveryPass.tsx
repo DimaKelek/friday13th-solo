@@ -1,6 +1,6 @@
 import React from "react";
 import S from "./RecoveryPass.module.css"
-import authS from "../AuthCommon/Styles/AuthBox.module.css";
+import Sc from "../AuthCommon/Styles/CommonStyles.module.css";
 import {Paper} from "@material-ui/core";
 import {createField} from "../AuthCommon/Field/Field";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -44,35 +44,73 @@ export const RecoveryPass: React.FC<RecoveryPassPropsType> = props => {
         }
     )
     return (
-        <div className={`${S.recoveryPass} ${authS.authPageItem}`}>
-            <Paper className={`${S.recoveryPass_form} ${authS.authPageForm}`}>
-                {!messageIsSand
-                    ? <>
-                        <form onSubmit={formik.handleSubmit}>
-                            <h3 className={S.incubator}>It-incubator</h3>
-                            <h3>Sign Up</h3>
-                            <div className={authS.fields}>
-                                {createField("email", formik.values.email, formik.handleChange,
-                                    "light", "Email", "text", formik.handleBlur)}
-                            </div>
-                            <span className={S.instruction}>
-                                Enter your email address and we will send you further instructions
-                            </span>
-                            <div className={S.button_box}>
-                                {status === "loading"
-                                    ? <CircularProgress/>
-                                    : <MyButton variant="purple" type="submit">Send Instructions</MyButton>
-                                }
-                            </div>
-                        </form>
-                        <span className={S.rememberPass}>Did you remember your password?</span>
-                        <NavLink to="/login"><span className={S.tryLogin}>Try logging in</span></NavLink>
-                    </>
-                    : <>
-                        <img src="" alt=""/>
-                    </>
-                }
-            </Paper>
+        <div className={Sc.page_container}>
+            <div className={Sc.form_container}>
+                <h3>It-incubator</h3>
+                <h4>Recovery password</h4>
+                <form>
+                    {/*<div className={Sc.fields}>*/}
+                    {/*    {createField("email", formik.values.email, formik.handleChange, "light", "Email", "text", formik.handleBlur)}*/}
+                    {/*</div>*/}
+                </form>
+            </div>
         </div>
     )
+}
+
+{/*<Paper className={`${S.recoveryPass_form} ${authS.authPageForm}`}>*/
+}
+{/*    {!messageIsSand*/
+}
+{/*        ? <>*/
+}
+{/*            <form onSubmit={formik.handleSubmit}>*/
+}
+{/*                <h3 className={S.incubator}>It-incubator</h3>*/
+}
+{/*                <h3>Sign Up</h3>*/
+}
+{/*                <div className={authS.fields}>*/
+}
+{/*                    {createField("email", formik.values.email, formik.handleChange,*/
+}
+{/*                        "light", "Email", "text", formik.handleBlur)}*/
+}
+{/*                </div>*/
+}
+{/*                <span className={S.instruction}>*/
+}
+{/*                    Enter your email address and we will send you further instructions*/
+}
+{/*                </span>*/
+}
+{/*                <div className={S.button_box}>*/
+}
+{/*                    {status === "loading"*/
+}
+{/*                        ? <CircularProgress/>*/
+}
+{/*                        : <MyButton variant="purple" type="submit">Send Instructions</MyButton>*/
+}
+{/*                    }*/
+}
+{/*                </div>*/
+}
+{/*            </form>*/
+}
+{/*            <span className={S.rememberPass}>Did you remember your password?</span>*/
+}
+{/*            <NavLink to="/login"><span className={S.tryLogin}>Try logging in</span></NavLink>*/
+}
+{/*        </>*/
+}
+{/*        : <>*/
+}
+{/*            <img src="" alt=""/>*/
+}
+{/*        </>*/
+}
+{/*    }*/
+}
+{/*</Paper>*/
 }

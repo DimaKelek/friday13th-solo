@@ -5,7 +5,7 @@
 .input {
     font-family: Comic Sans MS, Comic Sans, cursive;
     height: 28px;
-    min-width: 300px;
+    min-width: 100px;
     padding: 5px 0 5px 15px;
     border-radius: 5px;
     transition: .3s;
@@ -14,22 +14,22 @@
 }
 
 .error {
-    margin: 10px;
-    color: #f56c6c;
+    margin: 5px 10px;
+    color: #d41c50;
     display: block;
 }
 
 .errorInput {
-    box-shadow: 0 0 0 1px #f56c6c;
+    box-shadow: 0 0 0 1px #d41c50;
 }
 
 .input.errorInput:focus {
-    box-shadow: 0 0 0 2px #f56c6c;
+    box-shadow: 0 0 0 2px #d41c50;
 }
 
 .input.standard.errorInput:focus, .input.light.errorInput:focus,
 .input.dark.errorInput:focus, .input.purple.errorInput:focus {
-    box-shadow: 0 0 0 2px #f56c6c;
+    box-shadow: 0 0 0 2px #d41c50;
 }
 
 /*light variant*/

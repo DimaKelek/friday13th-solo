@@ -23,7 +23,7 @@ export const MyTextInput: React.FC<SuperInputTextPropsType> = props => {
         onEnter && e.key === 'Enter' && onEnter()
     }
 
-    const finalInputClassName = `${S.input} ${variant ? S[variant] : className} ${error && S.errorInput}`
+    const finalInputClassName = `${S.input} ${variant && S[variant]} ${className} ${error && S.errorInput}`
     const finalErrorClassName = `${S.error} ${errorClassName || ''}`
 
     return (
