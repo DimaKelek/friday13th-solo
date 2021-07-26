@@ -5,7 +5,7 @@ type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
 type SuperInputTextPropsType = DefaultInputPropsType & {
     onChangeText?: (value: string) => void
     onEnter?: () => void
-    error?: string
+    error?: string | null
     errorClassName?: string
     variant?: "light" | "dark" | "standard" | "purple"
 }

@@ -3,7 +3,7 @@ import S from "./Login.module.css"
 import Sc from "../AuthCommon/Styles/CommonStyles.module.css"
 import {MyCheckbox} from "../../../Common/MyCheckbox/MyCheckbox";
 import {MyButton} from "../../../Common/MyButton/MyButton";
-import {NavLink, Redirect} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {RequestStatusType} from "../../../../Store/app-reducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {createField} from "../AuthCommon/Field/Field";
@@ -15,17 +15,13 @@ type LoginPropsType = {
     emailValue: string
     passwordValue: string
     rememberMeValue: boolean
-    isLoggedIn: boolean
     status: RequestStatusType
     errors: LoginFormikErrorType
 }
 
 export const Login: React.FC<LoginPropsType> = React.memo(props => {
-    const {submit, emailValue, passwordValue, rememberMeValue, changeHandler, isLoggedIn, status, errors} = props
+    const {submit, emailValue, passwordValue, rememberMeValue, changeHandler, status, errors} = props
 
-    if(isLoggedIn) {
-        return <Redirect to="/profile"/>
-    }
     return (
         <div className={Sc.page_container}>
             <div className={Sc.form_container}>
@@ -48,14 +44,11 @@ export const Login: React.FC<LoginPropsType> = React.memo(props => {
                         }
                     </div>
                 </form>
-                <div className={S.link_box}>
-                    <span className={S.title}>Don't have an account?</span>
-                    <NavLink to="/registration"><span className={S.link}>Sign Up</span></NavLink>
+                <div className={Sc.link_box}>
+                    <span className={Sc.title}>Don't have an account?</span>
+                    <NavLink to="/registration"><span className={Sc.link}>Sign Up</span></NavLink>
                 </div>
             </div>
         </div>
     )
 })
-
-{/*{formik.errors.password && formik.touched.password && <ErrorSnackbar error={formik.errors.password}/>}*/}
-{/*{formik.errors.email && formik.touched.email && <ErrorSnackbar error={formik.errors.email}/>}*/}

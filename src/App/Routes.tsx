@@ -7,6 +7,7 @@ import {NewPass} from "../Components/Features/Authorization/NewPass/NewPass";
 import {SandBox} from "../Components/Common/SandBox/SandBox";
 import {Page404} from "../Components/Common/Page404/Page404";
 import {LoginContainer} from "../Components/Features/Authorization/Login/LoginContainer";
+import {RegistrationContainer} from "../Components/Features/Authorization/Registration/RegistrationContainer";
 
 export const Routes: React.FC<any> = props => {
     return (
@@ -15,7 +16,7 @@ export const Routes: React.FC<any> = props => {
                 <Route exact path={"/"} render={() => <Redirect to={"/profile"}/>}/>
                 <Route path={"/profile"} render={() => <Profile/>}/>
                 <Route path={"/login"} render={() => <LoginContainer/>}/>
-                <Route path={"/registration"} render={() => <Registration/>}/>
+                <Route path={"/registration"} render={() => <RegistrationContainer/>}/>
                 <Route path={"/recovery"} render={() => <RecoveryPass/>}/>
                 <Route path={"/new-password"} render={() => <NewPass/>}/>
                 <Route path={"/sand-box"} render={() => <SandBox/>}/>

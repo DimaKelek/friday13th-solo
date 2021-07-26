@@ -5,6 +5,7 @@ import {login} from "../../../../Store/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
 import {RequestStatusType} from "../../../../Store/app-reducer";
+import {Redirect} from "react-router-dom";
 
 export type LoginFormikErrorType = {
     email?: string
@@ -38,6 +39,10 @@ export const LoginContainer = () => {
             formik.resetForm()
         }
     })
+
+    if(isLoggedIn) {
+        return <Redirect to="/profile"/>
+    }
     return (
         <Login
             submit={formik.handleSubmit}
@@ -45,7 +50,6 @@ export const LoginContainer = () => {
             passwordValue={formik.values.password}
             rememberMeValue={formik.values.rememberMe}
             changeHandler={formik.handleChange}
-            isLoggedIn={isLoggedIn}
             status={status}
             errors={formik.errors}
         />
