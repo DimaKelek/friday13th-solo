@@ -18,7 +18,7 @@ type RegistrationPropsType = {
     errors: RegisterFormikErrorType
 }
 
-export const Registration: React.FC<RegistrationPropsType> = props => {
+export const Registration: React.FC<RegistrationPropsType> = React.memo(props => {
     const {submit, changeHandler, emailValue, passwordValue, confPassValue, status, errors} = props
 
     return (
@@ -51,4 +51,4 @@ export const Registration: React.FC<RegistrationPropsType> = props => {
             </div>
         </div>
     )
-}
+})

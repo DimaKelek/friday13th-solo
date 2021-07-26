@@ -1,10 +1,10 @@
-import {authReducer, AuthStateType, setUserData, UserDataType} from "../Store/auth-reducer";
+import {authReducer, AuthStateType, changeLoginStatus, setUserData, UserDataType} from "../Store/auth-reducer";
 
 let startState: AuthStateType;
 beforeEach(() => {
     startState = {
         userData: null,
-        error: null
+        isLoggedIn: false
     }
 })
 
@@ -16,5 +16,15 @@ test("User data should be added", () => {
         publicCardPacksCount: 0
     }
     const endState = authReducer(startState, setUserData(userData))
+    let keys;
+    if(endState.userData) {
+        keys = Object.keys(endState.userData)
+    }
     expect(endState.userData?._id).toBe("123")
+    expect(keys && keys.length).toBe(4)
+})
+
+test("User should be logged", () => {
+    const endState = authReducer(startState, changeLoginStatus(true))
+    expect(endState.isLoggedIn).toBe(true)
 })

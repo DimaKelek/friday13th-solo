@@ -2,6 +2,7 @@ import {authAPI} from "../Api/api";
 import {AppThunk} from "./store";
 import {setAppStatus, setError, setInitialized} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
+import {setStatusPassRecovery} from "./recovery-pass-reducer";
 
 const initialState = {
     userData: null as UserDataType | null,
@@ -21,13 +22,9 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
 
 // actions
 export const setUserData = (userData: UserDataType | null) => ({
-    type: authActionVariables.SET_USERDATA,
-    userData
-} as const)
+    type: authActionVariables.SET_USERDATA, userData} as const)
 export const changeLoginStatus = (loginStatus: boolean) => ({
-    type: authActionVariables.CHANGE_LOGIN_STATUS,
-    loginStatus
-} as const)
+    type: authActionVariables.CHANGE_LOGIN_STATUS, loginStatus} as const)
 
 // thunks
 export const checkingAuthorization = (): AppThunk => async dispatch => {
@@ -63,6 +60,7 @@ export const login = (authData: AuthDataType): AppThunk => async dispatch => {
         }
         dispatch(setUserData(storedData))
         dispatch(checkingAuthorization())
+        dispatch(setStatusPassRecovery(false))
         dispatch(setError(""))
         dispatch(setAppStatus("succeeded"))
     } catch (e) {

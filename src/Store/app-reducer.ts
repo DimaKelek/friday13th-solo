@@ -24,7 +24,7 @@ export const setInitialized = () => ({type: appActionVariables.SET_INITIALIZED} 
 
 // types
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
-type AppStateType = typeof initialState
+export type AppStateType = typeof initialState
 export type AppActionsType =
     ReturnType<typeof setAppStatus>
     | ReturnType<typeof setError>

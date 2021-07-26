@@ -1,3 +1,13 @@
-.newPass {
-    min-height: 100vh;
+.instruction {
+    display: block;
+    padding: 5px 25px;
+}
+
+.button_box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
 }

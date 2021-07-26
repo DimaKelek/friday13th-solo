@@ -1,7 +1,7 @@
 import React from "react";
 import {Registration} from "./Registration";
 import {useFormik} from "formik";
-import {registration} from "../../../../Store/registration-reducer";
+import {changeRegisterStatus, registration} from "../../../../Store/registration-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
 import {Redirect} from "react-router-dom";
@@ -47,6 +47,7 @@ export const RegistrationContainer = () => {
     })
 
     if (register) {
+        dispatch(changeRegisterStatus(false))
         return <Redirect to="/login"/>
     }
     return (

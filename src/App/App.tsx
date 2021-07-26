@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {HashRouter} from "react-router-dom";
 import {Routes} from "./Routes";
-import {Header} from "../Components/Common/Header";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../Store/store";
 import {RequestStatusType} from "../Store/app-reducer";
@@ -17,7 +16,7 @@ export const App: React.FC<any> = props => {
 
     useEffect(() => {
         dispatch(checkingAuthorization())
-    }, [])
+    }, [dispatch])
 
     if (!isInitialized) {
         return <div
@@ -29,7 +28,6 @@ export const App: React.FC<any> = props => {
         <div className="App">
             {status === "failed" && <ErrorSnackbar/>}
             <HashRouter>
-                <Header/>
                 <Routes />
             </HashRouter>
         </div>

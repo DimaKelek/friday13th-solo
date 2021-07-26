@@ -1,29 +1,24 @@
-.recoveryPass a {
-    text-decoration: none;
-    margin-top: 15px;
+.instruction {
+    display: block;
+    padding: 5px 25px;
 }
+
 .button_box {
-    margin-top: 50px;
-    height: 30px;
+    width: 100%;
     display: flex;
     justify-content: center;
-}
-
-.incubator {
-    font-size: 30px;
-}
-
-.instruction {
-    width: 300px;
-    bottom: 80px;
-    right: 40px;
+    align-items: center;
     position: absolute;
+    bottom: 0;
 }
-.rememberPass {
-    margin-top: 25px;
+
+img {
+    display: block;
+    margin: 100px auto 20px;
 }
-.tryLogin {
-    font-size: 20px;
-    font-weight: bold;
-    color: #21268f;
+
+.message {
+    display: block;
+    padding: 5px 25px;
+    text-align: center;
 }
