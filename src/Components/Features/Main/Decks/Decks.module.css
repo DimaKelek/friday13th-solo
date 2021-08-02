@@ -1,0 +1,45 @@
+.settings_container {
+    margin: 25px 0;
+}
+
+.showDecks {
+    width: 150px;
+    height: 30px;
+    margin: 20px 0;
+    display: flex;
+    background-color: #ffffff;
+}
+
+.modeOn {
+    background-color: #9A91C8;
+    color: #ffffff;
+}
+
+.showDecks div {
+    height: 100%;
+    width: 50%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.showDecks div:hover {
+    cursor: pointer;
+}
+
+.range {
+    margin: 40px 0;
+}
+
+/*list*/
+
+.list_container {
+    margin: 25px 50px 10px;
+}
+
+.search_box {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+}

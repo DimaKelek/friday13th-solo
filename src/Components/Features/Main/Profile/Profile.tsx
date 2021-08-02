@@ -1,12 +1,13 @@
 import React, {useCallback} from "react";
 import S from "./Profile.module.css"
+import Sc from "../MainCommon/Styles/MainCommon.module.css"
 import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../../Store/store";
-import {logout, UserDataType} from "../../../Store/auth-reducer";
+import {AppStoreType} from "../../../../Store/store";
+import {logout, UserDataType} from "../../../../Store/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {MyButton} from "../../Common/MyButton/MyButton";
+import {MyButton} from "../../../Common/MyButton/MyButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {RequestStatusType} from "../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../Store/app-reducer";
 
 type ProfilePropsType = {
 
@@ -26,12 +27,15 @@ export const Profile: React.FC<ProfilePropsType> = props => {
     }
 
     return (
-        <div className={S.profile}>
-            <h2>Profile page</h2>
-            {status === "loading"
-                ? <CircularProgress/>
-                : <MyButton onClick={logoutHandler}>Log out</MyButton>
-            }
+        <div className={Sc.workSpace}>
+            <div>
+                <h2>Profile page</h2>
+                <div>Welcome {userData.name}</div>
+                {status === "loading"
+                    ? <CircularProgress/>
+                    : <MyButton onClick={logoutHandler}>Log out</MyButton>
+                }
+            </div>
         </div>
     )
 }

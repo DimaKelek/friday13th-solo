@@ -60,7 +60,7 @@ type MessagePropsType = {
 
 const Message = (props: MessagePropsType) => {
     return (
-        <div>
+        <div className={S.message}>
             <img src={message} alt="message"/>
             <h4>Check your Email</h4>
             <span className={S.instruction}>

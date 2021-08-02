@@ -6,18 +6,17 @@ import {registerSlice, RegistrationActionsType} from "./registration-reducer";
 import {RecoveryPassActionsType, recoverySlice} from "./recovery-pass-reducer";
 import {AppActionsType, appSlice} from "./app-reducer";
 import {configureStore} from "@reduxjs/toolkit";
-import {
-    AsyncThunkFulfilledActionCreator,
-    AsyncThunkPendingActionCreator,
-    AsyncThunkRejectedActionCreator
-} from "@reduxjs/toolkit/src/createAsyncThunk";
+import {DecksActionsType, decksSlice} from "./decks-reducer";
+import {CardsActionsType, cardsSlice} from "./cards-reducer";
 
 const rootReducer = combineReducers({
     profile: profileSlice.reducer,
     auth: authSlice.reducer,
     registration: registerSlice.reducer,
     recovery: recoverySlice.reducer,
-    app: appSlice.reducer
+    app: appSlice.reducer,
+    decks: decksSlice.reducer,
+    cards: cardsSlice.reducer
 })
 
 export const store = configureStore({
@@ -33,6 +32,8 @@ export type AllAppActionsType =
     | RegistrationActionsType
     | RecoveryPassActionsType
     | AppActionsType
+    | CardsActionsType
+    | DecksActionsType
 
 //@ts-ignore
 window.store = store

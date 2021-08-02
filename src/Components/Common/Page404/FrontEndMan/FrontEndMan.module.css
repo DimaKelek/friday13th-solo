@@ -1,5 +1,6 @@
 .chakres_box {
     width: 500px;
+    height: 500px;
     position: relative;
 }
 
@@ -14,6 +15,7 @@
     top: 0;
     left: 0;
 }
+
 .ts img, .redux img, .html5 img, .css3 img, .jest img {
     width: 100%;
 }

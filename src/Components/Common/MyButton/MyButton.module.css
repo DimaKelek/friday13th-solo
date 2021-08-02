@@ -8,6 +8,7 @@
     padding: 8px 10px;
     font-size: 14px;
     font-family: inherit;
+    height: 41px;
     min-width: 50px;
     transition: .3s;
 }

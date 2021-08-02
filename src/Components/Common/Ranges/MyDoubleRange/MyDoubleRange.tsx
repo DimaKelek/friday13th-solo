@@ -23,6 +23,10 @@ export const MyDoubleRange: React.FC<SuperDoubleRangePropsType> = props => {
         onChangeDoubleRange(value as [number, number])
     }
 
+    function valuetext(value: number) {
+        return `${value}°C`;
+    }
+
     return (
         <div className={S.doubleRange}>
             <Slider
@@ -31,6 +35,8 @@ export const MyDoubleRange: React.FC<SuperDoubleRangePropsType> = props => {
                 disabled={disabled}
                 min={min}
                 max={max}
+                valueLabelDisplay="auto"
+                getAriaValueText={valuetext}
             />
         </div>
     );
