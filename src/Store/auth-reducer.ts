@@ -3,28 +3,28 @@ import {AppThunk} from "./store";
 import {setAppStatus, setError, setInitialized} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
 import {setStatusPassRecovery} from "./recovery-pass-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     userData: null as UserDataType | null,
     isLoggedIn: false
 }
 
-export const authReducer = (state: AuthStateType = initialState, action: AuthActionsType): AuthStateType => {
-    switch (action.type) {
-        case authActionVariables.SET_USERDATA:
-            return {...state, userData: action.userData}
-        case authActionVariables.CHANGE_LOGIN_STATUS:
-            return {...state, isLoggedIn: action.loginStatus}
-        default:
-            return state
+export const authSlice = createSlice({
+    name: "auth",
+    initialState: initialState,
+    reducers: {
+        setUserData(state, action: PayloadAction<UserDataType | null>) {
+            state.userData = action.payload
+        },
+        changeLoginStatus(state, action: PayloadAction<boolean>) {
+            state.isLoggedIn = action.payload
+        }
     }
-}
+})
 
-// actions
-export const setUserData = (userData: UserDataType | null) => ({
-    type: authActionVariables.SET_USERDATA, userData} as const)
-export const changeLoginStatus = (loginStatus: boolean) => ({
-    type: authActionVariables.CHANGE_LOGIN_STATUS, loginStatus} as const)
+export const {setUserData, changeLoginStatus} = authSlice.actions
+
 
 // thunks
 export const checkingAuthorization = (): AppThunk => async dispatch => {
@@ -40,11 +40,12 @@ export const checkingAuthorization = (): AppThunk => async dispatch => {
         }
         dispatch(setUserData(storedData))
         dispatch(changeLoginStatus(true))
-        dispatch(setInitialized())
+        dispatch(setError(""))
+        dispatch(setInitialized(true))
         dispatch(setAppStatus("succeeded"))
     } catch (e) {
         handleServerNetworkError(e, dispatch)
-        dispatch(setInitialized())
+        dispatch(setInitialized(true))
     }
 }
 export const login = (authData: AuthDataType): AppThunk => async dispatch => {
@@ -59,19 +60,22 @@ export const login = (authData: AuthDataType): AppThunk => async dispatch => {
             publicCardPacksCount: response.data.publicCardPacksCount
         }
         dispatch(setUserData(storedData))
-        dispatch(checkingAuthorization())
         dispatch(setStatusPassRecovery(false))
+        dispatch(changeLoginStatus(true))
         dispatch(setError(""))
+        dispatch(setInitialized(true))
         dispatch(setAppStatus("succeeded"))
     } catch (e) {
         handleServerNetworkError(e, dispatch)
     }
 }
+
 export const logout = (): AppThunk => async dispatch => {
     try {
         dispatch(setAppStatus("loading"))
         await authAPI.logout()
         dispatch(changeLoginStatus(false))
+        dispatch(setError(""))
         dispatch(setUserData(null))
         dispatch(setAppStatus("succeeded"))
     } catch (e) {
@@ -97,9 +101,3 @@ export type AuthActionsType =
     ReturnType<typeof setUserData>
     | ReturnType<typeof changeLoginStatus>
     | ReturnType<typeof setInitialized>
-
-// variables
-const authActionVariables = {
-    SET_USERDATA: "LOGIN/SET-USER-DATA" as const,
-    CHANGE_LOGIN_STATUS: "LOGIN/CHANGE-LOGIN-STATUS" as const,
-}

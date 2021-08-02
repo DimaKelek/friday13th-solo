@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Login} from "./Login";
 import {useFormik} from "formik";
 import {login} from "../../../../Store/auth-reducer";
@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
 import {RequestStatusType} from "../../../../Store/app-reducer";
 import {Redirect} from "react-router-dom";
+import {changeRegisterStatus} from "../../../../Store/registration-reducer";
 
 export type LoginFormikErrorType = {
     email?: string
@@ -16,6 +17,10 @@ export const LoginContainer = () => {
     const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.auth.isLoggedIn)
     const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(changeRegisterStatus(false))
+    }, [])
 
     const formik = useFormik({
         initialValues: {

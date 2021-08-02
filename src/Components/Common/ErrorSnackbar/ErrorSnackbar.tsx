@@ -21,9 +21,9 @@ export const ErrorSnackbar: React.FC<ErrorSnackbarPropsType> = props => {
         }
         dispatch(setAppStatus("idle"))
     }
-
+    const openValidate = appError !== "you are not authorized /ᐠ-ꞈ-ᐟ\\" && (appError !== null || props.error !== null)
     return (
-        <Snackbar open={appError !== null || props.error !== null} autoHideDuration={6000} onClose={handleClose}>
+        <Snackbar open={openValidate} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error">
                 {appError || props.error}
             </Alert>

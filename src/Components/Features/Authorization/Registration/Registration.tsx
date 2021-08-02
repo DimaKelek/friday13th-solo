@@ -30,7 +30,7 @@ export const Registration: React.FC<RegistrationPropsType> = React.memo(props =>
                     <div className={Sc.fields}>
                         {createField("email", emailValue, errors.email, changeHandler, "light", "Email", "text")}
                         {createField("password", passwordValue, errors.password, changeHandler, "light", "Password", "password")}
-                        {createField("confirmPassword", confPassValue, errors.password, changeHandler, "light", "Confirm Password", "password")}
+                        {createField("confirmPassword", confPassValue, errors.confirmPassword, changeHandler, "light", "Confirm Password", "password")}
                     </div>
                     <div className={S.button_box}>
                         {status === "loading"

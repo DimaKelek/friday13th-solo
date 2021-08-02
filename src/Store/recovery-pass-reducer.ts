@@ -2,25 +2,28 @@ import {AppThunk} from "./store";
 import {authAPI} from "../Api/api";
 import {setAppStatus, setError} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     messageIsSand: false,
     passIsRecovered: false
 }
 
-export const recoveryPassReducer = (state: RecoveryPassStateType = initialState, action: RecoveryPassActionsType): RecoveryPassStateType => {
-    switch (action.type) {
-        case recoveryActionVariables.SET_SEND_MESSAGE:
-            return {...state, messageIsSand: action.status}
-        case recoveryActionVariables.SET_PASS_RECOVERY:
-            return {...state, passIsRecovered: action.status}
-        default: return state
+export const recoverySlice = createSlice({
+    name: "recovery",
+    initialState: initialState,
+    reducers: {
+        setStatusSendingMessage(state, action: PayloadAction<boolean>) {
+            state.messageIsSand = action.payload
+        },
+        setStatusPassRecovery(state, action: PayloadAction<boolean>) {
+            state.passIsRecovered = action.payload
+        }
     }
-}
+})
 
-// actions
-export const setStatusSendingMessage = (status: boolean) => ({type: recoveryActionVariables.SET_SEND_MESSAGE, status})
-export const setStatusPassRecovery = (status: boolean) => ({type: recoveryActionVariables.SET_PASS_RECOVERY, status})
+export const {setStatusSendingMessage, setStatusPassRecovery} = recoverySlice.actions
+
 // thunks
 export const forgotPass = (data: ForgotPasswordRequest): AppThunk => async dispatch => {
     try {
@@ -59,9 +62,3 @@ export type RecoveryPassStateType = typeof initialState
 export type RecoveryPassActionsType =
     ReturnType<typeof setStatusSendingMessage>
     | ReturnType<typeof setStatusPassRecovery>
-
-// variables
-const recoveryActionVariables = {
-    SET_SEND_MESSAGE: "RECOVERY/SET-STATUS-SEND-MESSAGE",
-    SET_PASS_RECOVERY: "RECOVERY/SET-STATUS-PASS-RECOVERY",
-}

@@ -1,28 +1,32 @@
 import {AppThunk} from "./store";
 import {authAPI} from "../Api/api";
-import {setAppStatus} from "./app-reducer";
+import {setAppStatus, setError} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     register: false
 }
 
-export const registrationReducer = (state: RegistrationStateType = initialState, action: RegistrationActionsType): RegistrationStateType => {
-    switch (action.type) {
-        case registerActionVariables.CHANGE_REGISTER_STATUS:
-            return {...state, register: action.status}
-        default: return state
+export const registerSlice = createSlice({
+    name: "registration",
+    initialState: initialState,
+    reducers: {
+        changeRegisterStatus(state, action: PayloadAction<boolean>) {
+            state.register = action.payload
+        }
     }
-}
+})
 
-// actions
-export const changeRegisterStatus = (status: boolean) => ({type: registerActionVariables.CHANGE_REGISTER_STATUS, status} as const)
+export const {changeRegisterStatus} = registerSlice.actions
+
 // thunks
 export const registration = (registerData: RegisterDataType): AppThunk => async dispatch => {
     try {
         dispatch(setAppStatus("loading"))
         await authAPI.registration(registerData)
         dispatch(changeRegisterStatus(true))
+        dispatch(setError(""))
         dispatch(setAppStatus("succeeded"))
     } catch (e) {
         handleServerNetworkError(e, dispatch)
@@ -35,8 +39,3 @@ export type RegisterDataType = {
 }
 export type RegistrationStateType = typeof initialState
 export type RegistrationActionsType = ReturnType<typeof changeRegisterStatus>
-
-// variables
-const registerActionVariables = {
-    CHANGE_REGISTER_STATUS: "REGISTER/CHANGE-REGISTER-STATUS"
-}

@@ -10,6 +10,7 @@ import {RequestStatusType} from "../../../../Store/app-reducer";
 export type RegisterFormikErrorType = {
     email?: string
     password?: string
+    confirmPassword?: string
 }
 
 export const RegistrationContainer = () => {
@@ -29,15 +30,18 @@ export const RegistrationContainer = () => {
                 errors.email = "Email is required"
             } else if (values.email.length < 11) {
                 errors.email = "Email should be more 10 symbols"
-            } else if(!values.password) {
-                errors.password = "Password is required"
+            } else if (!values.password) {
+                errors.password = 'Password is required'
+            } else if (values.password.length < 8) {
+                errors.password = 'Password must be at least 8 symbols'
+            } else if (values.password && !values.confirmPassword) {
+                errors.confirmPassword = 'Confirm your password'
             } else if (values.password !== values.confirmPassword) {
-                errors.password = "Password is not confirmed"
-            } else if (values.password.length < 7) {
-                errors.password = "Password should be more 6 symbols"
+                errors.confirmPassword = 'You entered two different passwords.'
             }
             return errors;
-        },
+        }
+        ,
         onSubmit: values => {
             if (values.password === values.confirmPassword) {
                 dispatch(registration({email: values.email, password: values.password}))
@@ -47,7 +51,6 @@ export const RegistrationContainer = () => {
     })
 
     if (register) {
-        dispatch(changeRegisterStatus(false))
         return <Redirect to="/login"/>
     }
     return (

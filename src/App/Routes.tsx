@@ -17,7 +17,7 @@ export const Routes: React.FC<any> = props => {
                 <Route path={"/login"} render={() => <LoginContainer/>}/>
                 <Route path={"/registration"} render={() => <RegistrationContainer/>}/>
                 <Route path={"/recovery"} render={() => <RecoveryContainer/>}/>
-                <Route path={"/new-password"} render={() => <NewPassContainer/>}/>
+                <Route path={"/new-password/:token"} render={() => <NewPassContainer/>}/>
                 <Route path={"/sand-box"} render={() => <SandBox/>}/>
                 <Route path={"/404"} render={() => <Page404/>}/>
                 <Redirect from={"*"} to={"/404"}/>
