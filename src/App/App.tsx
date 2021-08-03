@@ -19,8 +19,7 @@ export const App: React.FC<any> = props => {
     }, [dispatch])
 
     if (!isInitialized) {
-        return <div
-            style={{position: 'fixed', top: '50%', textAlign: 'center', width: '100%'}}>
+        return <div style={{position: 'fixed', top: '50%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
     }

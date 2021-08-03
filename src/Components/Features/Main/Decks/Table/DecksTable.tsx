@@ -1,18 +1,32 @@
-import Pagination from "@material-ui/lab/Pagination";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import S from "./DecksTable.module.css"
+import {useDispatch, useSelector} from "react-redux";
+import {DecksStateType, getDecks} from "../../../../../Store/decks-reducer";
+import {AppStoreType} from "../../../../../Store/store";
+import {getDecksForUI} from "../../MainCommon/utils/dataHandlers";
+import {DeckItem} from "./DeckItem/DeckItem";
+import {PaginationControlled} from "./Pagination/Pagination";
+import {RequestStatusType} from "../../../../../Store/app-reducer";
+import {CircularProgress} from "@material-ui/core";
+import {DeckType} from "../../../../../Api/api";
 
-export const DecksTable: React.FC = props => {
-    const [decks, setDecks] = useState<DeckType[]>([
-        {name: "New Deck0", cards: 25, lastUpdate: "27.09.2021", created: "Kelek"},
-        {name: "New Deck1", cards: 25, lastUpdate: "27.09.2021", created: "Kelek"},
-        {name: "New Deck2", cards: 25, lastUpdate: "27.09.2021", created: "Kelek"},
-        {name: "New Deck3", cards: 25, lastUpdate: "27.09.2021", created: "Kelek"},
-        {name: "New Deck4", cards: 25, lastUpdate: "27.09.2021", created: "Kelek"},
-        {name: "New Deck5", cards: 25, lastUpdate: "27.09.2021", created: "Kelek"},
-        {name: "New Deck6", cards: 25, lastUpdate: "27.09.2021", created: "Kelek"},
-    ])
-    const deckItems = decks.map((d, i) => {
+type DecksTablePropsType = {
+    status: RequestStatusType
+    totalCount: number
+    decks: DeckType[] | null
+}
+
+export const DecksTable: React.FC<DecksTablePropsType> = props => {
+    const {status, decks, totalCount} = props
+
+    const dispatch = useDispatch()
+    const [visiblePage, setVisiblePage] = useState<number>(1)
+
+    useEffect(() => {
+        dispatch(getDecks(visiblePage))
+    }, [visiblePage, dispatch])
+
+    const deckItems = getDecksForUI(decks)?.map((d, i) => {
         return (
             <DeckItem
                 key={i}
@@ -26,7 +40,7 @@ export const DecksTable: React.FC = props => {
     })
 
     return (
-        <>
+        <div>
             <div className={S.table}>
                 <div className={S.header}>
                     <div className={S.name}>Name</div>
@@ -35,48 +49,18 @@ export const DecksTable: React.FC = props => {
                     <div className={S.created}>Created by</div>
                     <div className={S.actions}>Actions</div>
                 </div>
-                {deckItems}
+                {status === "loading"
+                    ? <div className={S.circular_box}><CircularProgress/></div>
+                    : deckItems
+                }
             </div>
-            <PaginationControlled/>
-        </>
-    )
-}
-
-type DeckType = {
-    name: string
-    cards: number
-    lastUpdate: string
-    created: string
-}
-
-type DeckItemPropsType = DeckType & {
-    index: number
-}
-
-export const DeckItem: React.FC<DeckItemPropsType> = props => {
-    const {name, cards, lastUpdate, created, index} = props
-
-    const color = index === 0 || index % 2 !== 1 ? "deckItemGray" : "deckItemWhite"
-    return (
-        <div className={`${S.deckItem} ${S[color]}`}>
-            <div className={S.name}>{name}</div>
-            <div className={S.cards}>{cards}</div>
-            <div className={S.update}>{lastUpdate}</div>
-            <div className={S.created}>{created}</div>
-            <div className={S.actions}>Actions</div>
+            <div className={S.pagination}>
+                <PaginationControlled
+                    page={visiblePage}
+                    setPage={setVisiblePage}
+                    totalCount={totalCount}
+                />
+            </div>
         </div>
     )
-}
-
-export const PaginationControlled = () => {
-    const [page, setPage] = useState(1);
-    const handleChange = (e: React.ChangeEvent<unknown>, value: number) => {
-        setPage(value);
-    };
-
-    return (
-        <div className={S.pagination}>
-            <Pagination count={10} page={page} onChange={handleChange} />
-        </div>
-    );
 }

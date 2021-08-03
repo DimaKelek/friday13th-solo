@@ -5,16 +5,36 @@ import {MyDoubleRange} from "../../../Common/Ranges/MyDoubleRange/MyDoubleRange"
 import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {DecksTable} from "./Table/DecksTable";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStoreType} from "../../../../Store/store";
+import {RequestStatusType} from "../../../../Store/app-reducer";
+import {CircularProgress} from "@material-ui/core";
+import {createDeck, DecksStateType} from "../../../../Store/decks-reducer";
+import {CreateDeckRequest, DeckDataType} from "../../../../Api/api";
 
 type ShowDecksModeType = "My" | "All"
 
 export const Decks: React.FC = props => {
+    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const decksState = useSelector<AppStoreType, DecksStateType>(state => state.decks)
+    const dispatch = useDispatch()
+
     const [showDecksMode, setShowDecksMode] = useState<ShowDecksModeType>("All")
     const [minValue, setMinValue] = useState<number>(0)
-    const [maxValue, setMaxValue] = useState<number>(100)
+    const [maxValue, setMaxValue] = useState<number>(decksState.maxCardsCount)
 
     const showDecksModeHandler = () => {
         setShowDecksMode(showDecksMode === "My" ? "All": "My")
+    }
+    const createDeckHandler = () => {
+        let data: CreateDeckRequest = {
+            cardsPack: {
+                name: "Kelek Deck",
+                private: false,
+                deckCover: ""
+            }
+        }
+        dispatch(createDeck(data))
     }
 
     return (
@@ -38,6 +58,7 @@ export const Decks: React.FC = props => {
                     <div className={S.range}>
                         <MyDoubleRange
                             value={[minValue, maxValue]}
+                            max={decksState.maxCardsCount}
                             onChangeRangeFirst={setMinValue}
                             onChangeRangeSecond={setMaxValue}
                         />
@@ -53,9 +74,10 @@ export const Decks: React.FC = props => {
                             placeholder={"Search..."}
                             style={{width: "450px", marginRight: "20px"}}
                         />
-                        <MyButton>Add new deck</MyButton>
+                        <MyButton disabled={status === "loading"} onClick={createDeckHandler}>
+                            Add new deck</MyButton>
                     </div>
-                    <DecksTable />
+                    <DecksTable status={status} decks={decksState.decks} totalCount={decksState.totalCount}/>
                 </div>
             </div>
         </div>

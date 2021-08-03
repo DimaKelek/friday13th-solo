@@ -1,0 +1,31 @@
+.deckItemWhite {
+    background-color: #ffffff;
+}
+
+.deckItemGray {
+    background-color: #F8F7FD;
+}
+
+.deckItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 48px;
+}
+
+.name, .cards, .created, .update, .actions {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.name, .actions {
+    width: 200px;
+}
+
+.cards {
+    width: 70px;
+}
+
+.created, .update {
+    width: 110px;
+}
