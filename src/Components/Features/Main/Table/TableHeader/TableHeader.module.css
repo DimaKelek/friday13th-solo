@@ -1,0 +1,14 @@
+.header {
+    width: 100%;
+    height: 48px;
+}
+
+.row {
+    height: 48px;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+}

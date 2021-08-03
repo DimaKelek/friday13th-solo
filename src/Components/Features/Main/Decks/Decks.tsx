@@ -1,41 +1,40 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import S from "./Decks.module.css"
 import Sc from "../MainCommon/Styles/MainCommon.module.css"
 import {MyDoubleRange} from "../../../Common/Ranges/MyDoubleRange/MyDoubleRange";
-import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
-import {MyButton} from "../../../Common/MyButton/MyButton";
-import {DecksTable} from "./Table/DecksTable";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
-import {RequestStatusType} from "../../../../Store/app-reducer";
-import {CircularProgress} from "@material-ui/core";
-import {createDeck, DecksStateType} from "../../../../Store/decks-reducer";
-import {CreateDeckRequest, DeckDataType} from "../../../../Api/api";
+import {DecksStateType, getDecks} from "../../../../Store/decks-reducer";
+import {CallType, Table} from "../Table/Table";
+import {getDecksForUI} from "../MainCommon/utils/dataHandlers";
 
 type ShowDecksModeType = "My" | "All"
 
 export const Decks: React.FC = props => {
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const decksState = useSelector<AppStoreType, DecksStateType>(state => state.decks)
     const dispatch = useDispatch()
 
     const [showDecksMode, setShowDecksMode] = useState<ShowDecksModeType>("All")
-    const [minValue, setMinValue] = useState<number>(0)
-    const [maxValue, setMaxValue] = useState<number>(decksState.maxCardsCount)
+    const [minValue, setMinValue] = useState<number>(() => decksState.minCardsCount)
+    const [maxValue, setMaxValue] = useState<number>(() => decksState.maxCardsCount)
+    const [visiblePage, setVisiblePage] = useState<number>(1)
+
+    useEffect(() => {
+        dispatch(getDecks(visiblePage))
+    }, [visiblePage, dispatch])
 
     const showDecksModeHandler = () => {
         setShowDecksMode(showDecksMode === "My" ? "All": "My")
     }
-    const createDeckHandler = () => {
-        let data: CreateDeckRequest = {
-            cardsPack: {
-                name: "Kelek Deck",
-                private: false,
-                deckCover: ""
-            }
-        }
-        dispatch(createDeck(data))
-    }
+
+    const columns: CallType[] = [
+        {title: "name", width: "2fr"},
+        {title: "count", width: "1fr"},
+        {title: "last update", width: "2fr"},
+        {title: "maker", width: "2fr"},
+        {title: "actions", width: "220px"},
+    ]
+    const items = getDecksForUI(decksState.decks)
 
     return (
         <div className={Sc.workSpace}>
@@ -58,6 +57,7 @@ export const Decks: React.FC = props => {
                     <div className={S.range}>
                         <MyDoubleRange
                             value={[minValue, maxValue]}
+                            min={decksState.minCardsCount}
                             max={decksState.maxCardsCount}
                             onChangeRangeFirst={setMinValue}
                             onChangeRangeSecond={setMaxValue}
@@ -67,20 +67,16 @@ export const Decks: React.FC = props => {
             </div>
             <div className={Sc.list}>
                 <div className={S.list_container}>
-                    <h2>Decks list</h2>
-                    <div className={S.search_box}>
-                        <MyTextInput
-                            variant={"light"}
-                            placeholder={"Search..."}
-                            style={{width: "450px", marginRight: "20px"}}
-                        />
-                        <MyButton disabled={status === "loading"} onClick={createDeckHandler}>
-                            Add new deck</MyButton>
-                    </div>
-                    <DecksTable status={status} decks={decksState.decks} totalCount={decksState.totalCount}/>
+                    <Table
+                        title={"Decks list"}
+                        columns={columns}
+                        items={items}
+                        totalCount={decksState.totalCount}
+                        visiblePage={visiblePage}
+                        setVisiblePage={setVisiblePage}
+                    />
                 </div>
             </div>
         </div>
     )
 }
-

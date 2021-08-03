@@ -45,8 +45,14 @@ export const decksAPI = {
     getDecks(pageNumber: number) {
         return instanse.get<DeckResponseType>(`/cards/pack?pageCount=7&page=${pageNumber}`)
     },
-    createDeck(data: CreateDeckRequest) {
+    createDeck(data: CreateDeckRequestData) {
         return instanse.post(`/cards/pack`, data)
+    },
+    removeDeck(id: string) {
+        return instanse.delete(`/cards/pack?id=${id}`)
+    },
+    updateDeck(data: UpdateDeckRequestData) {
+        return instanse.put(`/cards/pack`, data)
     }
 }
 
@@ -78,7 +84,7 @@ export type DeckResponseType = {
     tokenDeathTime: number
 }
 
-export type CreateDeckRequest = {
+export type CreateDeckRequestData = {
     cardsPack: DeckDataType
 }
 export type DeckDataType<T = "pack"> = {
@@ -86,4 +92,11 @@ export type DeckDataType<T = "pack"> = {
     private: boolean
     type?: T
     deckCover?: string
+}
+
+export type UpdateDeckRequestData = {
+    cardsPack: {
+        _id: string
+        name: string
+    }
 }

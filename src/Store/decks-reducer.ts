@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {CreateDeckRequest, decksAPI, DeckType} from "../Api/api";
+import {CreateDeckRequestData, decksAPI, DeckType, UpdateDeckRequestData} from "../Api/api";
 import {setAppStatus} from "./app-reducer";
 
 const initialState = {
@@ -21,10 +21,34 @@ export const getDecks = createAsyncThunk("decks/getDecks", async (pageNumber: nu
     }
 })
 
-export const createDeck = createAsyncThunk("decks/createDeck", async (data: CreateDeckRequest, thunkAPI) => {
+export const createDeck = createAsyncThunk("decks/createDeck", async (data: CreateDeckRequestData, thunkAPI) => {
     try {
         thunkAPI.dispatch(setAppStatus("loading"))
         await decksAPI.createDeck(data)
+        thunkAPI.dispatch(setAppStatus("succeeded"))
+        thunkAPI.dispatch(getDecks(1))
+    } catch (error) {
+        thunkAPI.dispatch(setAppStatus("failed"))
+        return thunkAPI.rejectWithValue("some error")
+    }
+})
+
+export const removeDeck = createAsyncThunk("decks/removeDeck", async (id: string, thunkAPI) => {
+    try {
+        thunkAPI.dispatch(setAppStatus("loading"))
+        await decksAPI.removeDeck(id)
+        thunkAPI.dispatch(setAppStatus("succeeded"))
+        thunkAPI.dispatch(getDecks(1))
+    } catch (error) {
+        thunkAPI.dispatch(setAppStatus("failed"))
+        return thunkAPI.rejectWithValue("some error")
+    }
+})
+
+export const updateDeck = createAsyncThunk("decks/updateDeck", async (data: UpdateDeckRequestData, thunkAPI) => {
+    try {
+        thunkAPI.dispatch(setAppStatus("loading"))
+        await decksAPI.updateDeck(data)
         thunkAPI.dispatch(setAppStatus("succeeded"))
         thunkAPI.dispatch(getDecks(1))
     } catch (error) {

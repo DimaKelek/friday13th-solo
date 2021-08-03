@@ -9,8 +9,8 @@ type MyButtonPropsType = DefaultButtonPropsType & {
 export type ElementColorVariants = "light" | "dark" | "standard" | "purple"
 
 export const MyButton: React.FC<MyButtonPropsType> = props => {
-    const {disabled, onClick, className, children, variant = "standard", ...restProps} = props
-    const finalClassName = `${S.button} ${S[variant]} ${className}`
+    const {disabled, onClick, className, children, variant, ...restProps} = props
+    const finalClassName = `${className} ${S.button} ${variant && S[variant]}`
 
     return (
         <button

@@ -5,6 +5,8 @@ export type RenderDeckType = {
     cards: number
     lastUpdate: string
     created: string
+    makerDeckID?: string
+    deckID?: string
 }
 export const getDecksForUI = (decks: DeckType[] | null) => {
     let decksForUI: RenderDeckType[] | null = null
@@ -21,7 +23,14 @@ export const getDecksForUI = (decks: DeckType[] | null) => {
                     temp.splice(10)
                 return temp.join("")
             }(d.user_name))
-            return {name: d.name, cards: d.cardsCount, lastUpdate: lastUpdate, created: userName}
+            return {
+                name: d.name,
+                cards: d.cardsCount,
+                lastUpdate: lastUpdate,
+                created: userName,
+                makerDeckID: d.user_id,
+                deckID: d._id
+            }
         })
     }
     return decksForUI
