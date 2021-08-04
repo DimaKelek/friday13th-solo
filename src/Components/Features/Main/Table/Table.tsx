@@ -1,10 +1,10 @@
 import {RenderDeckType} from "../MainCommon/utils/dataHandlers";
-import React from "react";
+import React, {ReactNode} from "react";
 import {useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
 import {RequestStatusType} from "../../../../Store/app-reducer";
 import S from "./Table.module.css";
-import {SearchWithButton} from "./SearchWithButton/SearchWithButton";
+import {Search} from "./Search/Search";
 import {TableHeader} from "./TableHeader/TableHeader";
 import {TableBody} from "./TableBody/TableBody"
 import { PaginationControlled } from "./Pagination/Pagination";
@@ -21,35 +21,30 @@ export type CallStyleType = {
 }
 
 type TablePropsType = {
-    title: string
     columns: CallType[]
-    items: RenderDeckType[] | null
-    visiblePage: number
-    setVisiblePage: (visiblePage: number) => void
+    items: (Array<string | number | boolean | ReactNode>)[]
     totalCount: number
 }
 
 export const Table: React.FC<TablePropsType> = props => {
-    const {title, columns, items, totalCount, setVisiblePage, visiblePage} = props
+    const {columns, items, totalCount} = props
     const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-
-    const callStyle = {
+    const visiblePage = useSelector<AppStoreType, number>(state => state.decks.visiblePage)
+    const cellStyle = {
         display: "grid",
         gridTemplateColumns: columns.map(c => c.width).join(" ")
     }
     return (
         <div className={S.table}>
-            <h2>{title}</h2>
-            <SearchWithButton status={status} buttonTitle="Add new deck"/>
             <div className={S.tableBody}>
-                <TableHeader columns={columns} callStyle={callStyle}/>
+                <TableHeader columns={columns} callStyle={cellStyle}/>
                 {status === "loading"
                     ? <div className={S.circular_box}><CircularProgress/></div>
-                    : <TableBody callStyle={callStyle} items={items}/>
+                    : <TableBody cellStyle={cellStyle} items={items}/>
                 }
             </div>
             <div className={S.pagination}>
-                <PaginationControlled page={visiblePage} setPage={setVisiblePage} totalCount={totalCount} />
+                <PaginationControlled page={visiblePage} totalCount={totalCount} />
             </div>
         </div>
     )

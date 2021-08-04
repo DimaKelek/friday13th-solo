@@ -1,5 +1,6 @@
 .settings_container {
     margin: 25px 0;
+    height: 100%;
 }
 
 .showDecks {
@@ -7,12 +8,29 @@
     height: 30px;
     margin: 20px 0;
     display: flex;
-    background-color: #ffffff;
+    justify-content: center;
+    position: relative;
 }
 
-.modeOn {
+.onBlock {
+    width: 75px;
+    height: 30px;
+    position: absolute;
+    top: 0;
     background-color: #9A91C8;
-    color: #ffffff;
+    transition: .8s;
+}
+
+.onBlock.myMode {
+    left: 0;
+}
+
+.onBlock.allMode {
+    left: 75px;
+}
+
+.my, .all {
+    background-color: #ffffff;
 }
 
 .showDecks div {
@@ -36,4 +54,12 @@
 
 .list_container {
     margin: 25px 50px 10px;
+    position: relative;
 }
+
+.list_container > button {
+    position: absolute;
+    top: 47px;
+    right: 200px;
+}
+

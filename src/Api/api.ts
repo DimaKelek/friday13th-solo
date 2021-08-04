@@ -42,8 +42,12 @@ type RegistrationResponseType = {addedUser: {}} & {
 }
 
 export const decksAPI = {
-    getDecks(pageNumber: number) {
-        return instanse.get<DeckResponseType>(`/cards/pack?pageCount=7&page=${pageNumber}`)
+    getDecks(data: GetDecksRequestDataType) {
+        let id = data.user_id ? `&user_id=${data.user_id}`: ""
+        let min = data.min ? `&min=${data.min}` : ""
+        let max = data.max ? `&max=${data.max}` : ""
+        let packName = data.packName ? `&packName=${data.packName}` : ""
+        return instanse.get<DeckResponseType>(`/cards/pack?pageCount=7&page=${data.pageNumber}${id}${min}${max}${packName}`)
     },
     createDeck(data: CreateDeckRequestData) {
         return instanse.post(`/cards/pack`, data)
@@ -73,15 +77,19 @@ export type DeckType = {
     more_id: string
     __v: number
 }
+export type GetDecksRequestDataType = {
+    pageNumber: number
+    page?: number
+    user_id?: string
+    min?: number
+    max?: number
+    packName?: string
+}
 export type DeckResponseType = {
     cardPacks: DeckType[]
-    page: number
-    pageCount: number
     cardPacksTotalCount: number
     minCardsCount: number
     maxCardsCount: number
-    token: string
-    tokenDeathTime: number
 }
 
 export type CreateDeckRequestData = {

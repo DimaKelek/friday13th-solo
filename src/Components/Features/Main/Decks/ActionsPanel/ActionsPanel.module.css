@@ -16,11 +16,3 @@
 .deleteButton:hover {
     background-color: #d2153a;
 }
-
-.deckItemWhite {
-    background-color: #ffffff;
-}
-
-.deckItemGray {
-    background-color: #F8F7FD;
-}

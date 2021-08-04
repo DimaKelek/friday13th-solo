@@ -1,29 +1,15 @@
-import React from "react";
+import React, {ReactNode} from "react";
 import S from "./TableBody.module.css";
-import {RenderDeckType} from "../../MainCommon/utils/dataHandlers";
-import {DeckItem} from "../DeckItem/DeckItem";
 import {CallStyleType} from "../Table";
+import {RowItem} from "../RowItem/RowItem";
 
 type TableBodyPropsType = {
-    callStyle: CallStyleType
-    items: RenderDeckType[] | null
+    cellStyle: CallStyleType
+    items: (Array<string | number | boolean | ReactNode>)[]
 }
 export const TableBody: React.FC<TableBodyPropsType> = props => {
-    const {callStyle, items} = props
-    const renderItems = items?.map((item, i) => {
-        return (
-            <DeckItem
-                name={item.name}
-                cards={item.cards}
-                lastUpdate={item.lastUpdate}
-                created={item.created}
-                index={i}
-                deckID={item.deckID}
-                makerDeckID={item.makerDeckID}
-                callStyle={callStyle}
-            />
-        )
-    })
+    const {cellStyle, items} = props
 
-    return <div className={S.body}>{renderItems}</div>
+    const rowItems = items.map((item, i) => <RowItem cells={item} cellStyle={cellStyle} index={i}/>)
+    return <div className={S.body}>{rowItems}</div>
 }

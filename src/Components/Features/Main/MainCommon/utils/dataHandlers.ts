@@ -1,4 +1,5 @@
-import {DeckType} from "../../../../../Api/api";
+import {DeckType, GetDecksRequestDataType} from "../../../../../Api/api";
+import {ShowDecksModeType} from "../../../../../Store/decks-reducer";
 
 export type RenderDeckType = {
     name: string
@@ -8,7 +9,7 @@ export type RenderDeckType = {
     makerDeckID?: string
     deckID?: string
 }
-export const getDecksForUI = (decks: DeckType[] | null) => {
+export const getDecksForUI = (decks: DeckType[] | null | undefined) => {
     let decksForUI: RenderDeckType[] | null = null
     if(decks) {
         decksForUI = decks.map(d => {
@@ -34,4 +35,15 @@ export const getDecksForUI = (decks: DeckType[] | null) => {
         })
     }
     return decksForUI
+}
+
+export type DataForRequest = GetDecksRequestDataType & {
+    filter: ShowDecksModeType
+}
+
+export const getDecksRequestDC = (data: DataForRequest) => {
+    const {filter, max, min, pageNumber, user_id, packName, page} = data
+    return filter === "My"
+        ? {pageNumber, user_id, min, max, packName, page}
+        : {pageNumber, min, max, packName, page}
 }

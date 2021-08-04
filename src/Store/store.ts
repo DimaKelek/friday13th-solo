@@ -35,5 +35,7 @@ export type AllAppActionsType =
     | CardsActionsType
     | DecksActionsType
 
+export type AppDispatchType = typeof store.dispatch
+
 //@ts-ignore
 window.store = store
