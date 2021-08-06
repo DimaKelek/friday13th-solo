@@ -79,7 +79,6 @@ export type DeckType = {
 }
 export type GetDecksRequestDataType = {
     pageNumber: number
-    page?: number
     user_id?: string
     min?: number
     max?: number
@@ -106,5 +105,79 @@ export type UpdateDeckRequestData = {
     cardsPack: {
         _id: string
         name: string
+    }
+}
+
+export const cardsAPI = {
+    getCards(data: GetCardsRequestDataType) {
+        let id = data.cardsPack_id ? `&cardsPack_id=${data.cardsPack_id}`: ""
+        let min = data.min ? `&min=${data.min}` : ""
+        let max = data.max ? `&max=${data.max}` : ""
+        let cardAnswer = data.cardAnswer ? `&cardAnswer=${data.cardAnswer}` : ""
+        let cardQuestion = data.cardQuestion ? `&cardQuestion=${data.cardQuestion}` : ""
+        return instanse.get<GetCardsResponseType>(`/cards/card?pageCount=7&page=${data.pageNumber}${id}${min}${max}${cardAnswer}${cardQuestion}`)
+    },
+    createCard(data: CreateCardDataType) {
+        return instanse.post(`/cards/card`, data)
+    },
+    removeCard(id: string) {
+        return instanse.delete(`/cards/card?id=${id}`)
+    },
+    updateCard(data: UpdateCardRequestType) {
+        return instanse.put(`/cards/card`, data)
+    }
+}
+
+export type GetCardsRequestDataType = {
+    cardAnswer?: string
+    cardQuestion?: string
+    cardsPack_id?: string
+    min?: number
+    max?: number
+    pageNumber: number
+}
+export type GetCardsResponseType = {
+    cards: CardType[]
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    page: number
+    pageCount: number
+    packUserId: string
+}
+export type CardType = {
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    rating: number
+    shots: number
+    type: string
+    user_id: string
+    created: string
+    updated: string
+    _id: string
+}
+
+export type CreateCardDataType = {
+    card: {
+        cardsPack_id: string
+        question: string
+        answer: string
+        grade?: number
+        shots?: number
+        rating?: number
+        answerImg?: string
+        questionImg?: string
+        questionVideo?: string
+        answerVideo?: string
+        type?: string
+    }
+}
+export type UpdateCardRequestType = {
+    card: {
+        _id: string
+        question?: string
+        answer?: string
     }
 }

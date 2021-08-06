@@ -1,4 +1,4 @@
-import {DeckType, GetDecksRequestDataType} from "../../../../../Api/api";
+import {CardType, DeckType, GetDecksRequestDataType} from "../../../../../Api/api";
 import {ShowDecksModeType} from "../../../../../Store/decks-reducer";
 
 export type RenderDeckType = {
@@ -42,8 +42,43 @@ export type DataForRequest = GetDecksRequestDataType & {
 }
 
 export const getDecksRequestDC = (data: DataForRequest) => {
-    const {filter, max, min, pageNumber, user_id, packName, page} = data
+    const {filter, max, min, pageNumber, user_id, packName} = data
     return filter === "My"
-        ? {pageNumber, user_id, min, max, packName, page}
-        : {pageNumber, min, max, packName, page}
+        ? {pageNumber, user_id, min, max, packName}
+        : {pageNumber, min, max, packName}
+}
+
+export type RenderCardType = {
+    answer: string
+    question: string
+    lastUpdate: string
+    grade: number
+    cardID: string
+}
+
+export const getCardsForUI = (cards: CardType[] | null) => {
+    let cardsForUI: RenderCardType[] | null = null
+    if(cards) {
+        cardsForUI = cards.map(c => {
+            const lastUpdate = (function (lastUpdate: string) {
+                let temp = lastUpdate.split("")
+                temp.splice(10)
+                return temp.join("")
+            }(c.updated))
+            const answer = (function (answer: string) {
+                let temp = answer.split("")
+                temp.splice(50)
+                temp.push(" ...")
+                return temp.join("")
+            }(c.answer))
+            return {
+                answer: answer,
+                question: c.question,
+                lastUpdate: lastUpdate,
+                grade: c.grade,
+                cardID: c._id
+            }
+        })
+    }
+    return cardsForUI
 }

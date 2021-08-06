@@ -16,7 +16,7 @@ export const RecoveryContainer = () => {
     const dispatch = useDispatch()
 
     const message = `<div style="background-color: lime; padding: 15px">
-            password recovery link:	<a href='http://localhost:3000/#/new-password/$token$'>link</a>
+            password recovery link:	<a href='https://dimakelek.github.io/friday13th-kelek/#/new-password/$token$'>link</a>
             </div>`
 
     const formik = useFormik({

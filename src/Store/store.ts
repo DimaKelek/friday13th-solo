@@ -36,6 +36,10 @@ export type AllAppActionsType =
     | DecksActionsType
 
 export type AppDispatchType = typeof store.dispatch
-
+export type ThunkApiType = {
+    dispatch: AppDispatchType,
+    state: AppStoreType,
+    rejectValue: string
+}
 //@ts-ignore
 window.store = store
