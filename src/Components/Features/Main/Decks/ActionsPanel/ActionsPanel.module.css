@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-end;
 }
 .buttonsPanel > button {
     height: 70%;
@@ -10,9 +10,18 @@
 
 .deleteButton {
     background-color: #ba1f3e;
-    color: #ffffff
+    color: #ffffff;
+    margin-right: 10px;
 }
 
 .deleteButton:hover {
     background-color: #d2153a;
+}
+
+.editButton {
+    margin-right: 10px;
+}
+
+.learnButton {
+    margin-right: 10px;
 }

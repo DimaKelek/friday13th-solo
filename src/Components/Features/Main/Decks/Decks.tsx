@@ -45,7 +45,7 @@ export const Decks: React.FC = props => {
     const [packName, setPackName] = useState<string>("")
     const [timeID, setTimeID] = useState<number | null>(null)
     useEffect(() => {
-        if(needUpdate && status === "loading") {
+        if(needUpdate && status !== "loading") {
             let dataForRequest: DataForRequest = {
                 filter: filter,
                 pageNumber: visiblePage,
@@ -113,7 +113,6 @@ export const Decks: React.FC = props => {
     const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setPackName(e.target.value)
     }
-
     // data for table
     const columns: CallType[] = [
         {title: "name", width: "200px"},
@@ -124,7 +123,7 @@ export const Decks: React.FC = props => {
     ]
     const rowItems: (Array<string | number | boolean | ReactNode>)[] = []
     getDecksForUI(decks)?.forEach(o => {
-        rowItems.push([<NavLink onClick={() => dispatch(setDeckID(o.deckID ?? ""))} to={"/app/cards"}>{o.name}</NavLink>, o.cards, o.lastUpdate,
+        rowItems.push([<NavLink to={`/app/cards/${o.deckID}`}>{o.name}</NavLink>, o.cards, o.lastUpdate,
             o.created, <ActionsPanel makerDeckID={o.makerDeckID} deckID={o.deckID}/>])
     })
     const disabled = timeID !== null || (decks?.length === 0 && filter === "My")

@@ -1,0 +1,37 @@
+.textarea {
+    font-family: Comic Sans MS, Comic Sans, cursive;
+    width: 285px;
+    min-height: 80px;
+    max-height: 175px;
+    margin-top: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1px solid #7f7f7f;
+
+    cursor: text;
+    overflow: auto;
+    resize: vertical;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-align: start;
+    transition: .5s;
+    overflow-wrap: break-word;
+    outline: none;
+}
+
+.textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #636363;
+}
+
+.textarea.error {
+    box-shadow: 0 0 0 2px #d41c50;
+}
+
+.errorMessage {
+    display: block;
+    color: #d41c50;
+    height: 20px;
+}

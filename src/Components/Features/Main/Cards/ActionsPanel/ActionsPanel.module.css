@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    /*justify-content: space-around;*/
 }
 .buttonsPanel > button {
     height: 70%;
@@ -10,7 +10,8 @@
 
 .deleteButton {
     background-color: #ba1f3e;
-    color: #ffffff
+    color: #ffffff;
+    margin-right: 15px;
 }
 
 .deleteButton:hover {

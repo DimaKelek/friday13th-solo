@@ -44,7 +44,7 @@ export const Table: React.FC<TablePropsType> = props => {
                 }
             </div>
             <div className={S.pagination}>
-                <PaginationControlled page={visiblePage} totalCount={totalCount} setPage={setPage}/>
+            {totalCount > 7 && <PaginationControlled page={visiblePage} totalCount={totalCount} setPage={setPage}/>}
             </div>
         </div>
     )

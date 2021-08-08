@@ -12,7 +12,7 @@ type SuperInputTextPropsType = DefaultInputPropsType & {
 
 export const MyTextInput: React.FC<SuperInputTextPropsType> = props => {
     const {type = "text", onChange, onChangeText, onKeyPress, onEnter, error,
-        className, errorClassName, variant = "standard", ...restProps} = props
+        className, errorClassName, variant = "light", ...restProps} = props
 
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         onChange && onChange(e)

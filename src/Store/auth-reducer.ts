@@ -1,5 +1,5 @@
 import {authAPI} from "../Api/api";
-import {AppThunk} from "./store";
+import {AllAppActionsType, AppDispatchType, AppThunk} from "./store";
 import {setAppStatus, setError, setInitialized} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
 import {setStatusPassRecovery} from "./recovery-pass-reducer";
@@ -70,8 +70,9 @@ export const login = (authData: AuthDataType): AppThunk => async dispatch => {
     }
 }
 
-export const logout = (): AppThunk => async dispatch => {
+export const logout = (): AppThunk => async (dispatch) => {
     try {
+        dispatch({type: "jfjdkfjd", bbb: "jdjdsnjd"})
         dispatch(setAppStatus("loading"))
         await authAPI.logout()
         dispatch(changeLoginStatus(false))

@@ -37,9 +37,11 @@ export const ActionsPanel: React.FC<ActionsPanelType> = props => {
         <div className={S.buttonsPanel}>
             {userID === makerDeckID && <>
                 <MyButton onClick={deleteButtonHandler} className={S.deleteButton}>Delete</MyButton>
-                <MyButton onClick={editButtonHandler} variant={"standard"}>Edit</MyButton></>
+                <MyButton onClick={editButtonHandler} className={S.editButton} variant={"standard"}>
+                    Edit</MyButton></>
             }
-            <MyButton onClick={() => alert("Coming soon bro))")} variant={"purple"}>Learn</MyButton>
+            <MyButton onClick={() => alert("Coming soon bro))")}
+                      variant={"purple"} className={S.learnButton}>Learn</MyButton>
         </div>
     )
 }

@@ -65,14 +65,8 @@ export const getCardsForUI = (cards: CardType[] | null) => {
                 temp.splice(10)
                 return temp.join("")
             }(c.updated))
-            const answer = (function (answer: string) {
-                let temp = answer.split("")
-                temp.splice(50)
-                temp.push(" ...")
-                return temp.join("")
-            }(c.answer))
             return {
-                answer: answer,
+                answer: c.answer,
                 question: c.question,
                 lastUpdate: lastUpdate,
                 grade: c.grade,

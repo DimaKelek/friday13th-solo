@@ -15,7 +15,7 @@ export const Main: React.FC = props => {
                 <HashRouter>
                     <Route path={"/app/profile"} render={() => <Profile />}/>
                     <Route path={"/app/decks"} render={() => <Decks />}/>
-                    <Route path={"/app/cards"} render={() => <Cards />}/>
+                    <Route path={"/app/cards/:deckID"} render={() => <Cards />}/>
                 </HashRouter>
             </div>
         </div>

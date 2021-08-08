@@ -37,17 +37,18 @@ type ResponseType = {
     info?: string
     error?: string
 }
-type RegistrationResponseType = {addedUser: {}} & {
+type RegistrationResponseType = { addedUser: {} } & {
     error?: string
 }
 
 export const decksAPI = {
     getDecks(data: GetDecksRequestDataType) {
-        let id = data.user_id ? `&user_id=${data.user_id}`: ""
+        let id = data.user_id ? `&user_id=${data.user_id}` : ""
         let min = data.min ? `&min=${data.min}` : ""
         let max = data.max ? `&max=${data.max}` : ""
         let packName = data.packName ? `&packName=${data.packName}` : ""
         return instanse.get<DeckResponseType>(`/cards/pack?pageCount=7&page=${data.pageNumber}${id}${min}${max}${packName}`)
+
     },
     createDeck(data: CreateDeckRequestData) {
         return instanse.post(`/cards/pack`, data)
@@ -110,7 +111,7 @@ export type UpdateDeckRequestData = {
 
 export const cardsAPI = {
     getCards(data: GetCardsRequestDataType) {
-        let id = data.cardsPack_id ? `&cardsPack_id=${data.cardsPack_id}`: ""
+        let id = data.cardsPack_id ? `&cardsPack_id=${data.cardsPack_id}` : ""
         let min = data.min ? `&min=${data.min}` : ""
         let max = data.max ? `&max=${data.max}` : ""
         let cardAnswer = data.cardAnswer ? `&cardAnswer=${data.cardAnswer}` : ""
@@ -118,20 +119,20 @@ export const cardsAPI = {
         return instanse.get<GetCardsResponseType>(`/cards/card?pageCount=7&page=${data.pageNumber}${id}${min}${max}${cardAnswer}${cardQuestion}`)
     },
     createCard(data: CreateCardDataType) {
-        return instanse.post(`/cards/card`, data)
+        return instanse.post(`/cards/card`, {card: data})
     },
     removeCard(id: string) {
         return instanse.delete(`/cards/card?id=${id}`)
     },
     updateCard(data: UpdateCardRequestType) {
-        return instanse.put(`/cards/card`, data)
+        return instanse.put(`/cards/card`, {card: data})
     }
 }
 
 export type GetCardsRequestDataType = {
     cardAnswer?: string
     cardQuestion?: string
-    cardsPack_id?: string
+    cardsPack_id: string
     min?: number
     max?: number
     pageNumber: number
@@ -160,24 +161,20 @@ export type CardType = {
 }
 
 export type CreateCardDataType = {
-    card: {
-        cardsPack_id: string
-        question: string
-        answer: string
-        grade?: number
-        shots?: number
-        rating?: number
-        answerImg?: string
-        questionImg?: string
-        questionVideo?: string
-        answerVideo?: string
-        type?: string
-    }
+    cardsPack_id: string
+    question: string
+    answer: string
+    grade?: number
+    shots?: number
+    rating?: number
+    answerImg?: string
+    questionImg?: string
+    questionVideo?: string
+    answerVideo?: string
+    type?: string
 }
 export type UpdateCardRequestType = {
-    card: {
-        _id: string
-        question?: string
-        answer?: string
-    }
+    _id: string
+    question?: string
+    answer?: string
 }

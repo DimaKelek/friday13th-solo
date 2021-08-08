@@ -4,7 +4,7 @@
 }
 
 .row {
-    height: 48px;
+    min-height: 48px;
     text-transform: capitalize;
     font-size: 14px;
     font-weight: bold;
