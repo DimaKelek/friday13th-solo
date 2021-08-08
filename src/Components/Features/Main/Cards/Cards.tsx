@@ -10,20 +10,18 @@ import {
     changeVisibleCardPage,
     createCard,
     CreateCardData,
-    getCards
+    getCards,
+    setSelectedCardID,
+    updateCard
 } from "../../../../Store/cards-reducer";
 import {getCardsForUI} from "../MainCommon/utils/dataHandlers";
-import {GetCardsRequestDataType} from "../../../../Api/api";
+import {GetCardsRequestDataType, UpdateCardRequestType} from "../../../../Api/api";
 import {NavLink, useParams} from "react-router-dom";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {RequestStatusType} from "../../../../Store/app-reducer";
 import {CardActionsPanel} from "./ActionsPanel/ActionsPanel";
 import {MyModal} from "../../ModalWindows/Modal/MyModal";
-import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
-import {MyTextarea} from "../../../Common/MyTextarea/MyTextarea";
-import {useFormik} from "formik";
-import {AddCardModal} from "../../ModalWindows/AddCardModal/AddCardModal";
-
+import {CommonModalForm} from "../../ModalWindows/CommanModalFrom/CommanModalForm";
 
 
 export const Cards: React.FC = () => {
@@ -71,29 +69,45 @@ export const Cards: React.FC = () => {
         setQuestion(e.target.value)
     }
     const addNewCardHandler = () => {
-        // const params: CreateCardData = {
-        //     data: {
-        //         answer: "Kelek answer",
-        //         question: "Kelek question",
-        //         cardsPack_id: deckID,
-        //         grade: 0,
-        //         answerImg: "",
-        //         answerVideo: "",
-        //         questionImg: "",
-        //         questionVideo: "",
-        //         rating: 0,
-        //         shots: 0,
-        //         type: "card"
-        //     },
-        //     deckID
-        // }
-        // dispatch(createCard(params))
         setShowAdd(true)
     }
     const showAnswerCallback = (answer: string) => {
         setShowAnswer(true)
         setAnswer(answer)
     }
+
+    const onAddCardClick = (question: string, answer: string) => {
+        const params: CreateCardData = {
+            data: {
+                question,
+                answer,
+                cardsPack_id: deckID,
+                grade: 0,
+                answerImg: "",
+                answerVideo: "",
+                questionImg: "",
+                questionVideo: "",
+                rating: 0,
+                shots: 0,
+                type: "card"
+            },
+            deckID
+        }
+        dispatch(createCard(params))
+        setShowAdd(false)
+    }
+    const onEditCardClick = (question: string, answer: string, makerDeckID: string | undefined, cardID: string | undefined) => {
+        if (userID === makerDeckID && deckID) {
+            let data: UpdateCardRequestType = {
+                _id: cardID ?? "",
+                question,
+                answer
+            }
+            dispatch(updateCard({data, deckID}))
+        }
+        setShowEdit(false)
+    }
+
 
     // data for table
     const columns: CallType[] = [
@@ -111,19 +125,18 @@ export const Cards: React.FC = () => {
 
     return (
         <>
-            {showAdd && <AddCardModal setShowAdd={setShowAdd}/>}
-            {showAnswer &&
-                <MyModal closeModal={() => setShowAnswer(false)}
-                         title={"Answer for your question!!"} width="350px"
-                >{answer}
-                </MyModal>
-            }
-            {showEdit &&
-                <MyModal closeModal={()=> setShowEdit(false)}
-                         title={"Edit your card"} width="350px" height="450px"
-                >edit card form
-                </MyModal>
-            }
+            {showAdd && <CommonModalForm title={"Add new Card"}
+                                         setShow={setShowAdd}
+                                         submitForm={onAddCardClick}
+            />}
+            {showEdit && <CommonModalForm title={"Edit Card"}
+                                          setShow={setShowEdit}
+                                          submitForm={onEditCardClick}
+            />}
+            {showAnswer && <MyModal closeModal={() => setShowAnswer(false)}
+                                    title={"Answer for your question!!"} width="350px">{answer}
+            </MyModal>}
+
 
             <div className={Sc.workSpace}>
                 <div className={Sc.workSpace_container}>

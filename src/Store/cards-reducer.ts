@@ -1,24 +1,23 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
     cardsAPI,
-    CardType, CreateCardDataType,
-    CreateDeckRequestData,
-    decksAPI,
+    CardType,
+    CreateCardDataType,
     GetCardsRequestDataType,
-    GetCardsResponseType, UpdateCardRequestType, UpdateDeckRequestData
+    GetCardsResponseType,
+    UpdateCardRequestType
 } from "../Api/api"
 import {setAppStatus} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
-import {AppDispatchType, ThunkApiType} from "./store";
-import {DataForRequest, getDecksRequestDC} from "../Components/Features/Main/MainCommon/utils/dataHandlers";
-import {getDecks} from "./decks-reducer";
+import {ThunkApiType} from "./store";
 
 const initialState = {
     cards: null as CardType[] | null,
     cardsTotalCount: 0,
     visiblePage: 1,
     packUserId: "",
-    deckID: ""
+    deckID: "",
+    selectedCardID: ""
 }
 
 export const getCards = createAsyncThunk<GetCardsResponseType, GetCardsRequestDataType, ThunkApiType>("cards/getCards",
@@ -92,6 +91,9 @@ export const cardsSlice = createSlice({
     reducers: {
         changeVisibleCardPage(state, action: PayloadAction<number>) {
             state.visiblePage = action.payload
+        },
+        setSelectedCardID(state, action: PayloadAction<string>) {
+            state.selectedCardID = action.payload
         }
     },
     extraReducers: builder => {
@@ -103,7 +105,7 @@ export const cardsSlice = createSlice({
         })
     }
 })
-export const {changeVisibleCardPage} = cardsSlice.actions
+export const {changeVisibleCardPage, setSelectedCardID} = cardsSlice.actions
 // thunks
 
 // types

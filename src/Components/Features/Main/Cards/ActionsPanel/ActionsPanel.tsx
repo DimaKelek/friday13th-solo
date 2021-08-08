@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../../Store/store";
 import S from "./ActionsPanel.module.css";
 import {MyButton} from "../../../../Common/MyButton/MyButton";
-import {removeCard} from "../../../../../Store/cards-reducer";
+import {removeCard, setSelectedCardID} from "../../../../../Store/cards-reducer";
 
 type ActionsPanelType = {
     makerDeckID: string | undefined
@@ -21,16 +21,11 @@ export const CardActionsPanel: React.FC<ActionsPanelType> = props => {
         if (userID === makerDeckID && deckID && cardID) {
             dispatch(removeCard({cardID, deckID}))
         }
-
     }
     const editButtonHandler = () => {
-        // if (userID === makerDeckID && deckID) {
-        //     let data: UpdateCardRequestType = {
-        //         _id: cardID ?? "",
-        //         question: "New Kelek Question"
-        //     }
-        //     dispatch(updateCard({data, deckID}))
-        // }
+        if (userID === makerDeckID) {
+            dispatch(setSelectedCardID(cardID ?? ""))
+        }
         setEdit(true)
     }
 
