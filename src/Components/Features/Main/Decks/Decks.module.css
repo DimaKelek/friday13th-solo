@@ -54,12 +54,14 @@
 
 .list_container {
     margin: 25px 50px 10px;
-    position: relative;
 }
 
-.list_container > button {
-    position: absolute;
-    top: 47px;
-    right: 200px;
+.search_container {
+    display: flex;
+}
+
+.search_container > button {
+    position: relative;
+    top: 9px;
 }
 

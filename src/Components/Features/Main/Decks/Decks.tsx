@@ -11,54 +11,36 @@ import {
     changeVisibleDecksPage,
     createDeck,
     DecksStateType,
-    getDecks
+    getDecks,
+    updateDeck
 } from "../../../../Store/decks-reducer";
 import {CallType, Table} from "../Table/Table";
 import {DataForRequest, getDecksForUI, getDecksRequestDC} from "../MainCommon/utils/dataHandlers";
 import {MyButton} from "../../../Common/MyButton/MyButton";
-import {CreateDeckRequestData} from "../../../../Api/api";
 import {RequestStatusType, setNeedUpdate} from "../../../../Store/app-reducer";
 import {Search} from "../Table/Search/Search";
 import {CircularProgress} from "@material-ui/core";
 import {ActionsPanel} from "./ActionsPanel/ActionsPanel";
 import {NavLink} from "react-router-dom";
+import {CommonModalDeckForm} from "../../ModalWindows/CommonModalDeckForm/CommonModalDeckFrom";
+import {CreateDeckRequestData, UpdateDeckRequestData} from "../../../../Api/api";
 
 export const Decks: React.FC = props => {
-    const {decks, filter, totalCount, visiblePage, minCardsCount, maxCardsCount,
-        } = useSelector<AppStoreType, DecksStateType>(state => state.decks)
-    const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const decksState = useSelector<AppStoreType, DecksStateType>(state => state.decks)
+    const userID     = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
+    const status     = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const needUpdate = useSelector<AppStoreType, boolean>(state => state.app.needUpdate)
-    const dispatch = useDispatch()
+    const dispatch   = useDispatch()
+
+    const {decks, filter, totalCount, visiblePage, minCardsCount, maxCardsCount, selectedDeckID} = decksState
 
     const [minValue, setMinValue] = useState<number>(minCardsCount)
     const [maxValue, setMaxValue] = useState<number>(maxCardsCount)
-    const setMinValueHandler = (value: number) => {
-        setMinValue(value)
-        dispatch(changeMinSelected(value))
-    }
-    const setMaxValueHandler = (value: number) => {
-        setMaxValue(value)
-        dispatch(changeMaxSelected(value))
-    }
-
     const [packName, setPackName] = useState<string>("")
-    const [timeID, setTimeID] = useState<number | null>(null)
-    useEffect(() => {
-        if(needUpdate && status !== "loading") {
-            let dataForRequest: DataForRequest = {
-                filter: filter,
-                pageNumber: visiblePage,
-                user_id: userID,
-                min: minValue,
-                max: maxValue,
-                packName
-            }
-            let requestData = getDecksRequestDC(dataForRequest)
-            dispatch(getDecks(requestData))
-            dispatch(setNeedUpdate(false))
-        }
-    }, [needUpdate, status])
+    const [timeID, setTimeID]     = useState<number | null>(null)
+    const [showAdd, setShowAdd]   = useState<boolean>(false)
+    const [showEdit, setShowEdit]   = useState<boolean>(false)
+
     const requestStart = () => {
         let id = setTimeout(async () => {
             let dataForRequest: DataForRequest = {
@@ -75,44 +57,82 @@ export const Decks: React.FC = props => {
         }, 500)
         setTimeID(+id)
     }
+
+    useEffect(() => {
+        if (needUpdate && status !== "loading") {
+            let dataForRequest: DataForRequest = {
+                filter: filter,
+                pageNumber: visiblePage,
+                user_id: userID,
+                min: minValue,
+                max: maxValue,
+                packName
+            }
+            let requestData = getDecksRequestDC(dataForRequest)
+            dispatch(getDecks(requestData))
+            dispatch(setNeedUpdate(false))
+        }
+    }, [needUpdate, status])
     useEffect(() => {
         if (timeID && status !== "loading") {
             clearTimeout(timeID)
             requestStart()
-        } else if(status !== "loading"){
+        } else if (status !== "loading") {
             requestStart()
         } else {
             dispatch(setNeedUpdate(true))
         }
     }, [filter, visiblePage, dispatch, minValue, maxValue, packName, userID])
 
-    const modeBlockStyle = `${S.onBlock} ${filter === "My" ? S.myMode : S.allMode}`
-
     // handlers
-    const createDeckHandler = useCallback(() => {
-        let data: CreateDeckRequestData = {
-            cardsPack: {
-                name: "Kelek Deck",
-                private: false,
-                deckCover: ""
-            }
-        }
-        dispatch(createDeck(data))
-    }, [dispatch])
+
     const myModeHandler = useCallback(() => {
         dispatch(changeDecksFilter("My"))
     }, [dispatch])
     const allModeHandler = useCallback(() => {
         dispatch(changeDecksFilter("All"))
     }, [dispatch])
-    const visibleDecksPageHandler = (page: number) => {
+    const visibleDecksPageHandler = useCallback((page: number) => {
         dispatch(changeVisibleDecksPage(page))
-    }
-
-    //search sort
-    const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    }, [dispatch])
+    const setMinValueHandler = useCallback((value: number) => {
+        setMinValue(value)
+        dispatch(changeMinSelected(value))
+    }, [dispatch])
+    const setMaxValueHandler = useCallback((value: number) => {
+        setMaxValue(value)
+        dispatch(changeMaxSelected(value))
+    }, [dispatch])
+    const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setPackName(e.target.value)
-    }
+    }, [])
+    const onCreateDeckClick = useCallback(() => {
+        setShowAdd(true)
+    }, [])
+
+    const createDeckHandler = useCallback(async (name: string, privacy: boolean) => {
+        let data: CreateDeckRequestData = {
+            cardsPack: {
+                name,
+                private: privacy
+            }
+        }
+        await dispatch(createDeck(data))
+        setShowAdd(false)
+    }, [dispatch])
+    const editDeckHandler = useCallback(async (name: string, privacy: boolean) => {
+        if (selectedDeckID) {
+            let data: UpdateDeckRequestData = {
+                cardsPack: {
+                    _id: selectedDeckID,
+                    name,
+                    private: privacy
+                }
+            }
+            await dispatch(updateDeck(data))
+        }
+        setShowEdit(false)
+    }, [dispatch, selectedDeckID])
     // data for table
     const columns: CallType[] = [
         {title: "name", width: "200px"},
@@ -123,13 +143,31 @@ export const Decks: React.FC = props => {
     ]
     const rowItems: (Array<string | number | boolean | ReactNode>)[] = []
     getDecksForUI(decks)?.forEach(o => {
-        rowItems.push([<NavLink to={`/app/cards/${o.deckID}`}>{o.name}</NavLink>, o.cards, o.lastUpdate,
-            o.created, <ActionsPanel makerDeckID={o.makerDeckID} deckID={o.deckID}/>])
+        rowItems.push(
+            [<NavLink to={`/app/cards/${o.deckID}`}>{o.name}</NavLink>,
+                o.cards, o.lastUpdate, o.created,
+                <ActionsPanel makerDeckID={o.makerDeckID} deckID={o.deckID} setEdit={setShowEdit}/>
+            ]
+        )
     })
-    const disabled = timeID !== null || (decks?.length === 0 && filter === "My")
-        || decks === null || (minValue === 0 && maxValue === 0)
+
+    const modeBlockStyle = `${S.onBlock} ${filter === "My" ? S.myMode : S.allMode}`
+    const disabled = timeID !== null
+        || (decks?.length === 0 && filter === "My")
+        || decks === null
+        || (minValue === 0 && maxValue === 0)
     return (
         <>
+            {showAdd && <CommonModalDeckForm title="Add new Deck"
+                                             type="Add"
+                                             setShow={setShowAdd}
+                                             submit={createDeckHandler}
+            />}
+            {showEdit && <CommonModalDeckForm title="Edit Deck"
+                                              type="Edit"
+                                              setShow={setShowEdit}
+                                              submit={editDeckHandler}
+            />}
             <div className={Sc.workSpace}>
                 <div className={Sc.workSpace_container}>
                     <div className={Sc.settings}>
@@ -162,7 +200,11 @@ export const Decks: React.FC = props => {
                     <div className={Sc.list}>
                         <div className={S.list_container}>
                             <h2>Decks list</h2>
-                            <Search onChange={searchHandler}/>
+                            <div className={S.search_container}>
+                                <Search onChange={searchHandler}/>
+                                <MyButton variant={"standard"} disabled={status === "loading"}
+                                          onClick={onCreateDeckClick}>Add new deck</MyButton>
+                            </div>
                             <Table
                                 columns={columns}
                                 items={rowItems}
@@ -170,8 +212,6 @@ export const Decks: React.FC = props => {
                                 visiblePage={visiblePage}
                                 setPage={visibleDecksPageHandler}
                             />
-                            <MyButton variant={"standard"} disabled={status === "loading"}
-                                      onClick={createDeckHandler}>Add new deck</MyButton>
                         </div>
                     </div>
                 </div>

@@ -20,6 +20,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    word-break: break-all;
 }
 
 .modal_container h2 {

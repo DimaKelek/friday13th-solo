@@ -9,11 +9,11 @@ import S from "./CommanModalFrom.module.css";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {useFormik} from "formik";
-import {CardsStateType} from "../../../../Store/cards-reducer";
 import {CardType} from "../../../../Api/api";
 
-type CommonModalFormProps = {
+type CommonModalCardFormProps = {
     title: string
+    type: "Add" | "Edit"
     setShow: (value: boolean) => void
     submitForm: (question: string, answer: string,
                  makerDeckID?: string | undefined, cardID?: string | undefined) => void
@@ -23,12 +23,12 @@ type errorsFormType = {
     answer?: string
 }
 
-export const CommonModalForm: React.FC<CommonModalFormProps> = props => {
-    const {title, setShow, submitForm} = props
+export const CommonModalCardForm: React.FC<CommonModalCardFormProps> = props => {
+    const {title, setShow, submitForm, type} = props
     const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const cardID = useSelector<AppStoreType, string>(state => state.cards.selectedCardID)
-    const maker = useSelector<AppStoreType, string>(state => state.cards.packUserId)
-    const cards = useSelector<AppStoreType, CardType[] | null>(state => state.cards.cards)
+    const maker  = useSelector<AppStoreType, string>(state => state.cards.packUserId)
+    const cards  = useSelector<AppStoreType, CardType[] | null>(state => state.cards.cards)
     const qa: string[] = []
     cards?.forEach(c => {
         if(c._id === cardID) {
@@ -38,8 +38,8 @@ export const CommonModalForm: React.FC<CommonModalFormProps> = props => {
     })
     const commonCardForm = useFormik({
         initialValues: {
-            question: title === "Add new Card" ? "" : qa[0],
-            answer: title === "Add new Card" ? "" : qa[1]
+            question: type === "Add" ? "" : qa[0],
+            answer: type === "Add" ? "" : qa[1]
         },
         validate: values => {
             const errors: errorsFormType = {}
@@ -52,7 +52,7 @@ export const CommonModalForm: React.FC<CommonModalFormProps> = props => {
             return errors
         },
         onSubmit: values => {
-            if(title === "Edit Card") {
+            if(type === "Edit") {
                 submitForm(values.question, values.answer, maker, cardID)
             } else {
                 submitForm(values.question, values.answer)
@@ -68,14 +68,12 @@ export const CommonModalForm: React.FC<CommonModalFormProps> = props => {
             <form onSubmit={commonCardForm.handleSubmit}>
                 <MyTextInput
                     {...commonCardForm.getFieldProps("question")}
-                    value={commonCardForm.values.question}
                     style={{width: "300px"}}
                     placeholder="Question ..."
                     error={commonCardForm.touched.question ? commonCardForm.errors.question : null}
                 />
                 <MyTextarea
                     {...commonCardForm.getFieldProps("answer")}
-                    value={commonCardForm.values.answer}
                     placeholder="Answer ..."
                     error={commonCardForm.touched.answer ? commonCardForm.errors.answer : null}
                 />

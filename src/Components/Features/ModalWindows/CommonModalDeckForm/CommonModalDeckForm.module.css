@@ -1,0 +1,14 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.radio {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.buttonBox {
+    height: 50px;
+}

@@ -95,17 +95,16 @@ export type DeckResponseType = {
 export type CreateDeckRequestData = {
     cardsPack: DeckDataType
 }
-export type DeckDataType<T = "pack"> = {
+export type DeckDataType = {
     name: string
     private: boolean
-    type?: T
-    deckCover?: string
 }
 
 export type UpdateDeckRequestData = {
     cardsPack: {
         _id: string
         name: string
+        private: boolean
     }
 }
 

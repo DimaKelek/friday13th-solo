@@ -1,19 +1,12 @@
-import React, {ChangeEvent, ReactNode, useEffect, useState} from "react";
+import React, {ChangeEvent, ReactNode, useCallback, useEffect, useState} from "react";
 import S from "./Cards.module.css"
 import Sc from "../MainCommon/Styles/MainCommon.module.css"
 import {CallType, Table} from "../Table/Table";
 import {Search} from "../Table/Search/Search";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
-import {
-    CardsStateType,
-    changeVisibleCardPage,
-    createCard,
-    CreateCardData,
-    getCards,
-    setSelectedCardID,
-    updateCard
-} from "../../../../Store/cards-reducer";
+import {CardsStateType, changeVisibleCardPage, createCard, CreateCardData,
+        getCards, updateCard} from "../../../../Store/cards-reducer";
 import {getCardsForUI} from "../MainCommon/utils/dataHandlers";
 import {GetCardsRequestDataType, UpdateCardRequestType} from "../../../../Api/api";
 import {NavLink, useParams} from "react-router-dom";
@@ -21,23 +14,25 @@ import {MyButton} from "../../../Common/MyButton/MyButton";
 import {RequestStatusType} from "../../../../Store/app-reducer";
 import {CardActionsPanel} from "./ActionsPanel/ActionsPanel";
 import {MyModal} from "../../ModalWindows/Modal/MyModal";
-import {CommonModalForm} from "../../ModalWindows/CommanModalFrom/CommanModalForm";
+import {CommonModalCardForm} from "../../ModalWindows/CommanModalCardFrom/CommanModalCardForm";
 
 
 export const Cards: React.FC = () => {
-    const {cards, cardsTotalCount, visiblePage, packUserId} = useSelector<AppStoreType, CardsStateType>(state => state.cards)
-    const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const {deckID} = useParams<{deckID: string}>()
-    const dispatch = useDispatch()
+    const cardsState = useSelector<AppStoreType, CardsStateType>(state => state.cards)
+    const userID     = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
+    const status     = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const {deckID}   = useParams<{deckID: string}>()
+    const dispatch   = useDispatch()
 
-    const [question, setQuestion] = useState<string>("")
-    const [timeID, setTimeID] = useState<number | null>(null)
+    const {cards, cardsTotalCount, visiblePage, packUserId} = cardsState
 
+    const [question, setQuestion]     = useState<string>("")
+    const [timeID, setTimeID]         = useState<number | null>(null)
+
+    const [answer, setAnswer]         = useState<string>("")
     const [showAnswer, setShowAnswer] = useState<boolean>(false)
-    const [answer, setAnswer] = useState<string>("")
-    const [showEdit, setShowEdit] = useState<boolean>(false)
-    const [showAdd, setShowAdd] = useState<boolean>(false)
+    const [showEdit, setShowEdit]     = useState<boolean>(false)
+    const [showAdd, setShowAdd]       = useState<boolean>(false)
 
     const requestStart = () => {
         let id = setTimeout(async () => {
@@ -62,21 +57,21 @@ export const Cards: React.FC = () => {
         }
     }, [deckID, visiblePage, question])
 
-    const visibleCardPageHandler = (page: number) => {
+    const visibleCardPageHandler = useCallback((page: number) => {
         dispatch(changeVisibleCardPage(page))
-    }
-    const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    }, [dispatch])
+    const searchHandler          = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setQuestion(e.target.value)
-    }
-    const addNewCardHandler = () => {
+    }, [])
+    const addNewCardHandler      = useCallback(() => {
         setShowAdd(true)
-    }
-    const showAnswerCallback = (answer: string) => {
+    }, [])
+    const showAnswerCallback     = useCallback((answer: string) => {
         setShowAnswer(true)
         setAnswer(answer)
-    }
+    }, [])
 
-    const onAddCardClick = (question: string, answer: string) => {
+    const onAddCardClick    = useCallback((question: string, answer: string) => {
         const params: CreateCardData = {
             data: {
                 question,
@@ -95,19 +90,19 @@ export const Cards: React.FC = () => {
         }
         dispatch(createCard(params))
         setShowAdd(false)
-    }
-    const onEditCardClick = (question: string, answer: string, makerDeckID: string | undefined, cardID: string | undefined) => {
+    }, [deckID, dispatch])
+    const onEditCardClick   = useCallback(async (question: string, answer: string,
+                                   makerDeckID: string | undefined, cardID: string | undefined) => {
         if (userID === makerDeckID && deckID) {
             let data: UpdateCardRequestType = {
                 _id: cardID ?? "",
                 question,
                 answer
             }
-            dispatch(updateCard({data, deckID}))
+            await dispatch(updateCard({data, deckID}))
         }
         setShowEdit(false)
-    }
-
+    }, [dispatch, deckID, userID])
 
     // data for table
     const columns: CallType[] = [
@@ -125,16 +120,18 @@ export const Cards: React.FC = () => {
 
     return (
         <>
-            {showAdd && <CommonModalForm title={"Add new Card"}
-                                         setShow={setShowAdd}
-                                         submitForm={onAddCardClick}
+            {showAdd && <CommonModalCardForm title={"Add new Card"}
+                                             setShow={setShowAdd}
+                                             submitForm={onAddCardClick}
+                                             type="Add"
             />}
-            {showEdit && <CommonModalForm title={"Edit Card"}
-                                          setShow={setShowEdit}
-                                          submitForm={onEditCardClick}
+            {showEdit && <CommonModalCardForm title={"Edit Card"}
+                                              setShow={setShowEdit}
+                                              submitForm={onEditCardClick}
+                                              type="Edit"
             />}
             {showAnswer && <MyModal closeModal={() => setShowAnswer(false)}
-                                    title={"Answer for your question!!"} width="350px">{answer}
+                                    title={"Answer for your question!!"} width="350px"><div>{answer}</div>
             </MyModal>}
 
 
