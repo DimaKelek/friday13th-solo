@@ -20,7 +20,7 @@ export const LoginContainer = () => {
 
     useEffect(() => {
         dispatch(changeRegisterStatus(false))
-    }, [])
+    }, [dispatch])
 
     const formik = useFormik({
         initialValues: {

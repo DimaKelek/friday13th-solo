@@ -34,7 +34,6 @@
     margin-bottom: 25px;
 }
 
-
 .front {
     background-color: #d7d6d7;
     transform: perspective(800px) rotateY(0deg);
@@ -78,7 +77,22 @@
 .rating {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 70px;
     width: 100%;
 
     margin-bottom: 25px;
+}
+
+.rating.send {
+    justify-content: center;
+}
+
+.success {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.preloader {
+    width: 100%;
 }

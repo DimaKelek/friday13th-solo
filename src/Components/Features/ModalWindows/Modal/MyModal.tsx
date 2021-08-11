@@ -1,4 +1,4 @@
-import React, {ReactNode} from "react";
+import React from "react";
 import S from "./Modal.module.css"
 
 type ModalProps = {

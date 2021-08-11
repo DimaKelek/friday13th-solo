@@ -6,7 +6,7 @@ import S from "./ActionsPanel.module.css";
 import {MyButton} from "../../../../Common/MyButton/MyButton";
 import {NavLink} from "react-router-dom";
 import {setModeStart} from "../../../../../Store/learning-reducer";
-import {CardType, DeckType} from "../../../../../Api/api";
+import {DeckType} from "../../../../../Api/api";
 
 type ActionsPanelType = {
     makerDeckID: string | undefined

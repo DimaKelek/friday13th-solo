@@ -15,5 +15,4 @@ export const profileSlice = createSlice({
 // thunks
 
 // types
-type ProfileStateType = typeof initialState
 export type ProfileActionsType = any

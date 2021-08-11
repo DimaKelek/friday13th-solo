@@ -1,5 +1,5 @@
 import {authAPI} from "../Api/api";
-import {AllAppActionsType, AppDispatchType, AppThunk} from "./store";
+import {AppThunk} from "./store";
 import {setAppStatus, setError, setInitialized} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
 import {setStatusPassRecovery} from "./recovery-pass-reducer";

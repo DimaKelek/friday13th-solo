@@ -125,6 +125,9 @@ export const cardsAPI = {
     },
     updateCard(data: UpdateCardRequestType) {
         return instanse.put(`/cards/card`, {card: data})
+    },
+    updateRating(data: UpdateRatingType) {
+        return instanse.put(`/cards/grade`, data)
     }
 }
 
@@ -177,3 +180,10 @@ export type UpdateCardRequestType = {
     question?: string
     answer?: string
 }
+
+export type UpdateRatingType = {
+    grade: GradeType
+    card_id: string
+}
+
+export type GradeType = 1 | 2 | 3 | 4 | 5

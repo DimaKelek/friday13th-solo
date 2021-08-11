@@ -1,6 +1,5 @@
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
-import {Profile} from "../Components/Features/Main/Profile/Profile";
 import {SandBox} from "../Components/Common/SandBox/SandBox";
 import {Page404} from "../Components/Common/Page404/Page404";
 import {LoginContainer} from "../Components/Features/Authorization/Login/LoginContainer";

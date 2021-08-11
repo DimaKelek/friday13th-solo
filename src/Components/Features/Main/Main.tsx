@@ -1,6 +1,5 @@
 import React from "react";
 import S from "./Main.module.css"
-import Sc from "./MainCommon/Styles/MainCommon.module.css"
 import {Header} from "./Header/Header";
 import {HashRouter, Route} from "react-router-dom";
 import {Profile} from "./Profile/Profile";

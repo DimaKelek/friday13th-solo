@@ -15,6 +15,7 @@ import {RequestStatusType} from "../../../../Store/app-reducer";
 import {CardActionsPanel} from "./ActionsPanel/ActionsPanel";
 import {MyModal} from "../../ModalWindows/Modal/MyModal";
 import {CommonModalCardForm} from "../../ModalWindows/CommanModalCardFrom/CommanModalCardForm";
+import {Rating} from "./Rating/Rating";
 
 
 export const Cards: React.FC = () => {
@@ -23,7 +24,7 @@ export const Cards: React.FC = () => {
     const status     = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const {deckID}   = useParams<{deckID: string}>()
     const dispatch   = useDispatch()
-    debugger
+
     const {cards, cardsTotalCount, visiblePage, packUserId} = cardsState
 
     const [question, setQuestion]     = useState<string>("")
@@ -60,18 +61,18 @@ export const Cards: React.FC = () => {
     const visibleCardPageHandler = useCallback((page: number) => {
         dispatch(changeVisibleCardPage(page))
     }, [dispatch])
-    const searchHandler          = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setQuestion(e.target.value)
     }, [])
-    const addNewCardHandler      = useCallback(() => {
+    const addNewCardHandler = useCallback(() => {
         setShowAdd(true)
     }, [])
-    const showAnswerCallback     = useCallback((answer: string) => {
+    const showAnswerCallback = useCallback((answer: string) => {
         setShowAnswer(true)
         setAnswer(answer)
     }, [])
 
-    const onAddCardClick    = useCallback((question: string, answer: string) => {
+    const onAddCardClick = useCallback((question: string, answer: string) => {
         const params: CreateCardData = {
             data: {
                 question,
@@ -91,7 +92,7 @@ export const Cards: React.FC = () => {
         dispatch(createCard(params))
         setShowAdd(false)
     }, [deckID, dispatch])
-    const onEditCardClick   = useCallback(async (question: string, answer: string,
+    const onEditCardClick = useCallback(async (question: string, answer: string,
                                    makerDeckID: string | undefined, cardID: string | undefined) => {
         if (userID === makerDeckID && deckID) {
             let data: UpdateCardRequestType = {
@@ -108,14 +109,16 @@ export const Cards: React.FC = () => {
     const columns: CallType[] = [
         {title: "question", width: "2fr"},
         {title: "Answer", width: "0.5fr"},
-        {title: "last update", width: "0.5fr"},
-        {title: "grade", width: "0.5fr"},
+        {title: "last update", width: "0.6fr"},
+        {title: "grade", width: "0.7fr"},
         {title: "actions", width: "1fr"},
     ]
     const rows: (Array<string | number | boolean | ReactNode>)[] = []
     getCardsForUI(cards)?.forEach(c => {
-        rows.push([c.question, <span onClick={() => showAnswerCallback(c.answer)} className={S.showAnswer}>Show</span>, c.lastUpdate, c.grade,
-            <CardActionsPanel setEdit={setShowEdit} makerDeckID={packUserId} deckID={deckID} cardID={c.cardID}/>])
+        rows.push([c.question, <span onClick={() => showAnswerCallback(c.answer)} className={S.showAnswer}>Show</span>,
+            c.lastUpdate, <Rating grade={Math.floor(c.grade)}/>,
+            <CardActionsPanel setEdit={setShowEdit} makerDeckID={packUserId} deckID={deckID} cardID={c.cardID}/>
+        ])
     })
 
     return (
@@ -162,3 +165,4 @@ export const Cards: React.FC = () => {
         </>
     )
 }
+

@@ -1,0 +1,15 @@
+.rating {
+    height: 30px;
+    position: relative;
+}
+
+.rating img {
+    height: 20px;
+}
+
+.star_container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}

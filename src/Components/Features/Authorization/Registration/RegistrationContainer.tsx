@@ -1,7 +1,7 @@
 import React from "react";
 import {Registration} from "./Registration";
 import {useFormik} from "formik";
-import {changeRegisterStatus, registration} from "../../../../Store/registration-reducer";
+import {registration} from "../../../../Store/registration-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
 import {Redirect} from "react-router-dom";

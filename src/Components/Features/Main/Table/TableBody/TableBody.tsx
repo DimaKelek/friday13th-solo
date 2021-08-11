@@ -10,6 +10,6 @@ type TableBodyPropsType = {
 export const TableBody: React.FC<TableBodyPropsType> = props => {
     const {cellStyle, items} = props
 
-    const rowItems = items.map((item, i) => <RowItem cells={item} cellStyle={cellStyle} index={i}/>)
+    const rowItems = items.map((item, i) => <RowItem key={i} cells={item} cellStyle={cellStyle} index={i}/>)
     return <div className={S.body}>{rowItems}</div>
 }
