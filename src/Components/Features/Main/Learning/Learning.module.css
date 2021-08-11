@@ -1,0 +1,85 @@
+.learning {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.workSpace {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    height: 600px;
+    width: 80%;
+    border-radius: 10px;
+
+    animation-name: openWorkSpace;
+    animation-duration: .8s;
+}
+
+.workSpace_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 90%;
+    width: 90%;
+    /*background-color: #6c7589;*/
+    animation-name: informationAnime;
+    animation-duration: 3s;
+}
+
+.workSpace_container > h2 {
+    color: #8141c1;
+    font-size: 30px;
+    text-align: center;
+}
+
+.instruction {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+    width: 50%;
+}
+
+.instruction p {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.start {
+    display: block;
+    font-size: 60px;
+    font-weight: bold;
+    transition: .5s;
+}
+
+.start:hover {
+    cursor: pointer;
+    color: #8141c1;
+}
+
+.startMode {
+    background-color: #2196f3;
+}
+
+@keyframes openWorkSpace {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 80%;
+    }
+}
+
+@keyframes informationAnime {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

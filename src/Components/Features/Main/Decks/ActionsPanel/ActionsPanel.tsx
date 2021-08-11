@@ -1,10 +1,12 @@
 import React, {useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../../Store/store";
-import {removeDeck, setDeckID, updateDeck} from "../../../../../Store/decks-reducer";
-import {UpdateDeckRequestData} from "../../../../../Api/api";
+import {removeDeck, setDeckID} from "../../../../../Store/decks-reducer";
 import S from "./ActionsPanel.module.css";
 import {MyButton} from "../../../../Common/MyButton/MyButton";
+import {NavLink} from "react-router-dom";
+import {setModeStart} from "../../../../../Store/learning-reducer";
+import {CardType, DeckType} from "../../../../../Api/api";
 
 type ActionsPanelType = {
     makerDeckID: string | undefined
@@ -15,13 +17,16 @@ type ActionsPanelType = {
 export const ActionsPanel: React.FC<ActionsPanelType> = props => {
     const {deckID, makerDeckID, setEdit} = props
     const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
+    const decks = useSelector<AppStoreType, DeckType[] | null>(state => state.decks.decks)
     const dispatch = useDispatch()
 
+    let deck = decks && decks.find(d => d._id === deckID)
+
     const deleteButtonHandler = useCallback(() => {
-        if (userID === makerDeckID && deckID) {
+        if (deckID) {
             dispatch(removeDeck(deckID))
         }
-    }, [dispatch, makerDeckID, userID, deckID])
+    }, [dispatch, deckID])
     const editButtonHandler = useCallback(() => {
         setEdit(true)
         dispatch(setDeckID(deckID ?? ""))
@@ -33,8 +38,12 @@ export const ActionsPanel: React.FC<ActionsPanelType> = props => {
                 <MyButton onClick={editButtonHandler} className={S.editButton} variant={"standard"}>Edit</MyButton>
             </>
             }
-            <MyButton onClick={() => alert("Coming soon bro))")}
-                      variant={"purple"} className={S.learnButton}>Learn</MyButton>
+            <NavLink to={`/app/learning/${deckID}`}>
+                <MyButton onClick={() => dispatch(setModeStart(false))}
+                          variant={"purple"} className={S.learnButton}
+                          disabled={deck?.cardsCount === 0}
+                >Learn</MyButton>
+            </NavLink>
         </div>
     )
 }

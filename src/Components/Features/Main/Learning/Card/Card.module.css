@@ -1,0 +1,84 @@
+.card {
+    position: relative;
+    height: 450px;
+    width: 400px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.front, .back {
+    height: 400px;
+    width: 350px;
+    padding: 25px;
+    box-shadow: 0 0 2px 1px #e5e3e3;
+    border-radius: 5px;
+    position: absolute;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    cursor: pointer;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    backface-visibility: hidden;
+    transition: transform .6s linear;
+    text-align: center;
+}
+
+.front h3, .back h3 {
+    font-size: 30px;
+    margin-bottom: 25px;
+}
+
+
+.front {
+    background-color: #d7d6d7;
+    transform: perspective(800px) rotateY(0deg);
+}
+
+.front img {
+    position: absolute;
+    bottom: 0;
+    height: 250px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.back {
+    font-size: 14px;
+    background-color: #ebe0e9;
+    transform: perspective(800px) rotateY(180deg);
+}
+
+.answer_container {
+    width: 350px;
+    height: 200px;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-bottom: 25px;
+}
+
+.front.click {
+    background-color: #d7d6d7;
+    transform: perspective(800px) rotateY(-180deg);
+}
+
+.back.click {
+    background-color: #ebe0e9;
+    transform: perspective(800px) rotateY(0deg);
+}
+
+.rating {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    margin-bottom: 25px;
+}

@@ -1,8 +1,7 @@
 .modal {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    bottom: 50%;
+    transform: translateY(50%);
     border-radius: 5px;
     padding: 25px;
     background-color: #ffffff;
@@ -81,4 +80,36 @@
 .closeModal:hover {
     cursor: pointer;
     background-color: #908f8f;
+}
+
+.background {
+    animation-name: backgroundAnime;
+    animation-duration: .8s;
+}
+
+.modal {
+    animation-name: modalAnime;
+    animation-duration: .6s;
+}
+
+@keyframes modalAnime {
+    0% {
+        opacity: 0;
+        bottom: 0;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        bottom: 50%;
+        transform: translateY(50%);
+    }
+}
+
+@keyframes backgroundAnime {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.9;
+    }
 }

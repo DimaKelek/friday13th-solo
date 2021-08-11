@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../../Store/store";
 import S from "./ActionsPanel.module.css";
@@ -17,17 +17,15 @@ export const CardActionsPanel: React.FC<ActionsPanelType> = props => {
     const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
     const dispatch = useDispatch()
 
-    const deleteButtonHandler = () => {
-        if (userID === makerDeckID && deckID && cardID) {
+    const deleteButtonHandler = useCallback(() => {
+        if(deckID && cardID) {
             dispatch(removeCard({cardID, deckID}))
         }
-    }
-    const editButtonHandler = () => {
-        if (userID === makerDeckID) {
-            dispatch(setSelectedCardID(cardID ?? ""))
-        }
+    }, [dispatch, cardID, deckID])
+    const editButtonHandler = useCallback(() => {
+        dispatch(setSelectedCardID(cardID ?? ""))
         setEdit(true)
-    }
+    }, [dispatch, setEdit, cardID])
 
     return (
         <div className={S.buttonsPanel}>

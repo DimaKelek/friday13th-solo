@@ -34,6 +34,9 @@
     outline: none;
     box-shadow: 0 0 0 2px #cbd6ee;
 }
+.button.standard:disabled {
+    background: #808080;
+}
 
 /*dark variant*/
 .dark {
@@ -47,6 +50,9 @@
     outline: none;
     box-shadow: 0 0 0 2px #656974;
 }
+.button.dark:disabled {
+    background: #808080;
+}
 
 /*purple variant*/
 .purple {
@@ -59,6 +65,9 @@
 .button.purple:focus {
     outline: none;
     box-shadow: 0 0 0 2px #5544d5;
+}
+.button.purple:disabled {
+    background: #808080;
 }
 
 /*light variant*/

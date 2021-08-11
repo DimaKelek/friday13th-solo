@@ -134,7 +134,7 @@ export type GetCardsRequestDataType = {
     cardsPack_id: string
     min?: number
     max?: number
-    pageNumber: number
+    pageNumber?: number
 }
 export type GetCardsResponseType = {
     cards: CardType[]

@@ -23,7 +23,7 @@ export const Cards: React.FC = () => {
     const status     = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const {deckID}   = useParams<{deckID: string}>()
     const dispatch   = useDispatch()
-
+    debugger
     const {cards, cardsTotalCount, visiblePage, packUserId} = cardsState
 
     const [question, setQuestion]     = useState<string>("")
