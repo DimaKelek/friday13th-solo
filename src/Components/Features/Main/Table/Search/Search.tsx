@@ -16,7 +16,7 @@ export const Search: React.FC<SearchWithButtonPropsType> = props => {
             <MyTextInput
                 variant={"light"}
                 placeholder={"Search..."}
-                style={{width: "450px", marginRight: "20px"}}
+                className={S.search}
                 disabled={status === "loading"}
                 {...props}
             />

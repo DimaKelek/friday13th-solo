@@ -5,10 +5,23 @@
 
 .row {
     min-height: 48px;
+    width: 100%;
     text-transform: capitalize;
     font-size: 14px;
     font-weight: bold;
     display: flex;
     align-items: center;
-    padding-left: 25px;
+    padding-left: 15px;
+}
+
+@media screen and (max-width: 1250px){
+    .row {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 1150px){
+    .row {
+        font-size: 10px;
+    }
 }

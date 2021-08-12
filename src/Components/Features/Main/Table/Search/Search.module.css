@@ -3,3 +3,20 @@
     align-items: flex-start;
     margin-top: 10px;
 }
+
+.search {
+    width: 450px;
+    margin-right: 20px;
+}
+
+@media screen and (max-width: 1130px){
+    .search {
+        width: 350px;
+    }
+}
+
+@media screen and (max-width: 970px){
+    .search {
+        width: 250px;
+    }
+}

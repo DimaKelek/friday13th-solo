@@ -1,6 +1,8 @@
 .settings_container {
-    margin: 25px 0;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .showDecks {
@@ -63,5 +65,28 @@
 .search_container > button {
     position: relative;
     top: 9px;
+}
+
+.table_container {
+    width: 100%;
+    height: 455px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+@media screen and (max-width: 1350px){
+    .table_container {
+        overflow-x: auto;
+    }
+}
+
+@media screen and (max-width: 850px){
+    .showDecks div {
+        font-size: 16px;
+    }
+    .showDecks {
+        width: 100px;
+        height: 30px;
+    }
 }
 

@@ -152,13 +152,13 @@ export const Cards: React.FC = () => {
                                       disabled={status === "loading"}>Add New Card</MyButton>
                             }
                         </div>
-                        <Table
+                        <div className={S.table_container}><Table
                             columns={columns}
                             items={rows}
                             totalCount={cardsTotalCount}
                             visiblePage={visiblePage}
                             setPage={visibleCardPageHandler}
-                        />
+                        /></div>
                     </div>
                 </div>
             </div>

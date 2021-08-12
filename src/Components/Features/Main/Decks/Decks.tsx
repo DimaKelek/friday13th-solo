@@ -135,10 +135,10 @@ export const Decks: React.FC = props => {
     }, [dispatch, selectedDeckID])
     // data for table
     const columns: CallType[] = [
-        {title: "name", width: "200px"},
-        {title: "count", width: "1fr"},
-        {title: "last update", width: "2fr"},
-        {title: "maker", width: "2fr"},
+        {title: "name", width: "230px"},
+        {title: "count", width: "80px"},
+        {title: "last update", width: "120px"},
+        {title: "maker", width: "170px"},
         {title: "actions", width: "220px"},
     ]
     const rowItems: (Array<string | number | boolean | ReactNode>)[] = []
@@ -205,13 +205,13 @@ export const Decks: React.FC = props => {
                                 <MyButton variant={"standard"} disabled={status === "loading"}
                                           onClick={onCreateDeckClick}>Add new deck</MyButton>
                             </div>
-                            <Table
+                            <div className={S.table_container}><Table
                                 columns={columns}
                                 items={rowItems}
                                 totalCount={totalCount}
                                 visiblePage={visiblePage}
                                 setPage={visibleDecksPageHandler}
-                            />
+                            /></div>
                         </div>
                     </div>
                 </div>

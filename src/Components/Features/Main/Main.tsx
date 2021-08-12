@@ -6,11 +6,13 @@ import {Profile} from "./Profile/Profile";
 import {Decks} from "./Decks/Decks";
 import {Cards} from "./Cards/Cards";
 import {LearningMode} from "./Learning/LearningMode";
+import {MiniNav} from "./Header/MiniNav/MiniNav";
 
 export const Main: React.FC = props => {
     return (
         <div className={S.main}>
             <Header />
+            <MiniNav/>
             <div className={S.content}>
                 <HashRouter>
                     <Route path={"/app/profile"} render={() => <Profile />}/>

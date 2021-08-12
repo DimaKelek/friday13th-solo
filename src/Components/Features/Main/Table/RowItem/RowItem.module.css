@@ -1,3 +1,8 @@
+.rowItem {
+    width: 100%;
+    min-height: 41px;
+}
+
 .rowItem a {
     color: #000000;
 }

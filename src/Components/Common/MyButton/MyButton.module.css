@@ -88,3 +88,9 @@
     background: #6c7589;
     cursor: default;
 }
+
+@media screen and (max-width: 1180px){
+    .button {
+        font-size: 10px;
+    }
+}

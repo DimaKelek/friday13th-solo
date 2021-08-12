@@ -7,6 +7,7 @@
     width: 100%;
     height: 384px;
     border-radius: 2px;
+    padding: 3px;
 }
 
 .pagination {
@@ -19,4 +20,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.callStyle {
+    display: grid;
+    grid-template-columns: 1.5fr 80px 120px 1fr 220px
+}
+
+@media screen and (max-width: 1250px){
+    .callStyle {
+        grid-template-columns: 250px 80px 120px 150px 220px
+    }
+    .table {
+        width: 820px
+    }
 }

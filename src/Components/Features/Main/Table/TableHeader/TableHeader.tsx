@@ -1,5 +1,6 @@
 import React from "react";
 import S from "./TableHeader.module.css";
+import Sc from "../Table.module.css";
 import {CallStyleType, CallType} from "../Table";
 
 type TableHeaderPropsType = {
@@ -7,8 +8,8 @@ type TableHeaderPropsType = {
     callStyle: CallStyleType
 }
 export const TableHeader: React.FC<TableHeaderPropsType> = props => {
-    const {columns, callStyle} = props
+    const {columns} = props
     const items = columns.map((c, i) => <div key={i} className={S.row}>{c.title}</div>)
 
-    return <div className={S.header} style={callStyle}>{items}</div>
+    return <div className={`${S.header} ${Sc.callStyle}`}>{items}</div>
 }
