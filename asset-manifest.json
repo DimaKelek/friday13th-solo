@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/friday13th-solo/static/css/main.97533de9.chunk.css",
-    "main.js": "/friday13th-solo/static/js/main.29d33bf8.chunk.js",
-    "main.js.map": "/friday13th-solo/static/js/main.29d33bf8.chunk.js.map",
+    "main.js": "/friday13th-solo/static/js/main.a154cfae.chunk.js",
+    "main.js.map": "/friday13th-solo/static/js/main.a154cfae.chunk.js.map",
     "runtime-main.js": "/friday13th-solo/static/js/runtime-main.fff6e616.js",
     "runtime-main.js.map": "/friday13th-solo/static/js/runtime-main.fff6e616.js.map",
     "static/js/2.5347cea8.chunk.js": "/friday13th-solo/static/js/2.5347cea8.chunk.js",
@@ -29,6 +29,6 @@
     "static/js/runtime-main.fff6e616.js",
     "static/js/2.5347cea8.chunk.js",
     "static/css/main.97533de9.chunk.css",
-    "static/js/main.29d33bf8.chunk.js"
+    "static/js/main.a154cfae.chunk.js"
   ]
 }
