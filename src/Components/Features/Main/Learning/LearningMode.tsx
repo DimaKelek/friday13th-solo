@@ -80,7 +80,7 @@ export const LearningMode: React.FC<LearningModeProps> = React.memo(props => {
     return (
         <>
             {showModal &&
-                <MyModal closeModal={setShowModal} width="300px" height="400px"
+                <MyModal closeModal={setShowModal} width="320px" height="400px"
                          title="Ну шо ты бро всё выучил уже?">
                    <div className={S.modal_container}>
                        <img src={dimych} alt="dimych"/>
