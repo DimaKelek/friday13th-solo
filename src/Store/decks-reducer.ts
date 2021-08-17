@@ -137,5 +137,4 @@ export const {changeDecksFilter, changeVisibleDecksPage,
 
 // types
 export type DecksStateType = typeof initialState
-export type DecksActionsType = any
 export type ShowDecksModeType = "My" | "All"

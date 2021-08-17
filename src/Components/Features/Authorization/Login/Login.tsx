@@ -40,7 +40,11 @@ export const Login: React.FC<LoginPropsType> = React.memo(props => {
                     <div className={S.button_box}>
                         {status === "loading"
                             ? <CircularProgress/>
-                            : <MyButton className={S.button} variant="purple" type="submit">Log in</MyButton>
+                            : <MyButton className={S.button}
+                                        variant="purple"
+                                        type="submit"
+                                        disabled={!!(errors.email || errors.password)}
+                            >Log in</MyButton>
                         }
                     </div>
                 </form>

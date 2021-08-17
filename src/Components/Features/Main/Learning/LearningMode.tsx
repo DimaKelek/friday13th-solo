@@ -11,6 +11,7 @@ import {Card} from "./Card/Card";
 import {MyModal} from "../../ModalWindows/Modal/MyModal";
 import dimych from "./dimych.jpg"
 import {MyButton} from "../../../Common/MyButton/MyButton";
+import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 
 type LearningModeProps = {}
 
@@ -31,10 +32,9 @@ export const LearningMode: React.FC<LearningModeProps> = React.memo(props => {
         const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
         const rand = Math.random() * sum;
         const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-                const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
-                return {sum: newSum, id: newSum < rand ? i : acc.id}
-            }
-            , {sum: 0, id: -1});
+            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
+            return {sum: newSum, id: newSum < rand ? i : acc.id}
+        }, {sum: 0, id: -1});
         console.log('test: ', sum, rand, res)
 
         return cards[res.id + 1];
@@ -82,9 +82,9 @@ export const LearningMode: React.FC<LearningModeProps> = React.memo(props => {
             {showModal &&
                 <MyModal closeModal={setShowModal} width="320px" height="400px"
                          title="Ну шо ты бро всё выучил уже?">
-                   <div className={S.modal_container}>
-                       <img src={dimych} alt="dimych"/>
-                   </div>
+                    <div className={S.modal_container}>
+                        <img src={dimych} alt="dimych"/>
+                    </div>
                     <NavLink to={"/app/decks"}>
                         <MyButton variant={"purple"} onClick={dimychHandler}>Летим 🚀</MyButton>
                     </NavLink>
@@ -92,27 +92,25 @@ export const LearningMode: React.FC<LearningModeProps> = React.memo(props => {
             }
             <div className={S.learning}>
                 {status === "loading" ? <CircularProgress/>
-                    : <div className={S.workSpace}>
-                        <div className={S.workSpace_container}>
-                            {!modeStart
-                                ? <>
-                                    <h2>Welcome to learning mode with It-incubator bro!!</h2>
-                                    <div className={S.instruction}>
-                                        <p>In this mode you can to learn indefinitely with cards prepared by you or your
-                                            friends.</p>
-                                        <p>If you are ready then press start!!!</p>
-                                    </div>
-                                    <span className={S.start} onClick={onStartClick}>Start</span>
-                                </>
-                                : <Card
-                                    card={currentCard}
-                                    setCurrentCard={setCurrentCard}
-                                    getNewCard={getCard}
-                                />
-                            }
-                        </div>
+                    : <WorkSpace>
+                        {!modeStart
+                            ? <>
+                                <h2>Welcome to learning mode with It-incubator bro!!</h2>
+                                <div className={S.instruction}>
+                                    <p>In this mode you can to learn indefinitely with cards prepared by you or your
+                                        friends.</p>
+                                    <p>If you are ready then press start!!!</p>
+                                </div>
+                                <span className={S.start} onClick={onStartClick}>Start</span>
+                            </>
+                            : <Card
+                                card={currentCard}
+                                setCurrentCard={setCurrentCard}
+                                getNewCard={getCard}
+                            />
+                        }
                         {modeStart && <span className={S.exit} onClick={() => setShowModal(true)}>Exit</span>}
-                    </div>
+                    </WorkSpace>
                 }
             </div>
         </>

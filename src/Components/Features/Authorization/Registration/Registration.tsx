@@ -15,11 +15,15 @@ type RegistrationPropsType = {
     passwordValue: string
     confPassValue: string
     status: RequestStatusType
-    errors: RegisterFormikErrorType
+    errors?: RegisterFormikErrorType
+    blur?: {
+        (e: React.FocusEvent<any>): void;
+        <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
+    }
 }
 
 export const Registration: React.FC<RegistrationPropsType> = React.memo(props => {
-    const {submit, changeHandler, emailValue, passwordValue, confPassValue, status, errors} = props
+    const {submit, changeHandler, emailValue, passwordValue, confPassValue, status, errors, blur} = props
 
     return (
         <div className={Sc.page_container}>
@@ -28,9 +32,12 @@ export const Registration: React.FC<RegistrationPropsType> = React.memo(props =>
                 <h4>Sign Up</h4>
                 <form onSubmit={submit}>
                     <div className={Sc.fields}>
-                        {createField("email", emailValue, errors.email, changeHandler, "light", "Email", "text")}
-                        {createField("password", passwordValue, errors.password, changeHandler, "light", "Password", "password")}
-                        {createField("confirmPassword", confPassValue, errors.confirmPassword, changeHandler, "light", "Confirm Password", "password")}
+                        {createField("email", emailValue, errors?.email,
+                            changeHandler, "light", "Email", "text", blur)}
+                        {createField("password", passwordValue, errors?.password,
+                            changeHandler, "light", "Password", "password", blur)}
+                        {createField("confirmPassword", confPassValue, errors?.confirmPassword,
+                            changeHandler, "light", "Confirm Password", "password", blur)}
                     </div>
                     <div className={S.button_box}>
                         {status === "loading"
@@ -39,7 +46,10 @@ export const Registration: React.FC<RegistrationPropsType> = React.memo(props =>
                                 <NavLink to="/login">
                                     <MyButton className={S.cancel} variant="light" type="button">Cancel</MyButton>
                                 </NavLink>
-                                <MyButton variant="purple" type="submit">Registration</MyButton>
+                                <MyButton variant="purple"
+                                          type="submit"
+                                          disabled={(emailValue || passwordValue || !!confPassValue) === ""}
+                                >Registration</MyButton>
                             </>
                         }
                     </div>

@@ -3,8 +3,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 const initialState = {
     status: "idle" as RequestStatusType,
     error: null as string | null,
-    isInitialized: false,
-    needUpdate: true
+    isInitialized: false
 }
 
 export const appSlice = createSlice({
@@ -19,19 +18,12 @@ export const appSlice = createSlice({
         },
         setInitialized(state, action: PayloadAction<boolean>) {
             state.isInitialized = action.payload
-        },
-        setNeedUpdate(state, action: PayloadAction<boolean>) {
-            state.needUpdate = action.payload
         }
     }
 })
 
-export const {setAppStatus, setError, setInitialized, setNeedUpdate} = appSlice.actions
+export const {setAppStatus, setError, setInitialized} = appSlice.actions
 
 // types
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed"
 export type AppStateType = typeof initialState
-export type AppActionsType =
-    ReturnType<typeof setAppStatus>
-    | ReturnType<typeof setError>
-    | ReturnType<typeof setInitialized>

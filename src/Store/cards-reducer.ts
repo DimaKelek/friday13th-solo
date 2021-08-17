@@ -106,8 +106,6 @@ export const cardsSlice = createSlice({
     }
 })
 export const {changeVisibleCardPage, setSelectedCardID} = cardsSlice.actions
-// thunks
 
 // types
 export type CardsStateType = typeof initialState
-export type CardsActionsType = any

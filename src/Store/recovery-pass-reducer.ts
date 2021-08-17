@@ -1,13 +1,39 @@
-import {AppThunk} from "./store";
+import {ThunkApiType} from "./store";
 import {authAPI} from "../Api/api";
 import {setAppStatus, setError} from "./app-reducer";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     messageIsSand: false,
     passIsRecovered: false
 }
+export const forgotPass = createAsyncThunk<void, ForgotPasswordRequest, ThunkApiType>("recovery/forgot",
+    async (data, {dispatch, rejectWithValue}) => {
+        try {
+            dispatch(setAppStatus("loading"))
+            await authAPI.forgot(data)
+            dispatch(setStatusSendingMessage(true))
+            dispatch(setError(""))
+            dispatch(setAppStatus("succeeded"))
+        } catch (e) {
+            return rejectWithValue(handleServerNetworkError(e, dispatch))
+        }
+    })
+
+export const recovery = createAsyncThunk<void, RecoveryRequestType, ThunkApiType>("recovery/recovery",
+    async (data, {dispatch, rejectWithValue}) => {
+        try {
+            dispatch(setAppStatus("loading"))
+            await authAPI.recoveryPass(data)
+            dispatch(setStatusPassRecovery(true))
+            dispatch(setStatusSendingMessage(false))
+            dispatch(setError(""))
+            dispatch(setAppStatus("succeeded"))
+        } catch (e) {
+            return rejectWithValue(handleServerNetworkError(e, dispatch))
+        }
+    })
 
 export const recoverySlice = createSlice({
     name: "recovery",
@@ -24,30 +50,6 @@ export const recoverySlice = createSlice({
 
 export const {setStatusSendingMessage, setStatusPassRecovery} = recoverySlice.actions
 
-// thunks
-export const forgotPass = (data: ForgotPasswordRequest): AppThunk => async dispatch => {
-    try {
-        dispatch(setAppStatus("loading"))
-        await authAPI.forgot(data)
-        dispatch(setStatusSendingMessage(true))
-        dispatch(setError(""))
-        dispatch(setAppStatus("succeeded"))
-    } catch (e) {
-        handleServerNetworkError(e, dispatch)
-    }
-}
-export const recovery = (data: RecoveryRequestType): AppThunk => async dispatch => {
-    try {
-        dispatch(setAppStatus("loading"))
-        await authAPI.recoveryPass(data)
-        dispatch(setStatusPassRecovery(true))
-        dispatch(setStatusSendingMessage(false))
-        dispatch(setError(""))
-        dispatch(setAppStatus("succeeded"))
-    } catch (e) {
-        handleServerNetworkError(e, dispatch)
-    }
-}
 // types
 export type RecoveryRequestType = {
     password: string
@@ -59,6 +61,3 @@ export type ForgotPasswordRequest = {
     message: string
 }
 export type RecoveryPassStateType = typeof initialState
-export type RecoveryPassActionsType =
-    ReturnType<typeof setStatusSendingMessage>
-    | ReturnType<typeof setStatusPassRecovery>

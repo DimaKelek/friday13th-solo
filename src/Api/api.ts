@@ -1,5 +1,5 @@
 import axios from "axios"
-import {AuthDataType, UserDataType} from "../Store/auth-reducer";
+import {AuthDataType} from "../Store/auth-reducer";
 import {RegisterDataType} from "../Store/registration-reducer";
 import {ForgotPasswordRequest, RecoveryRequestType} from "../Store/recovery-pass-reducer";
 
@@ -30,14 +30,21 @@ export const authAPI = {
 }
 
 // types
+export type UserDataType = {
+    _id: string
+    email: string
+    name: string
+    avatar?: string | null
+    publicCardPacksCount: number
+}
 type LoginResponseType = UserDataType & {
+    error?: string
+}
+type RegistrationResponseType = { addedUser: {} } & {
     error?: string
 }
 type ResponseType = {
     info?: string
-    error?: string
-}
-type RegistrationResponseType = { addedUser: {} } & {
     error?: string
 }
 
@@ -48,7 +55,6 @@ export const decksAPI = {
         let max = data.max ? `&max=${data.max}` : ""
         let packName = data.packName ? `&packName=${data.packName}` : ""
         return instanse.get<DeckResponseType>(`/cards/pack?pageCount=7&page=${data.pageNumber}${id}${min}${max}${packName}`)
-
     },
     createDeck(data: CreateDeckRequestData) {
         return instanse.post(`/cards/pack`, data)

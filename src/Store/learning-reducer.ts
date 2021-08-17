@@ -40,8 +40,6 @@ export const learningSlice = createSlice({
 
 export const {changeEntityStatus, setModeStart, setSelectedCardID} = learningSlice.actions
 
-// thunks
-
 // types
 export type LearningActionsType = any
 export type LearningStatus = "idle" | "loading" | "failed" | "succeeded"

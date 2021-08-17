@@ -24,22 +24,22 @@ import {ActionsPanel} from "./ActionsPanel/ActionsPanel";
 import {NavLink} from "react-router-dom";
 import {CommonModalDeckForm} from "../../ModalWindows/CommonModalDeckForm/CommonModalDeckFrom";
 import {CreateDeckRequestData, UpdateDeckRequestData} from "../../../../Api/api";
+import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 
 export const Decks: React.FC = props => {
     const decksState = useSelector<AppStoreType, DecksStateType>(state => state.decks)
-    const userID     = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
-    const status     = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const needUpdate = useSelector<AppStoreType, boolean>(state => state.app.needUpdate)
-    const dispatch   = useDispatch()
+    const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
+    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const dispatch = useDispatch()
 
     const {decks, filter, totalCount, visiblePage, minCardsCount, maxCardsCount, selectedDeckID} = decksState
 
     const [minValue, setMinValue] = useState<number>(minCardsCount)
     const [maxValue, setMaxValue] = useState<number>(maxCardsCount)
     const [packName, setPackName] = useState<string>("")
-    const [timeID, setTimeID]     = useState<number | null>(null)
-    const [showAdd, setShowAdd]   = useState<boolean>(false)
-    const [showEdit, setShowEdit]   = useState<boolean>(false)
+    const [timeID, setTimeID] = useState<number | null>(null)
+    const [showAdd, setShowAdd] = useState<boolean>(false)
+    const [showEdit, setShowEdit] = useState<boolean>(false)
 
     const requestStart = () => {
         let id = setTimeout(async () => {
@@ -57,30 +57,12 @@ export const Decks: React.FC = props => {
         }, 1000)
         setTimeID(+id)
     }
-
-    useEffect(() => {
-        if (needUpdate && status !== "loading") {
-            let dataForRequest: DataForRequest = {
-                filter: filter,
-                pageNumber: visiblePage,
-                user_id: userID,
-                min: minValue,
-                max: maxValue,
-                packName
-            }
-            let requestData = getDecksRequestDC(dataForRequest)
-            dispatch(getDecks(requestData))
-            dispatch(setNeedUpdate(false))
-        }
-    }, [needUpdate, status])
     useEffect(() => {
         if (timeID && status !== "loading") {
             clearTimeout(timeID)
             requestStart()
         } else if (status !== "loading") {
             requestStart()
-        } else {
-            dispatch(setNeedUpdate(true))
         }
     }, [filter, visiblePage, dispatch, minValue, maxValue, packName, userID])
 
@@ -168,54 +150,52 @@ export const Decks: React.FC = props => {
                                               setShow={setShowEdit}
                                               submit={editDeckHandler}
             />}
-            <div className={Sc.workSpace}>
-                <div className={Sc.workSpace_container}>
-                    <div className={Sc.settings}>
-                        <div className={S.settings_container}>
-                            <h3>Show decks cards</h3>
-                            <div className={S.showDecks}>
-                                {status === "loading"
-                                    ? <div><CircularProgress/></div>
-                                    : <>
-                                        <div className={S.my} onClick={myModeHandler}>My</div>
-                                        <div className={S.all} onClick={allModeHandler}>All</div>
-                                        <div className={modeBlockStyle}>{filter}</div>
-                                    </>
-                                }
-                            </div>
-                            <h3>Number of cards</h3>
-                            <div className={S.range}>
-                                <MyDoubleRange
-                                    value={[minValue, maxValue]}
-                                    min={minCardsCount}
-                                    max={maxCardsCount}
-                                    onChangeRangeFirst={setMinValueHandler}
-                                    onChangeRangeSecond={setMaxValueHandler}
-                                    disabled={disabled}
-                                />
-                            </div>
+            <WorkSpace>
+                <div className={Sc.settings}>
+                    <div className={S.settings_container}>
+                        <h3>Show decks cards</h3>
+                        <div className={S.showDecks}>
+                            {status === "loading"
+                                ? <div><CircularProgress/></div>
+                                : <>
+                                    <div className={S.my} onClick={myModeHandler}>My</div>
+                                    <div className={S.all} onClick={allModeHandler}>All</div>
+                                    <div className={modeBlockStyle}>{filter}</div>
+                                </>
+                            }
+                        </div>
+                        <h3>Number of cards</h3>
+                        <div className={S.range}>
+                            <MyDoubleRange
+                                value={[minValue, maxValue]}
+                                min={minCardsCount}
+                                max={maxCardsCount}
+                                onChangeRangeFirst={setMinValueHandler}
+                                onChangeRangeSecond={setMaxValueHandler}
+                                disabled={disabled}
+                            />
+                        </div>
 
-                        </div>
-                    </div>
-                    <div className={Sc.list}>
-                        <div className={S.list_container}>
-                            <h2>Decks list</h2>
-                            <div className={S.search_container}>
-                                <Search onChange={searchHandler}/>
-                                <MyButton variant={"standard"} disabled={status === "loading"}
-                                          onClick={onCreateDeckClick}>Add new deck</MyButton>
-                            </div>
-                            <div className={S.table_container}><Table
-                                columns={columns}
-                                items={rowItems}
-                                totalCount={totalCount}
-                                visiblePage={visiblePage}
-                                setPage={visibleDecksPageHandler}
-                            /></div>
-                        </div>
                     </div>
                 </div>
-            </div>
+                <div className={Sc.list}>
+                    <div className={S.list_container}>
+                        <h2>Decks list</h2>
+                        <div className={S.search_container}>
+                            <Search onChange={searchHandler}/>
+                            <MyButton variant={"standard"} disabled={status === "loading"}
+                                      onClick={onCreateDeckClick}>Add new deck</MyButton>
+                        </div>
+                        <div className={S.table_container}><Table
+                            columns={columns}
+                            items={rowItems}
+                            totalCount={totalCount}
+                            visiblePage={visiblePage}
+                            setPage={visibleDecksPageHandler}
+                        /></div>
+                    </div>
+                </div>
+            </WorkSpace>
         </>
     )
 }
