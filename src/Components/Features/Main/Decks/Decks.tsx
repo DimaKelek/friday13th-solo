@@ -17,7 +17,7 @@ import {
 import {CallType, Table} from "../Table/Table";
 import {DataForRequest, getDecksForUI, getDecksRequestDC} from "../MainCommon/utils/dataHandlers";
 import {MyButton} from "../../../Common/MyButton/MyButton";
-import {RequestStatusType, setNeedUpdate} from "../../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../Store/app-reducer";
 import {Search} from "../Table/Search/Search";
 import {CircularProgress} from "@material-ui/core";
 import {ActionsPanel} from "./ActionsPanel/ActionsPanel";
@@ -26,7 +26,7 @@ import {CommonModalDeckForm} from "../../ModalWindows/CommonModalDeckForm/Common
 import {CreateDeckRequestData, UpdateDeckRequestData} from "../../../../Api/api";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 
-export const Decks: React.FC = props => {
+export const Decks = React.memo(() => {
     const decksState = useSelector<AppStoreType, DecksStateType>(state => state.decks)
     const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
     const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
@@ -67,7 +67,6 @@ export const Decks: React.FC = props => {
     }, [filter, visiblePage, dispatch, minValue, maxValue, packName, userID])
 
     // handlers
-
     const myModeHandler = useCallback(() => {
         dispatch(changeDecksFilter("My"))
     }, [dispatch])
@@ -140,16 +139,12 @@ export const Decks: React.FC = props => {
         || (minValue === 0 && maxValue === 0)
     return (
         <>
-            {showAdd && <CommonModalDeckForm title="Add new Deck"
-                                             type="Add"
-                                             setShow={setShowAdd}
-                                             submit={createDeckHandler}
-            />}
-            {showEdit && <CommonModalDeckForm title="Edit Deck"
-                                              type="Edit"
-                                              setShow={setShowEdit}
-                                              submit={editDeckHandler}
-            />}
+            {showAdd &&
+                <CommonModalDeckForm title="Add new Deck" type="Add"
+                                     setShow={setShowAdd} submit={createDeckHandler}/>}
+            {showEdit &&
+                <CommonModalDeckForm title="Edit Deck" type="Edit"
+                                     setShow={setShowEdit} submit={editDeckHandler}/>}
             <WorkSpace>
                 <div className={Sc.settings}>
                     <div className={S.settings_container}>
@@ -198,4 +193,4 @@ export const Decks: React.FC = props => {
             </WorkSpace>
         </>
     )
-}
+})

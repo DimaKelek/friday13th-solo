@@ -20,7 +20,6 @@ import {CommonModalCardForm} from "../../ModalWindows/CommanModalCardFrom/Comman
 import {Rating} from "./Rating/Rating";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 
-
 export const Cards: React.FC = () => {
     const cardsState = useSelector<AppStoreType, CardsStateType>(state => state.cards)
     const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
@@ -95,17 +94,17 @@ export const Cards: React.FC = () => {
         dispatch(createCard(params))
         setShowAdd(false)
     }, [deckID, dispatch])
-    const onEditCardClick = useCallback(async (question: string, answer: string,
-                                               makerDeckID: string | undefined, cardID: string | undefined) => {
-        if (userID === makerDeckID && deckID) {
-            let data: UpdateCardRequestType = {
-                _id: cardID ?? "",
-                question,
-                answer
+    const onEditCardClick = useCallback(
+        async (question: string, answer: string, makerDeckID: string | undefined, cardID: string | undefined) => {
+            if (userID === makerDeckID && deckID) {
+                let data: UpdateCardRequestType = {
+                    _id: cardID ?? "",
+                    question,
+                    answer
+                }
+                await dispatch(updateCard({data, deckID}))
             }
-            await dispatch(updateCard({data, deckID}))
-        }
-        setShowEdit(false)
+            setShowEdit(false)
     }, [dispatch, deckID, userID])
 
     // data for table

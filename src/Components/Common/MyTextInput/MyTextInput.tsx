@@ -10,7 +10,7 @@ type SuperInputTextPropsType = DefaultInputPropsType & {
     variant?: "light" | "dark" | "standard" | "purple"
 }
 
-export const MyTextInput: React.FC<SuperInputTextPropsType> = props => {
+export const MyTextInput: React.FC<SuperInputTextPropsType> = React.memo(props => {
     const {type = "text", onChange, onChangeText, onKeyPress, onEnter, error,
         className, errorClassName, variant = "light", ...restProps} = props
 
@@ -39,4 +39,4 @@ export const MyTextInput: React.FC<SuperInputTextPropsType> = props => {
             {error && <span className={finalErrorClassName}>{error}</span>}
         </div>
     )
-}
+})

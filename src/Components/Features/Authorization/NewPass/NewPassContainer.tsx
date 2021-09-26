@@ -21,14 +21,14 @@ export const NewPassContainer = () => {
             initialValues: {
                 password: "",
             },
-            validate: (values) => {
-                const errors: NewPassFormikErrorType = {};
+            validate: values => {
+                const errors: NewPassFormikErrorType = {}
                 if (!values.password) {
                     errors.password = "Password is required"
                 } else if (values.password.length < 7) {
                     errors.password = "Password should be more 6 symbols"
                 }
-                return errors;
+                return errors
             },
             onSubmit: values => {
                 dispatch(recovery({password: values.password, resetPasswordToken: token}))
@@ -42,11 +42,11 @@ export const NewPassContainer = () => {
     }
     return (
         <NewPass
+            getFieldProps={formik.getFieldProps}
             submit={formik.handleSubmit}
-            changeHandler={formik.handleChange}
-            passwordValue={formik.values.password}
             status={status}
             errors={formik.errors}
+            passwordValue={formik.values.password}
         />
     )
 }

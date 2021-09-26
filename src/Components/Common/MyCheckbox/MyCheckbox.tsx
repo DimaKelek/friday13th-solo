@@ -7,7 +7,7 @@ type NeonCheckboxPropsType = DefaultInputPropsType & {
     onChangeChecked?: (e: boolean) => void
 }
 
-export const MyCheckbox: React.FC<NeonCheckboxPropsType> = props => {
+export const MyCheckbox: React.FC<NeonCheckboxPropsType> = React.memo(props => {
     const {onChange, children, onChangeChecked, checked, ...restProps} = props
 
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
@@ -29,4 +29,4 @@ export const MyCheckbox: React.FC<NeonCheckboxPropsType> = props => {
             {children && <span className={S.labelText}>{children}</span>}
         </label>
     )
-}
+})

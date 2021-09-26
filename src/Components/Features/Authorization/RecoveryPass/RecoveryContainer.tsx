@@ -40,11 +40,11 @@ export const RecoveryContainer = () => {
 
     return (
         <RecoveryPass
+            getFieldProps={formik.getFieldProps}
             errors={formik.errors}
             emailValue={formik.values.email}
             submit={formik.handleSubmit}
             status={status}
-            changeHandler={formik.handleChange}
             isSand={isSand}
         />
     )

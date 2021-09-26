@@ -14,14 +14,8 @@
     padding-left: 15px;
 }
 
-@media screen and (max-width: 1250px){
+@media screen and (max-width: 1300px){
     .row {
         font-size: 12px;
-    }
-}
-
-@media screen and (max-width: 1150px){
-    .row {
-        font-size: 10px;
     }
 }

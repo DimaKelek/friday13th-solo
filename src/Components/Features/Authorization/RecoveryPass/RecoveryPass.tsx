@@ -1,25 +1,26 @@
-import React, {ChangeEventHandler, FocusEventHandler} from "react";
+import React, {FocusEventHandler} from "react";
 import S from "./RecoveryPass.module.css"
 import Sc from "../AuthCommon/Styles/CommonStyles.module.css";
-import {createField} from "../AuthCommon/Field/Field";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {NavLink} from "react-router-dom";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {RequestStatusType} from "../../../../Store/app-reducer";
 import {RecoveryFormikErrorType} from "./RecoveryContainer";
 import message from "./message.svg"
+import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
+import {FieldInputProps} from "formik/dist/types";
 
-type RecoveryPassPropsType = {
-    submit: FocusEventHandler<HTMLFormElement>
-    changeHandler: ChangeEventHandler<HTMLInputElement>
+type RecoveryPassProps = {
+    getFieldProps: (nameOrOptions: string) => FieldInputProps<any>
     emailValue: string
+    submit: FocusEventHandler<HTMLFormElement>
     status: RequestStatusType
     errors: RecoveryFormikErrorType
     isSand: boolean
 }
 
-export const RecoveryPass: React.FC<RecoveryPassPropsType> = React.memo(props => {
-    const {submit, emailValue, changeHandler, status, errors, isSand} = props
+export const RecoveryPass: React.FC<RecoveryPassProps> = React.memo(props => {
+    const {submit, status, errors, isSand, getFieldProps, emailValue} = props
 
     return (
         <div className={Sc.page_container}>
@@ -30,7 +31,8 @@ export const RecoveryPass: React.FC<RecoveryPassPropsType> = React.memo(props =>
                         <h4>Recovery password</h4>
                         <form onSubmit={submit}>
                             <div className={Sc.fields}>
-                                {createField("email", emailValue, errors.email, changeHandler, "light", "Email", "text")}
+                               <MyTextInput variant={"light"} placeholder={"Email"} style={{minWidth: 300}}
+                                            error={errors.email} {...getFieldProps("email")}/>
                             </div>
                             <span className={S.instruction}>
                                 Enter your email address and we will send you further instructions
@@ -38,7 +40,8 @@ export const RecoveryPass: React.FC<RecoveryPassPropsType> = React.memo(props =>
                             <div className={S.button_box}>
                                 {status === "loading"
                                     ? <CircularProgress/>
-                                    : <MyButton variant="purple" type="submit">Send Instructions</MyButton>
+                                    : <MyButton variant="purple" type="submit"
+                                                disabled={!!errors.email || !emailValue}>Send Instructions</MyButton>
                                 }
                             </div>
                         </form>
@@ -54,11 +57,11 @@ export const RecoveryPass: React.FC<RecoveryPassPropsType> = React.memo(props =>
     )
 })
 
-type MessagePropsType = {
+type MessageProps = {
     email: string
 }
 
-const Message = (props: MessagePropsType) => {
+const Message: React.FC<MessageProps> = React.memo(props => {
     return (
         <div className={S.message}>
             <img src={message} alt="message"/>
@@ -68,4 +71,4 @@ const Message = (props: MessagePropsType) => {
             </span>
         </div>
     )
-}
+})

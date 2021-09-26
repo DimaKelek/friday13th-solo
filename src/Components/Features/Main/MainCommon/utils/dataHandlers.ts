@@ -9,23 +9,20 @@ export type RenderDeckType = {
     makerDeckID?: string
     deckID?: string
 }
+export const stringShortener = (str: string, n?: number) => {
+    let temp = str.split("")
+    temp.splice(n ?? 10)
+    return temp.join("")
+}
 export const getDecksForUI = (decks: DeckType[] | null | undefined) => {
     let decksForUI: RenderDeckType[] | null = null
     if(decks) {
         decksForUI = decks.map(d => {
-            const lastUpdate = (function (lastUpdate: string) {
-                let temp = lastUpdate.split("")
-                temp.splice(10)
-                return temp.join("")
-            }(d.updated))
-            const userName = (function (created: string) {
-                let temp = created.split("")
-                if(temp.length > 15)
-                    temp.splice(10)
-                return temp.join("")
-            }(d.user_name))
+            const lastUpdate = stringShortener(d.updated)
+            const userName = stringShortener(d.user_name)
+            const deckName = stringShortener(d.name, 15)
             return {
-                name: d.name,
+                name: deckName,
                 cards: d.cardsCount,
                 lastUpdate: lastUpdate,
                 created: userName,
@@ -60,11 +57,7 @@ export const getCardsForUI = (cards: CardType[] | null) => {
     let cardsForUI: RenderCardType[] | null = null
     if(cards) {
         cardsForUI = cards.map(c => {
-            const lastUpdate = (function (lastUpdate: string) {
-                let temp = lastUpdate.split("")
-                temp.splice(10)
-                return temp.join("")
-            }(c.updated))
+            const lastUpdate = stringShortener(c.updated)
             return {
                 answer: c.answer,
                 question: c.question,

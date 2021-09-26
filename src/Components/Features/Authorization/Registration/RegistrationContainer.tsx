@@ -52,16 +52,20 @@ export const RegistrationContainer = () => {
     if (register) {
         return <Redirect to="/login"/>
     }
+
+    const getDisabled = (errors: RegisterFormikErrorType, values = formik.values) => {
+        const {email, password, confirmPassword} = values
+        if(email === "" || password === "" || confirmPassword === "") return true
+        else return !!(errors.email || errors.password || errors.confirmPassword);
+    }
+
     return (
         <Registration
-            changeHandler={formik.handleChange}
-            passwordValue={formik.values.password}
+            disabled={getDisabled(formik.errors)}
+            getFieldProps={formik.getFieldProps}
             submit={formik.handleSubmit}
             errors={formik.errors}
             status={status}
-            confPassValue={formik.values.confirmPassword}
-            emailValue={formik.values.email}
-            blur={formik.handleBlur}
         />
     )
 }

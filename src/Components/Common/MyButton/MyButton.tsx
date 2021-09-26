@@ -8,7 +8,7 @@ type MyButtonPropsType = DefaultButtonPropsType & {
 
 export type ElementColorVariants = "light" | "dark" | "standard" | "purple"
 
-export const MyButton: React.FC<MyButtonPropsType> = props => {
+export const MyButton: React.FC<MyButtonPropsType> = React.memo(props => {
     const {disabled, onClick, className, children, variant, ...restProps} = props
     const finalClassName = `${className} ${S.button} ${variant && S[variant]}`
 
@@ -20,4 +20,4 @@ export const MyButton: React.FC<MyButtonPropsType> = props => {
             {...restProps}
         >{children}</button>
     );
-}
+})

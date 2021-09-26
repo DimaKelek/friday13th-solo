@@ -16,7 +16,6 @@ export type LoginFormikErrorType = {
 
 export const LoginContainer = () => {
     const isLoggedIn = useSelector<AppStoreType, boolean>(state => state.auth.isLoggedIn)
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
     const dispatch = useMyDispatch()
 
     useEffect(() => {
@@ -52,12 +51,8 @@ export const LoginContainer = () => {
     return (
         <Login
             submit={formik.handleSubmit}
-            emailValue={formik.values.email}
-            passwordValue={formik.values.password}
-            rememberMeValue={formik.values.rememberMe}
-            changeHandler={formik.handleChange}
-            status={status}
             errors={formik.errors}
+            getFieldProps={formik.getFieldProps}
         />
     )
 }

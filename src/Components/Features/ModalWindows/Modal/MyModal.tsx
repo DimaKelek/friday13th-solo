@@ -12,7 +12,7 @@ type ModalProps = {
 }
 
 export const MyModal: React.FC<ModalProps> = props => {
-    const {closeModal, width, height, title, prevMessage, afterMessage, children} = props
+    const {closeModal, width, height, title, prevMessage, afterMessage, children, data} = props
 
     const styleSettings = {
         width: width,

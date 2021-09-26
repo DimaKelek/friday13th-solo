@@ -1,29 +1,24 @@
-import React, {ChangeEventHandler, FocusEventHandler} from "react";
+import React, {FocusEventHandler} from "react";
 import S from "./Registration.module.css"
 import Sc from "../AuthCommon/Styles/CommonStyles.module.css"
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {RequestStatusType} from "../../../../Store/app-reducer";
-import {createField} from "../AuthCommon/Field/Field";
 import {NavLink} from "react-router-dom";
 import {RegisterFormikErrorType} from "./RegistrationContainer";
+import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
+import {FieldInputProps} from "formik/dist/types";
 
-type RegistrationPropsType = {
+type RegistrationProps = {
+    getFieldProps: (nameOrOptions: string) => FieldInputProps<any>
     submit: FocusEventHandler<HTMLFormElement>
-    changeHandler: ChangeEventHandler<HTMLInputElement>
-    emailValue: string
-    passwordValue: string
-    confPassValue: string
     status: RequestStatusType
-    errors?: RegisterFormikErrorType
-    blur?: {
-        (e: React.FocusEvent<any>): void;
-        <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
-    }
+    errors: RegisterFormikErrorType
+    disabled: boolean
 }
 
-export const Registration: React.FC<RegistrationPropsType> = React.memo(props => {
-    const {submit, changeHandler, emailValue, passwordValue, confPassValue, status, errors, blur} = props
+export const Registration: React.FC<RegistrationProps> = React.memo(props => {
+    const {submit, status, errors, getFieldProps, disabled} = props
 
     return (
         <div className={Sc.page_container}>
@@ -32,12 +27,12 @@ export const Registration: React.FC<RegistrationPropsType> = React.memo(props =>
                 <h4>Sign Up</h4>
                 <form onSubmit={submit}>
                     <div className={Sc.fields}>
-                        {createField("email", emailValue, errors?.email,
-                            changeHandler, "light", "Email", "text", blur)}
-                        {createField("password", passwordValue, errors?.password,
-                            changeHandler, "light", "Password", "password", blur)}
-                        {createField("confirmPassword", confPassValue, errors?.confirmPassword,
-                            changeHandler, "light", "Confirm Password", "password", blur)}
+                        <MyTextInput variant={"light"} type={"Text"}  error={errors.email}
+                                     {...getFieldProps("email")} placeholder={"Email"} style={{minWidth: 300}}/>
+                        <MyTextInput variant={"light"} type={"Password"}  error={errors.password}
+                                     {...getFieldProps("password")} placeholder={"Password"} style={{minWidth: 300}}/>
+                        <MyTextInput variant={"light"} type={"Password"} error={errors.confirmPassword} style={{minWidth: 300}}
+                                     {...getFieldProps("confirmPassword")} placeholder={"Confirm Password"} />
                     </div>
                     <div className={S.button_box}>
                         {status === "loading"
@@ -48,7 +43,7 @@ export const Registration: React.FC<RegistrationPropsType> = React.memo(props =>
                                 </NavLink>
                                 <MyButton variant="purple"
                                           type="submit"
-                                          disabled={(emailValue || passwordValue || !!confPassValue) === ""}
+                                          disabled={disabled}
                                 >Registration</MyButton>
                             </>
                         }

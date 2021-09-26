@@ -1,11 +1,11 @@
-import {combineReducers} from "redux";
+import {combineReducers, createStore} from "redux";
+import {configureStore} from "@reduxjs/toolkit";
 import thunkMiddleware from "redux-thunk";
 import {profileSlice} from "./profile-reducer";
 import {authSlice} from "./auth-reducer";
 import {registerSlice} from "./registration-reducer";
 import {recoverySlice} from "./recovery-pass-reducer";
 import {appSlice} from "./app-reducer";
-import {configureStore} from "@reduxjs/toolkit";
 import {decksSlice} from "./decks-reducer";
 import {cardsSlice} from "./cards-reducer";
 import {learningSlice} from "./learning-reducer";
