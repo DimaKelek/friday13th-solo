@@ -8,7 +8,7 @@ import {Cards} from "./Cards/Cards";
 import {LearningMode} from "./Learning/LearningMode";
 import {MiniNav} from "./Header/MiniNav/MiniNav";
 
-export const Main: React.FC = props => {
+export const Main: React.FC = React.memo(props => {
     return (
         <div className={S.main}>
             <Header />
@@ -23,4 +23,4 @@ export const Main: React.FC = props => {
             </div>
         </div>
     )
-}
+})

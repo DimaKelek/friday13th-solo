@@ -3,7 +3,7 @@ import {
     RecoveryPassStateType,
     setStatusPassRecovery,
     setStatusSendingMessage
-} from "../Store/recovery-pass-reducer";
+} from "../Store/RecoveryPass/recovery-pass-reducer";
 
 let startState: RecoveryPassStateType;
 beforeEach(() => {

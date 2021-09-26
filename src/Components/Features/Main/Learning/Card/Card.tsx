@@ -5,7 +5,7 @@ import {MyButton} from "../../../../Common/MyButton/MyButton";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStoreType} from "../../../../../Store/store";
 import {setSelectedCardID, updateRating} from "../../../../../Store/learning-reducer";
-import {RequestStatusType} from "../../../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../../Store/App/app-reducer";
 import {CircularProgress} from "@material-ui/core";
 
 type CardProps = {

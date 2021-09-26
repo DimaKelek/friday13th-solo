@@ -1,7 +1,7 @@
-import {ThunkApiType} from "./store";
-import {authAPI} from "../Api/api";
-import {setAppStatus, setError} from "./app-reducer";
-import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
+import {ThunkApiType} from "../store";
+import {authAPI} from "../../Api/api";
+import {setAppStatus, setError} from "../App/app-reducer";
+import {handleServerNetworkError} from "../../Components/Features/Authorization/AuthCommon/utils/errorHandler";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {

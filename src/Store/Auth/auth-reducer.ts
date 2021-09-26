@@ -1,8 +1,8 @@
-import {authAPI, UserDataType} from "../Api/api";
-import {ThunkApiType} from "./store";
-import {setAppStatus, setError, setInitialized} from "./app-reducer";
-import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
-import {setStatusPassRecovery} from "./recovery-pass-reducer";
+import {authAPI, UserDataType} from "../../Api/api";
+import {ThunkApiType} from "../store";
+import {setAppStatus, setError, setInitialized} from "../App/app-reducer";
+import {handleServerNetworkError} from "../../Components/Features/Authorization/AuthCommon/utils/errorHandler";
+import {setStatusPassRecovery} from "../RecoveryPass/recovery-pass-reducer";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 const initialState = {

@@ -4,7 +4,7 @@ import Sc from "../AuthCommon/Styles/CommonStyles.module.css"
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {NavLink} from "react-router-dom";
-import {RequestStatusType} from "../../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../Store/App/app-reducer";
 import {NewPassFormikErrorType} from "./NewPassContainer";
 import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
 import {FieldInputProps} from "formik/dist/types";

@@ -1,31 +1,36 @@
 import React, {ChangeEvent, ReactNode, useCallback, useEffect, useState} from "react";
 import S from "./Cards.module.css"
-import Sc from "../MainCommon/Styles/MainCommon.module.css"
 import {CallType, Table} from "../Table/Table";
 import {Search} from "../Table/Search/Search";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
 import {
-    CardsStateType, changeVisibleCardPage, createCard, CreateCardData,
-    getCards, updateCard
-} from "../../../../Store/cards-reducer";
+    CardsStateType,
+    changeVisibleCardPage,
+    createCard,
+    CreateCardData,
+    getCards,
+    updateCard
+} from "../../../../Store/Cards/cards-reducer";
 import {getCardsForUI} from "../MainCommon/utils/dataHandlers";
 import {GetCardsRequestDataType, UpdateCardRequestType} from "../../../../Api/api";
 import {NavLink, useParams} from "react-router-dom";
 import {MyButton} from "../../../Common/MyButton/MyButton";
-import {RequestStatusType} from "../../../../Store/app-reducer";
 import {CardActionsPanel} from "./ActionsPanel/ActionsPanel";
 import {MyModal} from "../../ModalWindows/Modal/MyModal";
 import {CommonModalCardForm} from "../../ModalWindows/CommanModalCardFrom/CommanModalCardForm";
 import {Rating} from "./Rating/Rating";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
+import {selectStatus} from "../../../../Store/App/selectors";
+import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
+import {selectUserID} from "../../../../Store/Auth/selectors";
 
-export const Cards: React.FC = () => {
+export const Cards: React.FC = React.memo(() => {
     const cardsState = useSelector<AppStoreType, CardsStateType>(state => state.cards)
-    const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const {deckID} = useParams<{ deckID: string }>()
-    const dispatch = useDispatch()
+    const userID = useSelector(selectUserID)
+    const status = useSelector(selectStatus)
+    const {deckID} = useParams<{deckID: string}>()
+    const dispatch = useMyDispatch()
 
     const {cards, cardsTotalCount, visiblePage, packUserId} = cardsState
 
@@ -164,5 +169,4 @@ export const Cards: React.FC = () => {
             </WorkSpace>
         </>
     )
-}
-
+})

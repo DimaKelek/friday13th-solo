@@ -1,13 +1,13 @@
-import {combineReducers, createStore} from "redux";
+import {combineReducers} from "redux";
 import {configureStore} from "@reduxjs/toolkit";
 import thunkMiddleware from "redux-thunk";
 import {profileSlice} from "./profile-reducer";
-import {authSlice} from "./auth-reducer";
-import {registerSlice} from "./registration-reducer";
-import {recoverySlice} from "./recovery-pass-reducer";
-import {appSlice} from "./app-reducer";
-import {decksSlice} from "./decks-reducer";
-import {cardsSlice} from "./cards-reducer";
+import {authSlice} from "./Auth/auth-reducer";
+import {registerSlice} from "./Registration/registration-reducer";
+import {recoverySlice} from "./RecoveryPass/recovery-pass-reducer";
+import {appSlice} from "./App/app-reducer";
+import {decksSlice} from "./Decks/decks-reducer";
+import {cardsSlice} from "./Cards/cards-reducer";
 import {learningSlice} from "./learning-reducer";
 
 const rootReducer = combineReducers({

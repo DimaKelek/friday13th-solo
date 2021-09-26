@@ -1,9 +1,9 @@
 import React, {useCallback} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../../../../Store/store";
 import S from "./ActionsPanel.module.css";
 import {MyButton} from "../../../../Common/MyButton/MyButton";
-import {removeCard, setSelectedCardID} from "../../../../../Store/cards-reducer";
+import {removeCard, setSelectedCardID} from "../../../../../Store/Cards/cards-reducer";
+import {selectUserID} from "../../../../../Store/Auth/selectors";
 
 type ActionsPanelType = {
     makerDeckID: string | undefined
@@ -12,9 +12,9 @@ type ActionsPanelType = {
     setEdit: (value: boolean) => void
 }
 
-export const CardActionsPanel: React.FC<ActionsPanelType> = props => {
+export const CardActionsPanel: React.FC<ActionsPanelType> = React.memo(props => {
     const {deckID, makerDeckID, cardID, setEdit} = props
-    const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
+    const userID = useSelector(selectUserID)
     const dispatch = useDispatch()
 
     const deleteButtonHandler = useCallback(() => {
@@ -36,4 +36,4 @@ export const CardActionsPanel: React.FC<ActionsPanelType> = props => {
             }
         </div>
     )
-}
+})

@@ -4,7 +4,7 @@ import Sc from "../AuthCommon/Styles/CommonStyles.module.css";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {NavLink} from "react-router-dom";
 import {MyButton} from "../../../Common/MyButton/MyButton";
-import {RequestStatusType} from "../../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../Store/App/app-reducer";
 import {RecoveryFormikErrorType} from "./RecoveryContainer";
 import message from "./message.svg"
 import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";

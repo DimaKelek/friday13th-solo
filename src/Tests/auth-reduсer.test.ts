@@ -1,4 +1,4 @@
-import {authReducer, AuthStateType, changeLoginStatus, setUserData, UserDataType} from "../Store/auth-reducer";
+import {authReducer, AuthStateType, changeLoginStatus, setUserData, UserDataType} from "../Store/Auth/auth-reducer";
 
 let startState: AuthStateType;
 beforeEach(() => {

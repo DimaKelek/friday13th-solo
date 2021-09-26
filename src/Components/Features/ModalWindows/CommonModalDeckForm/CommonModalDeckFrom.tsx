@@ -6,16 +6,16 @@ import {useFormik} from "formik";
 import {MyRadioButton} from "../../../Common/MyRadioButton/MyRadioButton";
 import {useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
-import {RequestStatusType} from "../../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../Store/App/app-reducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import S from "./CommonModalDeckForm.module.css"
 import {DeckType} from "../../../../Api/api";
+import {selectStatus} from "../../../../Store/App/selectors";
+import {selectDecks, selectSelectedDeckID} from "../../../../Store/Decks/selectors";
 
 type errorsDeckForm = {
     deckName?: string
 }
-
-type Option = "Public" | "Private"
 
 type CommonModalDeckFromProps = {
     title: string
@@ -26,10 +26,10 @@ type CommonModalDeckFromProps = {
 
 export const CommonModalDeckForm: React.FC<CommonModalDeckFromProps> = props => {
     const {setShow, type, title, submit} = props
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const options: Option[] = ["Public", "Private"]
-    const decks = useSelector<AppStoreType, DeckType[] | null>(state => state.decks.decks)
-    const selectedDeckID = useSelector<AppStoreType, string>(state => state.decks.selectedDeckID)
+    const status = useSelector(selectStatus)
+    const decks = useSelector(selectDecks)
+    const selectedDeckID = useSelector(selectSelectedDeckID)
+    const options: ("Public" | "Private")[] = ["Public", "Private"]
 
     let name: string = ""
     decks && decks.forEach(d => {

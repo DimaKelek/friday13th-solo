@@ -8,7 +8,7 @@ type LinkType = {
     title: string
 }
 
-export const Link: React.FC<LinkType> = props => {
+export const Link: React.FC<LinkType> = React.memo(props => {
     const {path, icon, title} = props
     return (
         <div className={S.link}>
@@ -22,4 +22,4 @@ export const Link: React.FC<LinkType> = props => {
         </div>
 
     )
-}
+})

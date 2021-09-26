@@ -6,7 +6,7 @@ type RatingProps = {
     grade: number
 }
 
-export const Rating: React.FC<RatingProps> = props => {
+export const Rating: React.FC<RatingProps> = React.memo(props => {
     const {grade} = props
 
     let stars = []
@@ -19,4 +19,4 @@ export const Rating: React.FC<RatingProps> = props => {
             <div className={S.star_container}>{stars.length === 0 ? "No information" : stars}</div>
         </div>
     )
-}
+})

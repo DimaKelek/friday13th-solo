@@ -1,4 +1,4 @@
-import {changeRegisterStatus, registrationReducer, RegistrationStateType} from "../Store/registration-reducer";
+import {changeRegisterStatus, registrationReducer, RegistrationStateType} from "../Store/Registration/registration-reducer";
 
 let startState: RegistrationStateType;
 beforeEach(() => {

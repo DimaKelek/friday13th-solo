@@ -1,7 +1,7 @@
 import React from "react";
 import {useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
-import {RequestStatusType} from "../../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../Store/App/app-reducer";
 import {MyModal} from "../Modal/MyModal";
 import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
 import {MyTextarea} from "../../../Common/MyTextarea/MyTextarea";
@@ -10,6 +10,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {useFormik} from "formik";
 import {CardType} from "../../../../Api/api";
+import {selectStatus} from "../../../../Store/App/selectors";
+import {selectCardID, selectCards, selectDeckMaker} from "../../../../Store/Cards/selectors";
 
 type CommonModalCardFormProps = {
     title: string
@@ -25,10 +27,11 @@ type errorsFormType = {
 
 export const CommonModalCardForm: React.FC<CommonModalCardFormProps> = props => {
     const {title, setShow, submitForm, type} = props
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const cardID = useSelector<AppStoreType, string>(state => state.cards.selectedCardID)
-    const maker  = useSelector<AppStoreType, string>(state => state.cards.packUserId)
-    const cards  = useSelector<AppStoreType, CardType[] | null>(state => state.cards.cards)
+    const status = useSelector(selectStatus)
+    const cardID = useSelector(selectCardID)
+    const maker = useSelector(selectDeckMaker)
+    const cards = useSelector(selectCards)
+
     const qa: string[] = []
     cards?.forEach(c => {
         if(c._id === cardID) {

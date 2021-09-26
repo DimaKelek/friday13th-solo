@@ -1,19 +1,20 @@
 import React from "react";
 import {RecoveryPass} from "./RecoveryPass";
 import {useFormik} from "formik";
-import {forgotPass} from "../../../../Store/recovery-pass-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
-import {RequestStatusType} from "../../../../Store/app-reducer";
+import {forgotPass} from "../../../../Store/RecoveryPass/recovery-pass-reducer";
+import {useSelector} from "react-redux";
+import {selectStatus} from "../../../../Store/App/selectors";
+import {selectIsSand} from "../../../../Store/RecoveryPass/selectors";
+import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
 
 export type RecoveryFormikErrorType = {
     email?: string
 }
 
 export const RecoveryContainer = () => {
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const isSand = useSelector<AppStoreType, boolean>(state => state.recovery.messageIsSand)
-    const dispatch = useDispatch()
+    const status = useSelector(selectStatus)
+    const isSand = useSelector(selectIsSand)
+    const dispatch = useMyDispatch()
 
     const message = `<div style="background-color: lime; padding: 15px">
             password recovery link:	<a href='https://dimakelek.github.io/friday13th-kelek/#/new-password/$token$'>link</a>

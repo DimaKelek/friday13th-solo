@@ -1,20 +1,19 @@
 import React, {useCallback, useState} from "react";
 import S from "./Profile.module.css"
 import {useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
-import {logout} from "../../../../Store/auth-reducer";
+import {logout} from "../../../../Store/Auth/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {RequestStatusType} from "../../../../Store/app-reducer";
 import {MyModal} from "../../ModalWindows/Modal/MyModal"
-import {UserDataType} from "../../../../Api/api";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
+import {selectStatus} from "../../../../Store/App/selectors";
+import {selectUserData} from "../../../../Store/Auth/selectors";
 
 export const Profile: React.FC = () => {
-    const userData = useSelector<AppStoreType, UserDataType | null>(state => state.auth.userData)
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const userData = useSelector(selectUserData)
+    const status = useSelector(selectStatus)
     const dispatch = useMyDispatch()
 
     const [show, setShow] = useState<boolean>(false)

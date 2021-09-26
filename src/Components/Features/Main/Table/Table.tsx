@@ -1,12 +1,13 @@
 import React, {ReactNode} from "react";
 import {useSelector} from "react-redux";
 import {AppStoreType} from "../../../../Store/store";
-import {RequestStatusType} from "../../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../Store/App/app-reducer";
 import S from "./Table.module.css";
 import {TableHeader} from "./TableHeader/TableHeader";
 import {TableBody} from "./TableBody/TableBody"
 import {PaginationControlled} from "./Pagination/Pagination";
 import {CircularProgress} from "@material-ui/core";
+import {selectStatus} from "../../../../Store/App/selectors";
 
 export type CallType = {
     title: string | React.ReactNode
@@ -26,9 +27,9 @@ type TablePropsType = {
     setPage?: (page: number) => void
 }
 
-export const Table: React.FC<TablePropsType> = props => {
+export const Table: React.FC<TablePropsType> = React.memo(props => {
     const {columns, items, totalCount, visiblePage, setPage} = props
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const status = useSelector(selectStatus)
 
     const cellStyle = {
         display: "grid",
@@ -48,4 +49,4 @@ export const Table: React.FC<TablePropsType> = props => {
             </div>
         </div>
     )
-}
+})

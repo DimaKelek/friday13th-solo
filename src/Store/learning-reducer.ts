@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ThunkApiType} from "./store";
-import {setAppStatus} from "./app-reducer";
+import {setAppStatus} from "./App/app-reducer";
 import {cardsAPI, GradeType} from "../Api/api";
 import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
 

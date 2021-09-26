@@ -4,13 +4,12 @@ import Sc from "../AuthCommon/Styles/CommonStyles.module.css"
 import {MyCheckbox} from "../../../Common/MyCheckbox/MyCheckbox";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {NavLink} from "react-router-dom";
-import {RequestStatusType} from "../../../../Store/app-reducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {LoginFormikErrorType} from "./LoginContainer";
 import {useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
 import {FieldInputProps} from "formik/dist/types";
 import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";
+import {selectStatus} from "../../../../Store/App/selectors";
 
 type LoginProps = {
     getFieldProps: (nameOrOptions: string) => FieldInputProps<any>
@@ -20,7 +19,7 @@ type LoginProps = {
 
 export const Login: React.FC<LoginProps> = React.memo(props => {
     const {submit, getFieldProps, errors} = props
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
+    const status = useSelector(selectStatus)
 
     return (
         <div className={Sc.page_container}>

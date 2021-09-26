@@ -3,7 +3,7 @@ import S from "./Registration.module.css"
 import Sc from "../AuthCommon/Styles/CommonStyles.module.css"
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {MyButton} from "../../../Common/MyButton/MyButton";
-import {RequestStatusType} from "../../../../Store/app-reducer";
+import {RequestStatusType} from "../../../../Store/App/app-reducer";
 import {NavLink} from "react-router-dom";
 import {RegisterFormikErrorType} from "./RegistrationContainer";
 import {MyTextInput} from "../../../Common/MyTextInput/MyTextInput";

@@ -1,12 +1,12 @@
 import React from "react";
 import {Registration} from "./Registration";
 import {useFormik} from "formik";
-import {registration} from "../../../../Store/registration-reducer";
+import {registration} from "../../../../Store/Registration/registration-reducer";
 import {useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
 import {Redirect} from "react-router-dom";
-import {RequestStatusType} from "../../../../Store/app-reducer";
 import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
+import {selectStatus} from "../../../../Store/App/selectors";
+import {selectRegister} from "../../../../Store/Registration/selectors";
 
 export type RegisterFormikErrorType = {
     email?: string
@@ -15,8 +15,8 @@ export type RegisterFormikErrorType = {
 }
 
 export const RegistrationContainer = () => {
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const register = useSelector<AppStoreType, boolean>(state => state.registration.register)
+    const status = useSelector(selectStatus)
+    const register = useSelector(selectRegister)
     const dispatch = useMyDispatch()
 
     const formik = useFormik({

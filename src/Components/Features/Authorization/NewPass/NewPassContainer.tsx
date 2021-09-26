@@ -1,20 +1,21 @@
 import React from "react";
 import {NewPass} from "./NewPass";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
-import {RequestStatusType} from "../../../../Store/app-reducer";
+import {useSelector} from "react-redux";
 import {useFormik} from "formik";
-import {recovery} from "../../../../Store/recovery-pass-reducer";
+import {recovery} from "../../../../Store/RecoveryPass/recovery-pass-reducer";
 import {Redirect, useParams} from "react-router-dom";
+import {selectStatus} from "../../../../Store/App/selectors";
+import {selectIsRecovered} from "../../../../Store/RecoveryPass/selectors";
+import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
 
 export type NewPassFormikErrorType = {
     password?: string
 }
 
 export const NewPassContainer = () => {
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const isRecovered = useSelector<AppStoreType, boolean>(state => state.recovery.passIsRecovered)
-    const dispatch = useDispatch()
+    const status = useSelector(selectStatus)
+    const isRecovered = useSelector(selectIsRecovered)
+    const dispatch = useMyDispatch()
     const {token} = useParams<{token: string}>()
 
     const formik = useFormik({

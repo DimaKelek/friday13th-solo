@@ -5,7 +5,7 @@ import {AppStoreType} from "../../../../Store/store";
 import {changeEntityStatus, LearningStatus, setModeStart, setSelectedCardID} from "../../../../Store/learning-reducer";
 import {CircularProgress} from "@material-ui/core";
 import {NavLink, useParams} from "react-router-dom";
-import {getCards} from "../../../../Store/cards-reducer";
+import {getCards} from "../../../../Store/Cards/cards-reducer";
 import {CardType, GetCardsRequestDataType} from "../../../../Api/api";
 import {Card} from "./Card/Card";
 import {MyModal} from "../../ModalWindows/Modal/MyModal";

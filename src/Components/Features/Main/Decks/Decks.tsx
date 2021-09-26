@@ -2,22 +2,19 @@ import React, {ChangeEvent, ReactNode, useCallback, useEffect, useState} from "r
 import S from "./Decks.module.css"
 import Sc from "../MainCommon/Styles/MainCommon.module.css"
 import {MyDoubleRange} from "../../../Common/Ranges/MyDoubleRange/MyDoubleRange";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
+import {useSelector} from "react-redux";
 import {
     changeDecksFilter,
     changeMaxSelected,
     changeMinSelected,
     changeVisibleDecksPage,
     createDeck,
-    DecksStateType,
     getDecks,
     updateDeck
-} from "../../../../Store/decks-reducer";
+} from "../../../../Store/Decks/decks-reducer";
 import {CallType, Table} from "../Table/Table";
 import {DataForRequest, getDecksForUI, getDecksRequestDC} from "../MainCommon/utils/dataHandlers";
 import {MyButton} from "../../../Common/MyButton/MyButton";
-import {RequestStatusType} from "../../../../Store/app-reducer";
 import {Search} from "../Table/Search/Search";
 import {CircularProgress} from "@material-ui/core";
 import {ActionsPanel} from "./ActionsPanel/ActionsPanel";
@@ -25,12 +22,16 @@ import {NavLink} from "react-router-dom";
 import {CommonModalDeckForm} from "../../ModalWindows/CommonModalDeckForm/CommonModalDeckFrom";
 import {CreateDeckRequestData, UpdateDeckRequestData} from "../../../../Api/api";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
+import {selectStatus} from "../../../../Store/App/selectors";
+import {selectUserID} from "../../../../Store/Auth/selectors";
+import {selectDeckState} from "../../../../Store/Decks/selectors";
+import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
 
 export const Decks = React.memo(() => {
-    const decksState = useSelector<AppStoreType, DecksStateType>(state => state.decks)
-    const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const dispatch = useDispatch()
+    const decksState = useSelector(selectDeckState)
+    const userID = useSelector(selectUserID)
+    const status = useSelector(selectStatus)
+    const dispatch = useMyDispatch()
 
     const {decks, filter, totalCount, visiblePage, minCardsCount, maxCardsCount, selectedDeckID} = decksState
 

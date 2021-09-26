@@ -6,10 +6,10 @@ import {
     GetCardsRequestDataType,
     GetCardsResponseType,
     UpdateCardRequestType
-} from "../Api/api"
-import {setAppStatus} from "./app-reducer";
-import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
-import {ThunkApiType} from "./store";
+} from "../../Api/api"
+import {setAppStatus} from "../App/app-reducer";
+import {handleServerNetworkError} from "../../Components/Features/Authorization/AuthCommon/utils/errorHandler";
+import {ThunkApiType} from "../store";
 
 const initialState = {
     cards: null as CardType[] | null,

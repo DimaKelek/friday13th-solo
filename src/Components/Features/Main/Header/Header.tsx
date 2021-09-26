@@ -4,7 +4,7 @@ import {Link} from "./Link/Link";
 import decksIcon from "../MainCommon/Icons/decks.svg";
 import profileIcon from "../MainCommon/Icons/profileIcon.svg";
 
-export const Header: React.FC = props => {
+export const Header: React.FC = React.memo(props => {
     return (
         <div className={S.header_container}>
             <div className={S.nav_container}>
@@ -16,4 +16,4 @@ export const Header: React.FC = props => {
             </div>
         </div>
     )
-}
+})

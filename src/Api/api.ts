@@ -1,7 +1,7 @@
 import axios from "axios"
-import {AuthDataType} from "../Store/auth-reducer";
-import {RegisterDataType} from "../Store/registration-reducer";
-import {ForgotPasswordRequest, RecoveryRequestType} from "../Store/recovery-pass-reducer";
+import {AuthDataType} from "../Store/Auth/auth-reducer";
+import {RegisterDataType} from "../Store/Registration/registration-reducer";
+import {ForgotPasswordRequest, RecoveryRequestType} from "../Store/RecoveryPass/recovery-pass-reducer";
 
 const instanse = axios.create({
     baseURL: "https://neko-back.herokuapp.com/2.0/",

@@ -1,12 +1,13 @@
 import React, {useCallback} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../../../../Store/store";
-import {removeDeck, setDeckID} from "../../../../../Store/decks-reducer";
+import {useSelector} from "react-redux";
+import {removeDeck, setDeckID} from "../../../../../Store/Decks/decks-reducer";
 import S from "./ActionsPanel.module.css";
 import {MyButton} from "../../../../Common/MyButton/MyButton";
 import {NavLink} from "react-router-dom";
 import {setModeStart} from "../../../../../Store/learning-reducer";
-import {DeckType} from "../../../../../Api/api";
+import {selectUserID} from "../../../../../Store/Auth/selectors";
+import {selectDecks} from "../../../../../Store/Decks/selectors";
+import {useMyDispatch} from "../../../../Common/Hooks/myDispatch";
 
 type ActionsPanelType = {
     makerDeckID: string | undefined
@@ -14,11 +15,11 @@ type ActionsPanelType = {
     setEdit: (value: boolean) => void
 }
 
-export const ActionsPanel: React.FC<ActionsPanelType> = props => {
+export const ActionsPanel: React.FC<ActionsPanelType> = React.memo(props => {
     const {deckID, makerDeckID, setEdit} = props
-    const userID = useSelector<AppStoreType, string | undefined>(state => state.auth.userData?._id)
-    const decks = useSelector<AppStoreType, DeckType[] | null>(state => state.decks.decks)
-    const dispatch = useDispatch()
+    const userID = useSelector(selectUserID)
+    const decks = useSelector(selectDecks)
+    const dispatch = useMyDispatch()
 
     let deck = decks && decks.find(d => d._id === deckID)
 
@@ -46,4 +47,4 @@ export const ActionsPanel: React.FC<ActionsPanelType> = props => {
             </NavLink>
         </div>
     )
-}
+})

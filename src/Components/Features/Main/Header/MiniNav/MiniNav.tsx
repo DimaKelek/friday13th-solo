@@ -4,7 +4,7 @@ import decks from "../../MainCommon/Icons/decks.svg"
 import profile from "../../MainCommon/Icons/profileIcon.svg"
 import { NavLink } from "react-router-dom";
 
-export function MiniNav() {
+export const MiniNav = React.memo(() => {
     return (
         <div className={`${S.miniNav} `}>
             <NavLink to="/app/decks">
@@ -19,4 +19,4 @@ export function MiniNav() {
             </NavLink>
         </div>
     );
-}
+})

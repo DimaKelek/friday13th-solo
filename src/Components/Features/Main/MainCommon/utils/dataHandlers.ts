@@ -1,5 +1,5 @@
 import {CardType, DeckType, GetDecksRequestDataType} from "../../../../../Api/api";
-import {ShowDecksModeType} from "../../../../../Store/decks-reducer";
+import {ShowDecksModeType} from "../../../../../Store/Decks/decks-reducer";
 
 export type RenderDeckType = {
     name: string

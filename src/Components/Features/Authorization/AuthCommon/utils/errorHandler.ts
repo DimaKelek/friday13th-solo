@@ -1,4 +1,4 @@
-import {setAppStatus, setError} from "../../../../../Store/app-reducer";
+import {setAppStatus, setError} from "../../../../../Store/App/app-reducer";
 import {AppDispatchType} from "../../../../../Store/store";
 
 export const handleServerNetworkError = (error: any, dispatch: AppDispatchType) => {

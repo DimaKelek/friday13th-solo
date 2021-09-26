@@ -2,17 +2,17 @@ import React, {useEffect} from 'react';
 import './App.css';
 import {HashRouter} from "react-router-dom";
 import {Routes} from "./Routes";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../Store/store";
-import {RequestStatusType} from "../Store/app-reducer";
+import {useSelector} from "react-redux";
 import {ErrorSnackbar} from "../Components/Common/ErrorSnackbar/ErrorSnackbar";
 import {CircularProgress} from "@material-ui/core";
-import {checkingAuthorization} from "../Store/auth-reducer";
+import {checkingAuthorization} from "../Store/Auth/auth-reducer";
+import {useMyDispatch} from "../Components/Common/Hooks/myDispatch";
+import {selectIsInitialized, selectStatus} from "../Store/App/selectors";
 
 export const App: React.FC<any> = props => {
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const isInitialized = useSelector<AppStoreType, boolean>(state => state.app.isInitialized)
-    const dispatch = useDispatch()
+    const status = useSelector(selectStatus)
+    const isInitialized = useSelector(selectIsInitialized)
+    const dispatch = useMyDispatch()
 
     useEffect(() => {
         dispatch(checkingAuthorization())

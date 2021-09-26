@@ -6,11 +6,11 @@ import {
     DeckType,
     GetDecksRequestDataType,
     UpdateDeckRequestData
-} from "../Api/api";
-import {setAppStatus} from "./app-reducer";
-import {ThunkApiType} from "./store";
-import {DataForRequest, getDecksRequestDC} from "../Components/Features/Main/MainCommon/utils/dataHandlers";
-import {handleServerNetworkError} from "../Components/Features/Authorization/AuthCommon/utils/errorHandler";
+} from "../../Api/api";
+import {setAppStatus} from "../App/app-reducer";
+import {ThunkApiType} from "../store";
+import {DataForRequest, getDecksRequestDC} from "../../Components/Features/Main/MainCommon/utils/dataHandlers";
+import {handleServerNetworkError} from "../../Components/Features/Authorization/AuthCommon/utils/errorHandler";
 
 const initialState = {
     decks: null as DeckType[] | null,
