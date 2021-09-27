@@ -1,29 +1,26 @@
 import React, {useCallback, useEffect, useState} from "react";
 import S from "./Learning.module.css"
-import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
-import {changeEntityStatus, LearningStatus, setModeStart, setSelectedCardID} from "../../../../Store/learning-reducer";
+import {useSelector} from "react-redux";
 import {CircularProgress} from "@material-ui/core";
 import {NavLink, useParams} from "react-router-dom";
-import {getCards} from "../../../../Store/Cards/cards-reducer";
 import {CardType, GetCardsRequestDataType} from "../../../../Api/api";
 import {Card} from "./Card/Card";
 import {MyModal} from "../../ModalWindows/Modal/MyModal";
 import dimych from "./dimych.jpg"
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
+import {useActions} from "../../../Common/Hooks/hooks";
+import {getCards, learningActions, selectCards, selectLearningStatus, selectModeStart} from ".";
 
-type LearningModeProps = {}
-
-export const LearningMode: React.FC<LearningModeProps> = React.memo(props => {
+export const LearningMode: React.FC = React.memo(props => {
     setTimeout(() => {
-        dispatch(changeEntityStatus("succeeded"))
+        changeEntityStatus("succeeded")
     }, 1000)
-    const status = useSelector<AppStoreType, LearningStatus>(state => state.learning.entityStatus)
-    const modeStart = useSelector<AppStoreType, boolean>(state => state.learning.modeStart)
-    const cards = useSelector<AppStoreType, CardType[] | null>(state => state.cards.cards)
-    const {deckID} = useParams<{ deckID: string }>()
-    const dispatch = useDispatch()
+    const status = useSelector(selectLearningStatus)
+    const modeStart = useSelector(selectModeStart)
+    const cards = useSelector(selectCards)
+    const {changeEntityStatus, setModeStart, setSelectedCardID} = useActions(learningActions)
+    const {deckID} = useParams<{deckID: string}>()
 
     const [currentCard, setCurrentCard] = useState<CardType>({} as CardType)
     const [showModal, setShowModal] = useState<boolean>(false)
@@ -47,35 +44,35 @@ export const LearningMode: React.FC<LearningModeProps> = React.memo(props => {
                     cardsPack_id: deckID,
                     pageNumber: 1
                 }
-                dispatch(getCards(requestData))
+                getCards(requestData)
             }, 500)
         }
         if (deckID !== undefined) {
             requestStart()
         }
         return () => {
-            dispatch(setModeStart(false))
+            setModeStart(false)
         }
-    }, [dispatch, deckID])
+    }, [setModeStart, deckID])
     useEffect(() => {
         if (cards) {
             let selectedCard = getCard(cards)
             setCurrentCard(selectedCard)
-            dispatch(setSelectedCardID(selectedCard._id))
+            setSelectedCardID(selectedCard._id)
         }
-    }, [modeStart, cards, dispatch, getCard])
-    const onStartClick = () => {
-        dispatch(changeEntityStatus("loading"))
+    }, [modeStart, cards, setSelectedCardID, getCard])
+    const onStartClick = useCallback(() => {
+        changeEntityStatus("loading")
         setTimeout(() => {
-            dispatch(changeEntityStatus("succeeded"))
-            dispatch(setModeStart(true))
+            changeEntityStatus("succeeded")
+            setModeStart(true)
         }, 1000)
-    }
+    }, [setModeStart, changeEntityStatus])
 
-    const dimychHandler = () => {
-        dispatch(setSelectedCardID(""))
-        dispatch(setModeStart(false))
-    }
+    const dimychHandler = useCallback(() => {
+        setSelectedCardID("")
+        setModeStart(false)
+    }, [setSelectedCardID, setModeStart])
 
     return (
         <>

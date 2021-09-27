@@ -1,12 +1,11 @@
 import React, {useEffect} from "react";
 import {Login} from "./Login";
 import {useFormik} from "formik";
-import {login} from "../../../../Store/Auth/auth-reducer";
 import {useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
+import {useActions, useMyDispatch} from "../../../Common/Hooks/hooks";
 import {changeRegisterStatus} from "../../../../Store/Registration/registration-reducer";
-import {selectIsLoggedIn} from "../../../../Store/Auth/selectors";
+import {authActions, selectIsLoggedIn} from ".";
 
 export type LoginFormikErrorType = {
     email?: string
@@ -16,6 +15,7 @@ export type LoginFormikErrorType = {
 export const LoginContainer = () => {
     const isLoggedIn = useSelector(selectIsLoggedIn)
     const dispatch = useMyDispatch()
+    const {login} = useActions(authActions)
 
     useEffect(() => {
         dispatch(changeRegisterStatus(false))
@@ -39,7 +39,7 @@ export const LoginContainer = () => {
             return errors;
         },
         onSubmit: values => {
-            dispatch(login(values))
+            login(values)
             formik.resetForm()
         }
     })

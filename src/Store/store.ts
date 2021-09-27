@@ -8,7 +8,7 @@ import {recoverySlice} from "./RecoveryPass/recovery-pass-reducer";
 import {appSlice} from "./App/app-reducer";
 import {decksSlice} from "./Decks/decks-reducer";
 import {cardsSlice} from "./Cards/cards-reducer";
-import {learningSlice} from "./learning-reducer";
+import {learningSlice} from "./Learning/learning-reducer";
 
 const rootReducer = combineReducers({
     profile: profileSlice.reducer,

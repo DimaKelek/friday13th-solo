@@ -3,15 +3,6 @@ import S from "./Cards.module.css"
 import {CallType, Table} from "../Table/Table";
 import {Search} from "../Table/Search/Search";
 import {useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
-import {
-    CardsStateType,
-    changeVisibleCardPage,
-    createCard,
-    CreateCardData,
-    getCards,
-    updateCard
-} from "../../../../Store/Cards/cards-reducer";
 import {getCardsForUI} from "../MainCommon/utils/dataHandlers";
 import {GetCardsRequestDataType, UpdateCardRequestType} from "../../../../Api/api";
 import {NavLink, useParams} from "react-router-dom";
@@ -21,16 +12,16 @@ import {MyModal} from "../../ModalWindows/Modal/MyModal";
 import {CommonModalCardForm} from "../../ModalWindows/CommanModalCardFrom/CommanModalCardForm";
 import {Rating} from "./Rating/Rating";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
-import {selectStatus} from "../../../../Store/App/selectors";
-import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
-import {selectUserID} from "../../../../Store/Auth/selectors";
+import {useActions} from "../../../Common/Hooks/hooks";
+import {cardsActions, cardsTypes, selectStatus, selectUserID} from ".";
+import {selectCardsState} from "../../../../Store/Cards/selectors";
 
 export const Cards: React.FC = React.memo(() => {
-    const cardsState = useSelector<AppStoreType, CardsStateType>(state => state.cards)
+    const cardsState = useSelector(selectCardsState)
     const userID = useSelector(selectUserID)
     const status = useSelector(selectStatus)
+    const {getCards, createCard, updateCard, changeVisibleCardPage} = useActions(cardsActions)
     const {deckID} = useParams<{deckID: string}>()
-    const dispatch = useMyDispatch()
 
     const {cards, cardsTotalCount, visiblePage, packUserId} = cardsState
 
@@ -49,7 +40,7 @@ export const Cards: React.FC = React.memo(() => {
                 cardsPack_id: deckID,
                 pageNumber: visiblePage
             }
-            await dispatch(getCards(requestData))
+            await getCards(requestData)
             setTimeID(null)
         }, 500)
         setTimeID(+id)
@@ -66,8 +57,8 @@ export const Cards: React.FC = React.memo(() => {
     }, [deckID, visiblePage, question])
 
     const visibleCardPageHandler = useCallback((page: number) => {
-        dispatch(changeVisibleCardPage(page))
-    }, [dispatch])
+        changeVisibleCardPage(page)
+    }, [changeVisibleCardPage])
     const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setQuestion(e.target.value)
     }, [])
@@ -80,7 +71,7 @@ export const Cards: React.FC = React.memo(() => {
     }, [])
 
     const onAddCardClick = useCallback((question: string, answer: string) => {
-        const params: CreateCardData = {
+        const params: cardsTypes.CreateCardData = {
             data: {
                 question,
                 answer,
@@ -96,9 +87,9 @@ export const Cards: React.FC = React.memo(() => {
             },
             deckID
         }
-        dispatch(createCard(params))
+        createCard(params)
         setShowAdd(false)
-    }, [deckID, dispatch])
+    }, [deckID, createCard])
     const onEditCardClick = useCallback(
         async (question: string, answer: string, makerDeckID: string | undefined, cardID: string | undefined) => {
             if (userID === makerDeckID && deckID) {
@@ -107,10 +98,10 @@ export const Cards: React.FC = React.memo(() => {
                     question,
                     answer
                 }
-                await dispatch(updateCard({data, deckID}))
+                await updateCard({data, deckID})
             }
             setShowEdit(false)
-    }, [dispatch, deckID, userID])
+    }, [deckID, userID])
 
     // data for table
     const columns: CallType[] = [

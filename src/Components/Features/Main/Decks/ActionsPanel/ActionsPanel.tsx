@@ -1,13 +1,10 @@
 import React, {useCallback} from "react";
 import {useSelector} from "react-redux";
-import {removeDeck, setDeckID} from "../../../../../Store/Decks/decks-reducer";
 import S from "./ActionsPanel.module.css";
 import {MyButton} from "../../../../Common/MyButton/MyButton";
 import {NavLink} from "react-router-dom";
-import {setModeStart} from "../../../../../Store/learning-reducer";
-import {selectUserID} from "../../../../../Store/Auth/selectors";
-import {selectDecks} from "../../../../../Store/Decks/selectors";
-import {useMyDispatch} from "../../../../Common/Hooks/myDispatch";
+import {useActions} from "../../../../Common/Hooks/hooks";
+import {decksActions, selectDecks, selectUserID, setModeStart} from "..";
 
 type ActionsPanelType = {
     makerDeckID: string | undefined
@@ -19,19 +16,20 @@ export const ActionsPanel: React.FC<ActionsPanelType> = React.memo(props => {
     const {deckID, makerDeckID, setEdit} = props
     const userID = useSelector(selectUserID)
     const decks = useSelector(selectDecks)
-    const dispatch = useMyDispatch()
+    const {removeDeck, setDeckID} = useActions(decksActions)
 
     let deck = decks && decks.find(d => d._id === deckID)
 
     const deleteButtonHandler = useCallback(() => {
         if (deckID) {
-            dispatch(removeDeck(deckID))
+            removeDeck(deckID)
         }
-    }, [dispatch, deckID])
+    }, [removeDeck, deckID])
     const editButtonHandler = useCallback(() => {
         setEdit(true)
-        dispatch(setDeckID(deckID ?? ""))
-    }, [setEdit, dispatch, deckID])
+        setDeckID(deckID ?? "")
+    }, [setEdit, setDeckID, deckID])
+    const changeLearnMode = useCallback(() => setModeStart(false), [])
     return (
         <div className={S.buttonsPanel}>
             {userID === makerDeckID && <>
@@ -40,7 +38,7 @@ export const ActionsPanel: React.FC<ActionsPanelType> = React.memo(props => {
             </>
             }
             <NavLink to={`/app/learning/${deckID}`}>
-                <MyButton onClick={() => dispatch(setModeStart(false))}
+                <MyButton onClick={changeLearnMode}
                           variant={"purple"} className={S.learnButton}
                           disabled={deck?.cardsCount === 0}
                 >Learn</MyButton>

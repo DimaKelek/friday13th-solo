@@ -3,15 +3,6 @@ import S from "./Decks.module.css"
 import Sc from "../MainCommon/Styles/MainCommon.module.css"
 import {MyDoubleRange} from "../../../Common/Ranges/MyDoubleRange/MyDoubleRange";
 import {useSelector} from "react-redux";
-import {
-    changeDecksFilter,
-    changeMaxSelected,
-    changeMinSelected,
-    changeVisibleDecksPage,
-    createDeck,
-    getDecks,
-    updateDeck
-} from "../../../../Store/Decks/decks-reducer";
 import {CallType, Table} from "../Table/Table";
 import {DataForRequest, getDecksForUI, getDecksRequestDC} from "../MainCommon/utils/dataHandlers";
 import {MyButton} from "../../../Common/MyButton/MyButton";
@@ -25,13 +16,15 @@ import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 import {selectStatus} from "../../../../Store/App/selectors";
 import {selectUserID} from "../../../../Store/Auth/selectors";
 import {selectDeckState} from "../../../../Store/Decks/selectors";
-import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
+import {useActions} from "../../../Common/Hooks/hooks";
+import {decksActions} from ".";
 
 export const Decks = React.memo(() => {
     const decksState = useSelector(selectDeckState)
     const userID = useSelector(selectUserID)
     const status = useSelector(selectStatus)
-    const dispatch = useMyDispatch()
+    const {getDecks, createDeck, updateDeck, changeDecksFilter, changeVisibleDecksPage,
+           changeMinSelected, changeMaxSelected} = useActions(decksActions)
 
     const {decks, filter, totalCount, visiblePage, minCardsCount, maxCardsCount, selectedDeckID} = decksState
 
@@ -53,7 +46,7 @@ export const Decks = React.memo(() => {
                 packName
             }
             let requestData = getDecksRequestDC(dataForRequest)
-            await dispatch(getDecks(requestData))
+            await getDecks(requestData)
             setTimeID(null)
         }, 1000)
         setTimeID(+id)
@@ -65,26 +58,26 @@ export const Decks = React.memo(() => {
         } else if (status !== "loading") {
             requestStart()
         }
-    }, [filter, visiblePage, dispatch, minValue, maxValue, packName, userID])
+    }, [filter, visiblePage, minValue, maxValue, packName, userID])
 
     // handlers
     const myModeHandler = useCallback(() => {
-        dispatch(changeDecksFilter("My"))
-    }, [dispatch])
+        changeDecksFilter("My")
+    }, [changeDecksFilter])
     const allModeHandler = useCallback(() => {
-        dispatch(changeDecksFilter("All"))
-    }, [dispatch])
+        changeDecksFilter("All")
+    }, [changeDecksFilter])
     const visibleDecksPageHandler = useCallback((page: number) => {
-        dispatch(changeVisibleDecksPage(page))
-    }, [dispatch])
+        changeVisibleDecksPage(page)
+    }, [changeVisibleDecksPage])
     const setMinValueHandler = useCallback((value: number) => {
         setMinValue(value)
-        dispatch(changeMinSelected(value))
-    }, [dispatch])
+        changeMinSelected(value)
+    }, [changeMinSelected])
     const setMaxValueHandler = useCallback((value: number) => {
         setMaxValue(value)
-        dispatch(changeMaxSelected(value))
-    }, [dispatch])
+        changeMaxSelected(value)
+    }, [changeMaxSelected])
     const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setPackName(e.target.value)
     }, [])
@@ -99,9 +92,9 @@ export const Decks = React.memo(() => {
                 private: privacy
             }
         }
-        await dispatch(createDeck(data))
+        await createDeck(data)
         setShowAdd(false)
-    }, [dispatch])
+    }, [createDeck])
     const editDeckHandler = useCallback(async (name: string, privacy: boolean) => {
         if (selectedDeckID) {
             let data: UpdateDeckRequestData = {
@@ -111,10 +104,10 @@ export const Decks = React.memo(() => {
                     private: privacy
                 }
             }
-            await dispatch(updateDeck(data))
+            await updateDeck(data)
         }
         setShowEdit(false)
-    }, [dispatch, selectedDeckID])
+    }, [updateDeck, selectedDeckID])
     // data for table
     const columns: CallType[] = [
         {title: "name", width: "230px"},

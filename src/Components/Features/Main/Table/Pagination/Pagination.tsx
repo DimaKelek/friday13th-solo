@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import Pagination from "@material-ui/lab/Pagination";
 
 type PaginationPropsType = {
@@ -10,9 +10,9 @@ export const PaginationControlled: React.FC<PaginationPropsType> = React.memo(pr
     const {page, totalCount, setPage} = props
 
     const count = Math.ceil(totalCount / 7)
-    const handleChange = (e: ChangeEvent<unknown>, value: number) => {
+    const handleChange = useCallback((e: ChangeEvent<unknown>, value: number) => {
         setPage && setPage(value)
-    };
+    }, [setPage])
 
     return <Pagination count={count} page={page} onChange={handleChange}/>
 })

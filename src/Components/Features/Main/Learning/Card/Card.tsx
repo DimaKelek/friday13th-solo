@@ -2,11 +2,10 @@ import React, {useCallback, useState} from "react";
 import S from "./Card.module.css"
 import {CardType, GradeType} from "../../../../../Api/api";
 import {MyButton} from "../../../../Common/MyButton/MyButton";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStoreType} from "../../../../../Store/store";
-import {setSelectedCardID, updateRating} from "../../../../../Store/learning-reducer";
-import {RequestStatusType} from "../../../../../Store/App/app-reducer";
+import {useSelector} from "react-redux";
 import {CircularProgress} from "@material-ui/core";
+import {useActions} from "../../../../Common/Hooks/hooks";
+import {learningActions, selectCards, selectLearningStatus} from "..";
 
 type CardProps = {
     card: CardType | undefined
@@ -19,11 +18,11 @@ type RatingPanelDataType = {
     grade: GradeType
 }
 
-export const Card: React.FC<CardProps> = props => {
+export const Card: React.FC<CardProps> = React.memo(props => {
     const {card, getNewCard, setCurrentCard} = props
-    const cards = useSelector<AppStoreType, CardType[] | null>(state => state.cards.cards)
-    const status = useSelector<AppStoreType, RequestStatusType>(state => state.app.status)
-    const dispatch = useDispatch()
+    const cards = useSelector(selectCards)
+    const learnStatus = useSelector(selectLearningStatus)
+    const {setSelectedCardID, updateRating} = useActions(learningActions)
 
     const [rotated, setRotated] = useState<boolean>(false)
     const [send, setSend] = useState<boolean>(false)
@@ -34,14 +33,14 @@ export const Card: React.FC<CardProps> = props => {
                 setSend(false)
                 let selectedCard = getNewCard(cards)
                 setCurrentCard(selectedCard)
-                dispatch(setSelectedCardID(selectedCard._id))
+                setSelectedCardID(selectedCard._id)
             }, 500)
         }
         setRotated(false)
-    }, [cards, getNewCard, setCurrentCard, dispatch])
+    }, [cards, getNewCard, setCurrentCard, setSelectedCardID])
 
     const ratingRequestHandler = async (grade: GradeType) => {
-        await dispatch(updateRating(grade))
+        await updateRating(grade)
         setSend(true)
     }
 
@@ -71,17 +70,17 @@ export const Card: React.FC<CardProps> = props => {
                 <div className={S.answer_container}><p>{card?.answer}</p></div>
                 <div className={`${S.rating} ${send && S.send}`}>
                     {!send 
-                        ? (status === "loading" ? <div className={S.preloader}><CircularProgress/></div> : ratingPanel) 
+                        ? (learnStatus === "loading" ? <div className={S.preloader}><CircularProgress/></div> : ratingPanel)
                         : (<div className={S.success}>
-                                {status === "succeeded" ? "Success bro!!" : "Something went wrong bro!!"}
+                                {learnStatus === "succeeded" ? "Success bro!!" : "Something went wrong bro!!"}
                         </div>)
                     }
                 </div>
                 <MyButton onClick={onNextClick}
                           variant={"purple"}
-                          disabled={status === "loading"}
+                          disabled={learnStatus === "loading"}
                 >Next</MyButton>
             </div>
         </div>
     )
-}
+})

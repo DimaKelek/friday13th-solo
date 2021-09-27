@@ -5,13 +5,13 @@ import {Routes} from "./Routes";
 import {useSelector} from "react-redux";
 import {ErrorSnackbar} from "../Components/Common/ErrorSnackbar/ErrorSnackbar";
 import {CircularProgress} from "@material-ui/core";
-import {checkingAuthorization} from "../Store/Auth/auth-reducer";
-import {useMyDispatch} from "../Components/Common/Hooks/myDispatch";
-import {selectIsInitialized, selectStatus} from "../Store/App/selectors";
+import {useMyDispatch} from "../Components/Common/Hooks/hooks";
+import {selectors} from ".";
+import {checkingAuthorization} from "../Store/Auth/auth-actions";
 
 export const App: React.FC<any> = props => {
-    const status = useSelector(selectStatus)
-    const isInitialized = useSelector(selectIsInitialized)
+    const status = useSelector(selectors.selectStatus)
+    const isInitialized = useSelector(selectors.selectIsInitialized)
     const dispatch = useMyDispatch()
 
     useEffect(() => {

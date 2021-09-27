@@ -12,7 +12,5 @@ export const profileSlice = createSlice({
     }
 })
 
-// thunks
-
 // types
 export type ProfileActionsType = any

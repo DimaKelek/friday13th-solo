@@ -1,11 +1,9 @@
 import React from "react";
 import {RecoveryPass} from "./RecoveryPass";
 import {useFormik} from "formik";
-import {forgotPass} from "../../../../Store/RecoveryPass/recovery-pass-reducer";
 import {useSelector} from "react-redux";
-import {selectStatus} from "../../../../Store/App/selectors";
-import {selectIsSand} from "../../../../Store/RecoveryPass/selectors";
-import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
+import {useActions} from "../../../Common/Hooks/hooks";
+import {recoveryActions, selectIsSand, selectStatus} from ".";
 
 export type RecoveryFormikErrorType = {
     email?: string
@@ -14,7 +12,7 @@ export type RecoveryFormikErrorType = {
 export const RecoveryContainer = () => {
     const status = useSelector(selectStatus)
     const isSand = useSelector(selectIsSand)
-    const dispatch = useMyDispatch()
+    const {forgotPass} = useActions(recoveryActions)
 
     const message = `<div style="background-color: lime; padding: 15px">
             password recovery link:	<a href='https://dimakelek.github.io/friday13th-kelek/#/new-password/$token$'>link</a>
@@ -34,7 +32,7 @@ export const RecoveryContainer = () => {
                 return errors;
             },
             onSubmit: values => {
-                dispatch(forgotPass({email: values.email, from: "kelek", message}))
+                forgotPass({email: values.email, from: "kelek", message})
             }
         }
     )

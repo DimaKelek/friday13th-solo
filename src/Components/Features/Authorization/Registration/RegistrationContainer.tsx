@@ -1,12 +1,10 @@
 import React from "react";
 import {Registration} from "./Registration";
 import {useFormik} from "formik";
-import {registration} from "../../../../Store/Registration/registration-reducer";
 import {useSelector} from "react-redux";
 import {Redirect} from "react-router-dom";
-import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
-import {selectStatus} from "../../../../Store/App/selectors";
-import {selectRegister} from "../../../../Store/Registration/selectors";
+import {useActions} from "../../../Common/Hooks/hooks";
+import {registerActions, selectRegister, selectStatus} from ".";
 
 export type RegisterFormikErrorType = {
     email?: string
@@ -17,7 +15,7 @@ export type RegisterFormikErrorType = {
 export const RegistrationContainer = () => {
     const status = useSelector(selectStatus)
     const register = useSelector(selectRegister)
-    const dispatch = useMyDispatch()
+    const {registration} = useActions(registerActions)
 
     const formik = useFormik({
         initialValues: {
@@ -44,7 +42,7 @@ export const RegistrationContainer = () => {
         },
         onSubmit: values => {
             if (values.password === values.confirmPassword) {
-                dispatch(registration({email: values.email, password: values.password}))
+                registration({email: values.email, password: values.password})
                 formik.resetForm()
             }
         }

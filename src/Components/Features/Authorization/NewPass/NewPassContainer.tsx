@@ -2,11 +2,9 @@ import React from "react";
 import {NewPass} from "./NewPass";
 import {useSelector} from "react-redux";
 import {useFormik} from "formik";
-import {recovery} from "../../../../Store/RecoveryPass/recovery-pass-reducer";
 import {Redirect, useParams} from "react-router-dom";
-import {selectStatus} from "../../../../Store/App/selectors";
-import {selectIsRecovered} from "../../../../Store/RecoveryPass/selectors";
-import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
+import {useActions} from "../../../Common/Hooks/hooks";
+import {recoveryActions, selectIsRecovered, selectStatus} from ".";
 
 export type NewPassFormikErrorType = {
     password?: string
@@ -15,7 +13,7 @@ export type NewPassFormikErrorType = {
 export const NewPassContainer = () => {
     const status = useSelector(selectStatus)
     const isRecovered = useSelector(selectIsRecovered)
-    const dispatch = useMyDispatch()
+    const {recovery} = useActions(recoveryActions)
     const {token} = useParams<{token: string}>()
 
     const formik = useFormik({
@@ -32,7 +30,7 @@ export const NewPassContainer = () => {
                 return errors
             },
             onSubmit: values => {
-                dispatch(recovery({password: values.password, resetPasswordToken: token}))
+                recovery({password: values.password, resetPasswordToken: token})
                 formik.resetForm()
             }
         }

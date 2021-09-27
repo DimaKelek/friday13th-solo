@@ -2,7 +2,7 @@ import React, {DetailedHTMLProps, InputHTMLAttributes} from "react";
 import S from "./Search.module.css";
 import {MyTextInput} from "../../../../Common/MyTextInput/MyTextInput";
 import {useSelector} from "react-redux";
-import {selectStatus} from "../../../../../Store/App/selectors";
+import { selectStatus } from "..";
 
 type SearchWithButtonPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
     onEnter?: () => void

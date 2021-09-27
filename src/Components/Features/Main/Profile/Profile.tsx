@@ -1,26 +1,24 @@
 import React, {useCallback, useState} from "react";
 import S from "./Profile.module.css"
 import {useSelector} from "react-redux";
-import {logout} from "../../../../Store/Auth/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {MyModal} from "../../ModalWindows/Modal/MyModal"
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
-import {useMyDispatch} from "../../../Common/Hooks/myDispatch";
-import {selectStatus} from "../../../../Store/App/selectors";
-import {selectUserData} from "../../../../Store/Auth/selectors";
+import {useActions} from "../../../Common/Hooks/hooks";
+import {authActions, selectStatus, selectUserData} from ".";
 
 export const Profile: React.FC = () => {
     const userData = useSelector(selectUserData)
     const status = useSelector(selectStatus)
-    const dispatch = useMyDispatch()
+    const {logout} = useActions(authActions)
 
     const [show, setShow] = useState<boolean>(false)
 
     const logoutHandler = useCallback(() => {
-        dispatch(logout())
-    }, [dispatch])
+        logout()
+    }, [logout])
 
     if (userData === null) {
         return <Redirect to={"/login"}/>
