@@ -8,17 +8,15 @@ import {
 } from "../../Api/api";
 import {ThunkApiType} from "../store";
 import {setAppStatus} from "../App/app-reducer";
-import {DataForRequest, getDecksRequestDC} from "../../Components/Features/Main/MainCommon/utils/dataHandlers";
 import {handleServerNetworkError} from "../../Components/Features/Authorization/AuthCommon/utils/errorHandler";
-import {changeMinCount} from "./decks-reducer";
+import {DataForRequest} from "../../Components/Features/Main/MainCommon/utils/dataHandlersTypes";
+import {getDecksRequestDC} from "../../Components/Features/Main/MainCommon/utils/dataHandlers";
 
 export const getDecks = createAsyncThunk<DeckResponseType, GetDecksRequestDataType, ThunkApiType>("decks/getDecks",
     async (data, {dispatch, rejectWithValue}) => {
         try {
             dispatch(setAppStatus("loading"))
             const response = await decksAPI.getDecks(data)
-            dispatch(changeMinCount(response.data.minCardsCount))
-            dispatch(changeMinCount(response.data.maxCardsCount))
             dispatch(setAppStatus("succeeded"))
             return response.data
         } catch (error) {
@@ -26,56 +24,56 @@ export const getDecks = createAsyncThunk<DeckResponseType, GetDecksRequestDataTy
         }
     })
 export const createDeck = createAsyncThunk<void, CreateDeckRequestData, ThunkApiType>("decks/createDeck",
-    async (data, thunkAPI) => {
+    async (data, {dispatch, rejectWithValue, getState}) => {
         try {
-            thunkAPI.dispatch(setAppStatus("loading"))
+            dispatch(setAppStatus("loading"))
             await decksAPI.createDeck(data)
-            thunkAPI.dispatch(setAppStatus("succeeded"))
+            dispatch(setAppStatus("succeeded"))
             let dataForRequest: DataForRequest = {
-                filter: thunkAPI.getState().decks.filter,
-                pageNumber: thunkAPI.getState().decks.visiblePage,
-                user_id: thunkAPI.getState().auth.userData?._id,
+                filter: getState().decks.filter,
+                pageNumber: getState().decks.visiblePage,
+                user_id: getState().auth.userData?._id,
             }
             let requestData = getDecksRequestDC(dataForRequest)
-            thunkAPI.dispatch(getDecks(requestData))
+            dispatch(getDecks(requestData))
         } catch (error) {
-            thunkAPI.dispatch(setAppStatus("failed"))
-            return thunkAPI.rejectWithValue(handleServerNetworkError(error, thunkAPI.dispatch))
+            dispatch(setAppStatus("failed"))
+            return rejectWithValue(handleServerNetworkError(error, dispatch))
         }
     })
 export const removeDeck = createAsyncThunk<void, string, ThunkApiType>("decks/removeDeck",
-    async (id, thunkAPI) => {
+    async (id, {dispatch, rejectWithValue, getState}) => {
         try {
-            thunkAPI.dispatch(setAppStatus("loading"))
+            dispatch(setAppStatus("loading"))
             await decksAPI.removeDeck(id)
-            thunkAPI.dispatch(setAppStatus("succeeded"))
+            dispatch(setAppStatus("succeeded"))
             let dataForRequest: DataForRequest = {
-                filter: thunkAPI.getState().decks.filter,
-                pageNumber: thunkAPI.getState().decks.visiblePage,
-                user_id: thunkAPI.getState().auth.userData?._id,
+                filter: getState().decks.filter,
+                pageNumber: getState().decks.visiblePage,
+                user_id: getState().auth.userData?._id,
             }
             let requestData = getDecksRequestDC(dataForRequest)
-            thunkAPI.dispatch(getDecks(requestData))
+            dispatch(getDecks(requestData))
         } catch (error) {
-            thunkAPI.dispatch(setAppStatus("failed"))
-            return thunkAPI.rejectWithValue(handleServerNetworkError(error, thunkAPI.dispatch))
+            dispatch(setAppStatus("failed"))
+            return rejectWithValue(handleServerNetworkError(error, dispatch))
         }
     })
 export const updateDeck = createAsyncThunk<void, UpdateDeckRequestData, ThunkApiType>("decks/updateDeck",
-    async (data, thunkAPI) => {
+    async (data, {dispatch, rejectWithValue, getState}) => {
         try {
-            thunkAPI.dispatch(setAppStatus("loading"))
+            dispatch(setAppStatus("loading"))
             await decksAPI.updateDeck(data)
-            thunkAPI.dispatch(setAppStatus("succeeded"))
+            dispatch(setAppStatus("succeeded"))
             let dataForRequest: DataForRequest = {
-                filter: thunkAPI.getState().decks.filter,
-                pageNumber: thunkAPI.getState().decks.visiblePage,
-                user_id: thunkAPI.getState().auth.userData?._id,
+                filter: getState().decks.filter,
+                pageNumber: getState().decks.visiblePage,
+                user_id: getState().auth.userData?._id,
             }
             let requestData = getDecksRequestDC(dataForRequest)
-            thunkAPI.dispatch(getDecks(requestData))
+            dispatch(getDecks(requestData))
         } catch (error) {
-            thunkAPI.dispatch(setAppStatus("failed"))
-            return thunkAPI.rejectWithValue(handleServerNetworkError(error, thunkAPI.dispatch))
+            dispatch(setAppStatus("failed"))
+            return rejectWithValue(handleServerNetworkError(error, dispatch))
         }
     })

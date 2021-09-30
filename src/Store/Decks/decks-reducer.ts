@@ -32,12 +32,6 @@ export const decksSlice = createSlice({
         },
         changeMaxSelected(state, action: PayloadAction<number>) {
             state.maxSelectedCardsCount = action.payload
-        },
-        changeMinCount(state, action: PayloadAction<number>) {
-            state.minCardsCount = action.payload
-        },
-        changeMaxCount(state, action: PayloadAction<number>) {
-            state.maxCardsCount = action.payload
         }
     },
     extraReducers: builder => {

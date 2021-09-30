@@ -8,7 +8,7 @@ import {CircularProgress} from "@material-ui/core";
 import { selectStatus } from ".";
 
 export type CallType = {
-    title: string | React.ReactNode
+    title: string | ReactNode
     width: string
 }
 

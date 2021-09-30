@@ -1,30 +1,28 @@
-import React, {ChangeEvent, ReactNode, useCallback, useEffect, useState} from "react";
+import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
 import S from "./Decks.module.css"
 import Sc from "../MainCommon/Styles/MainCommon.module.css"
 import {MyDoubleRange} from "../../../Common/Ranges/MyDoubleRange/MyDoubleRange";
 import {useSelector} from "react-redux";
 import {CallType, Table} from "../Table/Table";
-import {DataForRequest, getDecksForUI, getDecksRequestDC} from "../MainCommon/utils/dataHandlers";
+import {getDecksRequestDC, getRowItems} from "../MainCommon/utils/dataHandlers";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {Search} from "../Table/Search/Search";
 import {CircularProgress} from "@material-ui/core";
-import {ActionsPanel} from "./ActionsPanel/ActionsPanel";
-import {NavLink} from "react-router-dom";
 import {CommonModalDeckForm} from "../../ModalWindows/CommonModalDeckForm/CommonModalDeckFrom";
 import {CreateDeckRequestData, UpdateDeckRequestData} from "../../../../Api/api";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
-import {selectStatus} from "../../../../Store/App/selectors";
-import {selectUserID} from "../../../../Store/Auth/selectors";
-import {selectDeckState} from "../../../../Store/Decks/selectors";
 import {useActions} from "../../../Common/Hooks/hooks";
-import {decksActions} from ".";
+import {decksActions, requestStart, selectDeckState, selectStatus, selectUserID} from ".";
+import {DataForRequest} from "../MainCommon/utils/dataHandlersTypes";
+
+type SetStateType<T> = (v: T) => void
 
 export const Decks = React.memo(() => {
     const decksState = useSelector(selectDeckState)
     const userID = useSelector(selectUserID)
     const status = useSelector(selectStatus)
     const {getDecks, createDeck, updateDeck, changeDecksFilter, changeVisibleDecksPage,
-           changeMinSelected, changeMaxSelected} = useActions(decksActions)
+        changeMinSelected, changeMaxSelected} = useActions(decksActions)
 
     const {decks, filter, totalCount, visiblePage, minCardsCount, maxCardsCount, selectedDeckID} = decksState
 
@@ -35,9 +33,9 @@ export const Decks = React.memo(() => {
     const [showAdd, setShowAdd] = useState<boolean>(false)
     const [showEdit, setShowEdit] = useState<boolean>(false)
 
-    const requestStart = () => {
-        let id = setTimeout(async () => {
-            let dataForRequest: DataForRequest = {
+    const requestTimer = () => {
+        const id = setTimeout(async () => {
+            const dataForRequest: DataForRequest = {
                 filter: filter,
                 pageNumber: visiblePage,
                 user_id: userID,
@@ -45,39 +43,28 @@ export const Decks = React.memo(() => {
                 max: maxValue,
                 packName
             }
-            let requestData = getDecksRequestDC(dataForRequest)
+            const requestData = getDecksRequestDC(dataForRequest)
             await getDecks(requestData)
             setTimeID(null)
         }, 1000)
         setTimeID(+id)
     }
+
     useEffect(() => {
-        if (timeID && status !== "loading") {
-            clearTimeout(timeID)
-            requestStart()
-        } else if (status !== "loading") {
-            requestStart()
-        }
+        requestStart(requestTimer, timeID, status)
     }, [filter, visiblePage, minValue, maxValue, packName, userID])
 
     // handlers
-    const myModeHandler = useCallback(() => {
-        changeDecksFilter("My")
+    const decksFilter = useCallback((filter: "My" | "All") => {
+        changeDecksFilter(filter)
     }, [changeDecksFilter])
-    const allModeHandler = useCallback(() => {
-        changeDecksFilter("All")
-    }, [changeDecksFilter])
-    const visibleDecksPageHandler = useCallback((page: number) => {
-        changeVisibleDecksPage(page)
-    }, [changeVisibleDecksPage])
-    const setMinValueHandler = useCallback((value: number) => {
-        setMinValue(value)
-        changeMinSelected(value)
-    }, [changeMinSelected])
-    const setMaxValueHandler = useCallback((value: number) => {
-        setMaxValue(value)
-        changeMaxSelected(value)
-    }, [changeMaxSelected])
+    const setRangeValue = useCallback(([setValue, changeSelectedValue]: SetStateType<number>[]) => {
+        return (value: number) => {
+            setValue(value)
+            changeSelectedValue(value)
+        }
+    }, [])
+
     const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setPackName(e.target.value)
     }, [])
@@ -87,10 +74,7 @@ export const Decks = React.memo(() => {
 
     const createDeckHandler = useCallback(async (name: string, privacy: boolean) => {
         let data: CreateDeckRequestData = {
-            cardsPack: {
-                name,
-                private: privacy
-            }
+            cardsPack: {name, private: privacy}
         }
         await createDeck(data)
         setShowAdd(false)
@@ -98,11 +82,7 @@ export const Decks = React.memo(() => {
     const editDeckHandler = useCallback(async (name: string, privacy: boolean) => {
         if (selectedDeckID) {
             let data: UpdateDeckRequestData = {
-                cardsPack: {
-                    _id: selectedDeckID,
-                    name,
-                    private: privacy
-                }
+                cardsPack: {_id: selectedDeckID, name, private: privacy}
             }
             await updateDeck(data)
         }
@@ -116,29 +96,17 @@ export const Decks = React.memo(() => {
         {title: "maker", width: "170px"},
         {title: "actions", width: "220px"},
     ]
-    const rowItems: (Array<string | number | boolean | ReactNode>)[] = []
-    getDecksForUI(decks)?.forEach(o => {
-        rowItems.push(
-            [<NavLink to={`/app/cards/${o.deckID}`}>{o.name}</NavLink>,
-                o.cards, o.lastUpdate, o.created,
-                <ActionsPanel makerDeckID={o.makerDeckID} deckID={o.deckID} setEdit={setShowEdit}/>
-            ]
-        )
-    })
-
     const modeBlockStyle = `${S.onBlock} ${filter === "My" ? S.myMode : S.allMode}`
-    const disabled = timeID !== null
-        || (decks?.length === 0 && filter === "My")
-        || decks === null
-        || (minValue === 0 && maxValue === 0)
+    const disabled = timeID !== null || (decks?.length === 0 && filter === "My")
+        || decks === null || (minValue === 0 && maxValue === 0)
     return (
         <>
             {showAdd &&
-                <CommonModalDeckForm title="Add new Deck" type="Add"
-                                     setShow={setShowAdd} submit={createDeckHandler}/>}
+            <CommonModalDeckForm title="Add new Deck" type="Add"
+                                 setShow={setShowAdd} submit={createDeckHandler}/>}
             {showEdit &&
-                <CommonModalDeckForm title="Edit Deck" type="Edit"
-                                     setShow={setShowEdit} submit={editDeckHandler}/>}
+            <CommonModalDeckForm title="Edit Deck" type="Edit"
+                                 setShow={setShowEdit} submit={editDeckHandler}/>}
             <WorkSpace>
                 <div className={Sc.settings}>
                     <div className={S.settings_container}>
@@ -147,8 +115,8 @@ export const Decks = React.memo(() => {
                             {status === "loading"
                                 ? <div><CircularProgress/></div>
                                 : <>
-                                    <div className={S.my} onClick={myModeHandler}>My</div>
-                                    <div className={S.all} onClick={allModeHandler}>All</div>
+                                    <div className={S.my} onClick={() => decksFilter("My")}>My</div>
+                                    <div className={S.all} onClick={() => decksFilter("All")}>All</div>
                                     <div className={modeBlockStyle}>{filter}</div>
                                 </>
                             }
@@ -159,12 +127,11 @@ export const Decks = React.memo(() => {
                                 value={[minValue, maxValue]}
                                 min={minCardsCount}
                                 max={maxCardsCount}
-                                onChangeRangeFirst={setMinValueHandler}
-                                onChangeRangeSecond={setMaxValueHandler}
+                                onChangeRangeFirst={setRangeValue([setMinValue, changeMinSelected])}
+                                onChangeRangeSecond={setRangeValue([setMaxValue, changeMaxSelected])}
                                 disabled={disabled}
                             />
                         </div>
-
                     </div>
                 </div>
                 <div className={Sc.list}>
@@ -175,13 +142,15 @@ export const Decks = React.memo(() => {
                             <MyButton variant={"standard"} disabled={status === "loading"}
                                       onClick={onCreateDeckClick}>Add new deck</MyButton>
                         </div>
-                        <div className={S.table_container}><Table
-                            columns={columns}
-                            items={rowItems}
-                            totalCount={totalCount}
-                            visiblePage={visiblePage}
-                            setPage={visibleDecksPageHandler}
-                        /></div>
+                        <div className={S.table_container}>
+                            <Table
+                                columns={columns}
+                                items={getRowItems(decks, setShowEdit)}
+                                totalCount={totalCount}
+                                visiblePage={visiblePage}
+                                setPage={changeVisibleDecksPage}
+                            />
+                        </div>
                     </div>
                 </div>
             </WorkSpace>

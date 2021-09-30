@@ -21,7 +21,7 @@ export const Cards: React.FC = React.memo(() => {
     const userID = useSelector(selectUserID)
     const status = useSelector(selectStatus)
     const {getCards, createCard, updateCard, changeVisibleCardPage} = useActions(cardsActions)
-    const {deckID} = useParams<{deckID: string}>()
+    const {deckID} = useParams<{ deckID: string }>()
 
     const {cards, cardsTotalCount, visiblePage, packUserId} = cardsState
 
@@ -56,9 +56,6 @@ export const Cards: React.FC = React.memo(() => {
         }
     }, [deckID, visiblePage, question])
 
-    const visibleCardPageHandler = useCallback((page: number) => {
-        changeVisibleCardPage(page)
-    }, [changeVisibleCardPage])
     const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setQuestion(e.target.value)
     }, [])
@@ -101,7 +98,7 @@ export const Cards: React.FC = React.memo(() => {
                 await updateCard({data, deckID})
             }
             setShowEdit(false)
-    }, [deckID, userID])
+        }, [deckID, userID])
 
     // data for table
     const columns: CallType[] = [
@@ -149,13 +146,15 @@ export const Cards: React.FC = React.memo(() => {
                                   disabled={status === "loading"}>Add New Card</MyButton>
                         }
                     </div>
-                    <div className={S.table_container}><Table
-                        columns={columns}
-                        items={rows}
-                        totalCount={cardsTotalCount}
-                        visiblePage={visiblePage}
-                        setPage={visibleCardPageHandler}
-                    /></div>
+                    <div className={S.table_container}>
+                        <Table
+                            columns={columns}
+                            items={rows}
+                            totalCount={cardsTotalCount}
+                            visiblePage={visiblePage}
+                            setPage={changeVisibleCardPage}
+                        />
+                    </div>
                 </div>
             </WorkSpace>
         </>
