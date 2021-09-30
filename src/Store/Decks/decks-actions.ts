@@ -10,7 +10,7 @@ import {ThunkApiType} from "../store";
 import {setAppStatus} from "../App/app-reducer";
 import {handleServerNetworkError} from "../../Components/Features/Authorization/AuthCommon/utils/errorHandler";
 import {DataForRequest} from "../../Components/Features/Main/MainCommon/utils/dataHandlersTypes";
-import {getDecksRequestDC} from "../../Components/Features/Main/MainCommon/utils/dataHandlers";
+import { getDecksRequestDC } from "../../Components/Features/Main/Decks";
 
 export const getDecks = createAsyncThunk<DeckResponseType, GetDecksRequestDataType, ThunkApiType>("decks/getDecks",
     async (data, {dispatch, rejectWithValue}) => {

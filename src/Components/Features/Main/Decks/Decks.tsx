@@ -4,7 +4,7 @@ import Sc from "../MainCommon/Styles/MainCommon.module.css"
 import {MyDoubleRange} from "../../../Common/Ranges/MyDoubleRange/MyDoubleRange";
 import {useSelector} from "react-redux";
 import {CallType, Table} from "../Table/Table";
-import {getDecksRequestDC, getRowItems} from "../MainCommon/utils/dataHandlers";
+import {createTimer} from "../MainCommon/utils/dataHandlers";
 import {MyButton} from "../../../Common/MyButton/MyButton";
 import {Search} from "../Table/Search/Search";
 import {CircularProgress} from "@material-ui/core";
@@ -12,8 +12,9 @@ import {CommonModalDeckForm} from "../../ModalWindows/CommonModalDeckForm/Common
 import {CreateDeckRequestData, UpdateDeckRequestData} from "../../../../Api/api";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 import {useActions} from "../../../Common/Hooks/hooks";
-import {decksActions, requestStart, selectDeckState, selectStatus, selectUserID} from ".";
+import {decksActions, getDecksRequestDC, requestStart, selectDeckState, selectStatus, selectUserID} from ".";
 import {DataForRequest} from "../MainCommon/utils/dataHandlersTypes";
+import { getRowItems } from "./utils/callbacks";
 
 type SetStateType<T> = (v: T) => void
 
@@ -33,22 +34,16 @@ export const Decks = React.memo(() => {
     const [showAdd, setShowAdd] = useState<boolean>(false)
     const [showEdit, setShowEdit] = useState<boolean>(false)
 
-    const requestTimer = () => {
-        const id = setTimeout(async () => {
-            const dataForRequest: DataForRequest = {
-                filter: filter,
-                pageNumber: visiblePage,
-                user_id: userID,
-                min: minValue,
-                max: maxValue,
-                packName
-            }
-            const requestData = getDecksRequestDC(dataForRequest)
-            await getDecks(requestData)
-            setTimeID(null)
-        }, 1000)
-        setTimeID(+id)
+    const dataForRequest: DataForRequest = {
+        filter: filter,
+        pageNumber: visiblePage,
+        user_id: userID,
+        min: minValue,
+        max: maxValue,
+        packName
     }
+
+    const requestTimer = createTimer(getDecksRequestDC(dataForRequest), getDecks, setTimeID)
 
     useEffect(() => {
         requestStart(requestTimer, timeID, status)
@@ -96,6 +91,7 @@ export const Decks = React.memo(() => {
         {title: "maker", width: "170px"},
         {title: "actions", width: "220px"},
     ]
+    const rows = getRowItems(decks, setShowEdit)
     const modeBlockStyle = `${S.onBlock} ${filter === "My" ? S.myMode : S.allMode}`
     const disabled = timeID !== null || (decks?.length === 0 && filter === "My")
         || decks === null || (minValue === 0 && maxValue === 0)
@@ -145,7 +141,7 @@ export const Decks = React.memo(() => {
                         <div className={S.table_container}>
                             <Table
                                 columns={columns}
-                                items={getRowItems(decks, setShowEdit)}
+                                items={rows}
                                 totalCount={totalCount}
                                 visiblePage={visiblePage}
                                 setPage={changeVisibleDecksPage}
