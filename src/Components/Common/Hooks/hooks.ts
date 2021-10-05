@@ -1,6 +1,6 @@
 import {useDispatch} from "react-redux";
 import {AppDispatchType} from "../../../Store/store";
-import {useCallback, useMemo, useState} from "react";
+import {ChangeEvent, useCallback, useMemo, useState} from "react";
 import {ActionCreatorsMapObject, bindActionCreators} from "redux";
 
 export const useMyDispatch = () => useDispatch<AppDispatchType>()
@@ -28,4 +28,14 @@ export const useModal = (initValue: boolean) => {
     }, [])
 
     return {visible, open, close, changeVisible}
+}
+
+export const useInput = (initValue?: string) => {
+    const [value, setValue] = useState<string>(initValue ?? "")
+
+    const changeValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value)
+    }, [])
+
+    return {value, changeValue}
 }

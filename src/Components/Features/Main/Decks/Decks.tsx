@@ -14,7 +14,7 @@ import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 import {useActions, useModal} from "../../../Common/Hooks/hooks";
 import {decksActions, getDecksRequestDC, requestStart, selectDeckState, selectStatus, selectUserID} from ".";
 import {DataForRequest} from "../MainCommon/utils/dataHandlersTypes";
-import { getRowItems } from "./utils/callbacks";
+import {getRowItems} from "./utils/callbacks";
 
 type SetStateType<T> = (v: T) => void
 
@@ -96,10 +96,10 @@ export const Decks = React.memo(() => {
         <>
             {addDeckModal.visible &&
             <CommonModalDeckForm title="Add new Deck" type="Add"
-                                 setShow={addDeckModal.changeVisible} submit={createDeckHandler}/>}
+                                 setShow={addDeckModal.close} submit={createDeckHandler}/>}
             {editDeckModal.visible &&
             <CommonModalDeckForm title="Edit Deck" type="Edit"
-                                 setShow={editDeckModal.changeVisible} submit={editDeckHandler}/>}
+                                 setShow={editDeckModal.close} submit={editDeckHandler}/>}
             <WorkSpace>
                 <div className={Sc.settings}>
                     <div className={S.settings_container}>

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import S from "./Cards.module.css"
 import {CallType, Table} from "../Table/Table";
 import {Search} from "../Table/Search/Search";
@@ -9,10 +9,16 @@ import {MyButton} from "../../../Common/MyButton/MyButton";
 import {MyModal} from "../../ModalWindows/Modal/MyModal";
 import {CommonModalCardForm} from "../../ModalWindows/CommanModalCardFrom/CommanModalCardForm";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
-import {useActions} from "../../../Common/Hooks/hooks";
+import {useActions, useInput, useModal} from "../../../Common/Hooks/hooks";
 import {
-    cardsActions, cardsTypes, createTimer,
-    getRowCardItems, requestStart, selectCardsState, selectStatus, selectUserID
+    cardsActions,
+    cardsTypes,
+    createTimer,
+    getRowCardItems,
+    requestStart,
+    selectCardsState,
+    selectStatus,
+    selectUserID
 } from ".";
 
 export const Cards: React.FC = React.memo(() => {
@@ -24,16 +30,15 @@ export const Cards: React.FC = React.memo(() => {
 
     const {cards, cardsTotalCount, visiblePage, packUserId} = cardsState
 
-    const [question, setQuestion] = useState<string>("")
     const [timeID, setTimeID] = useState<number | null>(null)
-
     const [answer, setAnswer] = useState<string>("")
-    const [showAnswer, setShowAnswer] = useState<boolean>(false)
-    const [showEdit, setShowEdit] = useState<boolean>(false)
-    const [showAdd, setShowAdd] = useState<boolean>(false)
+    const question = useInput()
+    const answerModal = useModal(false)
+    const addCardModal = useModal(false)
+    const editCardModal = useModal(false)
 
     const requestData: GetCardsRequestDataType = {
-        cardQuestion: question,
+        cardQuestion: question.value,
         cardsPack_id: deckID,
         pageNumber: visiblePage
     }
@@ -43,16 +48,10 @@ export const Cards: React.FC = React.memo(() => {
         !!deckID && requestStart(requestTimer, timeID, status)
     }, [deckID, visiblePage, question])
 
-    const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setQuestion(e.target.value)
-    }, [])
-    const addNewCardHandler = useCallback(() => {
-        setShowAdd(true)
-    }, [])
     const showAnswerCallback = useCallback((answer: string) => {
-        setShowAnswer(true)
+        answerModal.open()
         setAnswer(answer)
-    }, [])
+    }, [answerModal])
 
     const onAddCardClick = useCallback((question: string, answer: string) => {
         const params: cardsTypes.CreateCardData = {
@@ -72,20 +71,16 @@ export const Cards: React.FC = React.memo(() => {
             deckID
         }
         createCard(params)
-        setShowAdd(false)
+        addCardModal.close()
     }, [deckID, createCard])
 
     const onEditCardClick = useCallback(
         async (question: string, answer: string, makerDeckID: string | undefined, cardID: string | undefined) => {
             if (userID === makerDeckID && deckID) {
-                let data: UpdateCardRequestType = {
-                    _id: cardID ?? "",
-                    question,
-                    answer
-                }
+                const data: UpdateCardRequestType = {_id: cardID ?? "", question, answer}
                 await updateCard({data, deckID})
             }
-            setShowEdit(false)
+            editCardModal.close()
         }, [deckID, userID])
 
     // data for table
@@ -97,21 +92,21 @@ export const Cards: React.FC = React.memo(() => {
         {title: "actions", width: "1fr"},
     ]
 
-    const rows = getRowCardItems(cards, showAnswerCallback, setShowEdit, packUserId, deckID)
+    const rows = getRowCardItems(cards, showAnswerCallback, editCardModal.changeVisible, packUserId, deckID)
 
     return (
         <>
-            {showAdd && <CommonModalCardForm title={"Add new Card"}
-                                             setShow={setShowAdd}
+            {addCardModal.visible && <CommonModalCardForm title={"Add new Card"}
+                                             setShow={addCardModal.close}
                                              submitForm={onAddCardClick}
                                              type="Add"
             />}
-            {showEdit && <CommonModalCardForm title={"Edit Card"}
-                                              setShow={setShowEdit}
+            {editCardModal.visible && <CommonModalCardForm title={"Edit Card"}
+                                              setShow={editCardModal.close}
                                               submitForm={onEditCardClick}
                                               type="Edit"
             />}
-            {showAnswer && <MyModal closeModal={() => setShowAnswer(false)}
+            {answerModal.visible && <MyModal closeModal={answerModal.close}
                                     title={"Answer for your question!!"} width="350px">
                 <div>{answer}</div>
             </MyModal>}
@@ -123,9 +118,9 @@ export const Cards: React.FC = React.memo(() => {
                         <h2>Cards list</h2>
                     </div>
                     <div className={S.search}>
-                        <Search onChange={searchHandler}/>
+                        <Search onChange={question.changeValue}/>
                         {userID === packUserId &&
-                        <MyButton onClick={addNewCardHandler} variant={"standard"}
+                        <MyButton onClick={addCardModal.open} variant={"standard"}
                                   disabled={status === "loading"}>Add New Card</MyButton>
                         }
                     </div>

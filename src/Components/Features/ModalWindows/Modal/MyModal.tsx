@@ -2,7 +2,7 @@ import React from "react";
 import S from "./Modal.module.css"
 
 type ModalProps = {
-    closeModal: (value: boolean) => void
+    closeModal: () => void
     width?: string
     height?: string
     title?: string
@@ -17,9 +17,9 @@ export const MyModal: React.FC<ModalProps> = props => {
 
     return (
         <>
-            <div className={S.background} onClick={() => closeModal(false)}/>
+            <div className={S.background} onClick={closeModal}/>
             <div className={S.modal} style={styleSettings}>
-                <div className={S.closeModal} onClick={() => closeModal(false)}>X</div>
+                <div className={S.closeModal} onClick={closeModal}>X</div>
                 <div className={S.modal_container}>
                     {title && <h2>{title}</h2>}
                     {prevMessage && <span className={S.prev}>{prevMessage}</span>}

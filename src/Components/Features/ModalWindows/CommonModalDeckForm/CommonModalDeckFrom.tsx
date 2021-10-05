@@ -17,7 +17,7 @@ type errorsDeckForm = {
 type CommonModalDeckFromProps = {
     title: string
     type: "Add" | "Edit"
-    setShow: (value: boolean) => void
+    setShow: () => void
     submit: (name: string, privacy: boolean) => void
 }
 
