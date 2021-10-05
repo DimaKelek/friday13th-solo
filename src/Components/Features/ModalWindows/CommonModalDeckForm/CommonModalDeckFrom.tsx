@@ -5,11 +5,8 @@ import {MyButton} from "../../../Common/MyButton/MyButton";
 import {useFormik} from "formik";
 import {MyRadioButton} from "../../../Common/MyRadioButton/MyRadioButton";
 import {useSelector} from "react-redux";
-import {AppStoreType} from "../../../../Store/store";
-import {RequestStatusType} from "../../../../Store/App/app-reducer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import S from "./CommonModalDeckForm.module.css"
-import {DeckType} from "../../../../Api/api";
 import {selectStatus} from "../../../../Store/App/selectors";
 import {selectDecks, selectSelectedDeckID} from "../../../../Store/Decks/selectors";
 

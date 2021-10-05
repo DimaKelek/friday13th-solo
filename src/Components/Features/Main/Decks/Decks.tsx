@@ -11,7 +11,7 @@ import {CircularProgress} from "@material-ui/core";
 import {CommonModalDeckForm} from "../../ModalWindows/CommonModalDeckForm/CommonModalDeckFrom";
 import {CreateDeckRequestData, UpdateDeckRequestData} from "../../../../Api/api";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
-import {useActions} from "../../../Common/Hooks/hooks";
+import {useActions, useModal} from "../../../Common/Hooks/hooks";
 import {decksActions, getDecksRequestDC, requestStart, selectDeckState, selectStatus, selectUserID} from ".";
 import {DataForRequest} from "../MainCommon/utils/dataHandlersTypes";
 import { getRowItems } from "./utils/callbacks";
@@ -31,8 +31,8 @@ export const Decks = React.memo(() => {
     const [maxValue, setMaxValue] = useState<number>(maxCardsCount)
     const [packName, setPackName] = useState<string>("")
     const [timeID, setTimeID] = useState<number | null>(null)
-    const [showAdd, setShowAdd] = useState<boolean>(false)
-    const [showEdit, setShowEdit] = useState<boolean>(false)
+    const addDeckModal = useModal(false)
+    const editDeckModal = useModal(false)
 
     const dataForRequest: DataForRequest = {
         filter: filter,
@@ -43,7 +43,7 @@ export const Decks = React.memo(() => {
         packName
     }
 
-    const requestTimer = createTimer(getDecksRequestDC(dataForRequest), getDecks, setTimeID)
+    const requestTimer = createTimer(getDecksRequestDC(dataForRequest), getDecks, setTimeID, 1000)
 
     useEffect(() => {
         requestStart(requestTimer, timeID, status)
@@ -63,16 +63,13 @@ export const Decks = React.memo(() => {
     const searchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setPackName(e.target.value)
     }, [])
-    const onCreateDeckClick = useCallback(() => {
-        setShowAdd(true)
-    }, [])
 
     const createDeckHandler = useCallback(async (name: string, privacy: boolean) => {
         let data: CreateDeckRequestData = {
             cardsPack: {name, private: privacy}
         }
         await createDeck(data)
-        setShowAdd(false)
+        addDeckModal.close()
     }, [createDeck])
     const editDeckHandler = useCallback(async (name: string, privacy: boolean) => {
         if (selectedDeckID) {
@@ -81,7 +78,7 @@ export const Decks = React.memo(() => {
             }
             await updateDeck(data)
         }
-        setShowEdit(false)
+        editDeckModal.close()
     }, [updateDeck, selectedDeckID])
     // data for table
     const columns: CallType[] = [
@@ -91,18 +88,18 @@ export const Decks = React.memo(() => {
         {title: "maker", width: "170px"},
         {title: "actions", width: "220px"},
     ]
-    const rows = getRowItems(decks, setShowEdit)
+    const rows = getRowItems(decks, editDeckModal.changeVisible)
     const modeBlockStyle = `${S.onBlock} ${filter === "My" ? S.myMode : S.allMode}`
     const disabled = timeID !== null || (decks?.length === 0 && filter === "My")
         || decks === null || (minValue === 0 && maxValue === 0)
     return (
         <>
-            {showAdd &&
+            {addDeckModal.visible &&
             <CommonModalDeckForm title="Add new Deck" type="Add"
-                                 setShow={setShowAdd} submit={createDeckHandler}/>}
-            {showEdit &&
+                                 setShow={addDeckModal.changeVisible} submit={createDeckHandler}/>}
+            {editDeckModal.visible &&
             <CommonModalDeckForm title="Edit Deck" type="Edit"
-                                 setShow={setShowEdit} submit={editDeckHandler}/>}
+                                 setShow={editDeckModal.changeVisible} submit={editDeckHandler}/>}
             <WorkSpace>
                 <div className={Sc.settings}>
                     <div className={S.settings_container}>
@@ -136,7 +133,7 @@ export const Decks = React.memo(() => {
                         <div className={S.search_container}>
                             <Search onChange={searchHandler}/>
                             <MyButton variant={"standard"} disabled={status === "loading"}
-                                      onClick={onCreateDeckClick}>Add new deck</MyButton>
+                                      onClick={addDeckModal.open}>Add new deck</MyButton>
                         </div>
                         <div className={S.table_container}>
                             <Table

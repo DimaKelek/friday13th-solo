@@ -11,6 +11,7 @@ import {MyButton} from "../../../Common/MyButton/MyButton";
 import {WorkSpace} from "../MainCommon/StyledComponents/WorkSpace";
 import {useActions} from "../../../Common/Hooks/hooks";
 import {getCards, learningActions, selectCards, selectLearningStatus, selectModeStart} from ".";
+import {getCard} from "./utils/callbacks";
 
 export const LearningMode: React.FC = React.memo(props => {
     setTimeout(() => {
@@ -20,22 +21,10 @@ export const LearningMode: React.FC = React.memo(props => {
     const modeStart = useSelector(selectModeStart)
     const cards = useSelector(selectCards)
     const {changeEntityStatus, setModeStart, setSelectedCardID} = useActions(learningActions)
-    const {deckID} = useParams<{deckID: string}>()
+    const {deckID} = useParams<{ deckID: string }>()
 
     const [currentCard, setCurrentCard] = useState<CardType>({} as CardType)
     const [showModal, setShowModal] = useState<boolean>(false)
-
-    const getCard = useCallback((cards: CardType[]) => {
-        const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
-        const rand = Math.random() * sum;
-        const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
-            return {sum: newSum, id: newSum < rand ? i : acc.id}
-        }, {sum: 0, id: -1});
-        console.log('test: ', sum, rand, res)
-
-        return cards[res.id + 1];
-    }, [])
 
     useEffect(() => {
         const requestStart = () => {
@@ -54,6 +43,7 @@ export const LearningMode: React.FC = React.memo(props => {
             setModeStart(false)
         }
     }, [setModeStart, deckID])
+
     useEffect(() => {
         if (cards) {
             let selectedCard = getCard(cards)
@@ -61,6 +51,7 @@ export const LearningMode: React.FC = React.memo(props => {
             setSelectedCardID(selectedCard._id)
         }
     }, [modeStart, cards, setSelectedCardID, getCard])
+
     const onStartClick = useCallback(() => {
         changeEntityStatus("loading")
         setTimeout(() => {
@@ -77,15 +68,15 @@ export const LearningMode: React.FC = React.memo(props => {
     return (
         <>
             {showModal &&
-                <MyModal closeModal={setShowModal} width="320px" height="400px"
-                         title="Ну шо ты бро всё выучил уже?">
-                    <div className={S.modal_container}>
-                        <img src={dimych} alt="dimych"/>
-                    </div>
-                    <NavLink to={"/app/decks"}>
-                        <MyButton variant={"purple"} onClick={dimychHandler}>Летим 🚀</MyButton>
-                    </NavLink>
-                </MyModal>
+            <MyModal closeModal={setShowModal} width="320px" height="400px"
+                     title="Ну шо ты бро всё выучил уже?">
+                <div className={S.modal_container}>
+                    <img src={dimych} alt="dimych"/>
+                </div>
+                <NavLink to={"/app/decks"}>
+                    <MyButton variant={"purple"} onClick={dimychHandler}>Летим 🚀</MyButton>
+                </NavLink>
+            </MyModal>
             }
             <div className={S.learning}>
                 {status === "loading" ? <CircularProgress/>
@@ -94,9 +85,9 @@ export const LearningMode: React.FC = React.memo(props => {
                             ? <>
                                 <h2>Welcome to learning mode with It-incubator bro!!</h2>
                                 <div className={S.instruction}>
-                                    <p>In this mode you can to learn indefinitely with cards prepared by you or your
+                                    <p>In this mode you can learn indefinitely with cards prepared by you or your
                                         friends.</p>
-                                    <p>If you are ready then press start!!!</p>
+                                    <p>If you're ready then press start!!!</p>
                                 </div>
                                 <span className={S.start} onClick={onStartClick}>Start</span>
                             </>

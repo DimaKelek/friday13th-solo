@@ -37,7 +37,7 @@ export const Cards: React.FC = React.memo(() => {
         cardsPack_id: deckID,
         pageNumber: visiblePage
     }
-    const requestTimer = createTimer(requestData, getCards, setTimeID)
+    const requestTimer = createTimer(requestData, getCards, setTimeID, 500)
 
     useEffect(() => {
         !!deckID && requestStart(requestTimer, timeID, status)

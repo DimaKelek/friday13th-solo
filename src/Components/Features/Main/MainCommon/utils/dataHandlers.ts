@@ -5,13 +5,14 @@ export const stringShortener = (str: string, n?: number) => {
     temp.splice(n ?? 10)
     return temp.join("")
 }
-
-export const createTimer = (requestData: any, requestFunc: any, setTimeID: (v: number | null) => void) => () => {
-    const id = setTimeout(async () => {
-        await requestFunc(requestData)
-        setTimeID(null)
-    }, 1000)
-    setTimeID(+id)
+export const createTimer = (requestData: any, requestFunc: any, setTimeID: (v: number | null) => void, ms: number) => {
+    return () => {
+        const id = setTimeout(async () => {
+            await requestFunc(requestData)
+            setTimeID(null)
+        }, ms)
+        setTimeID(+id)
+    }
 }
 export const requestStart = (requestTimer: () => void, timeID: number | null, status: RequestStatusType) => {
     if (timeID && status !== "loading") {
